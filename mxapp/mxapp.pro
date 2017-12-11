@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = mxapp
 TEMPLATE = app
 
+include(../qtsingleapplication/src/qtsingleapplication.pri)
 
 SOURCES += main.cpp\
         mxmaindialog.cpp

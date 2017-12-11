@@ -24,7 +24,8 @@ SYMLINK       = $(QMAKE) -install ln -f -s
 DEL_DIR       = rmdir
 MOVE          = move
 SUBTARGETS    =  \
-		sub-mxdbus
+		sub-mxdbus \
+		sub-mxapp
 
 
 sub-mxdbus-qmake_all:  FORCE
@@ -52,6 +53,31 @@ sub-mxdbus-install_subtargets: FORCE
 sub-mxdbus-uninstall_subtargets: FORCE
 	@if not exist mxdbus\ mkdir mxdbus\ & if not exist mxdbus\ exit 1
 	cd mxdbus\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxdbus\mxdbus.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile uninstall
+sub-mxapp-qmake_all:  FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile
+	cd mxapp\ && $(MAKE) -f Makefile qmake_all
+sub-mxapp: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile
+sub-mxapp-make_first: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile 
+sub-mxapp-all: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile all
+sub-mxapp-clean: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile clean
+sub-mxapp-distclean: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile distclean
+sub-mxapp-install_subtargets: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile install
+sub-mxapp-uninstall_subtargets: FORCE
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile uninstall
 
 Makefile: mxde.pro ../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ../Qt5.6.2/5.6/mingw49_32/mkspecs/features/spec_pre.prf \
 		../Qt5.6.2/5.6/mingw49_32/mkspecs/qdevice.pri \
@@ -311,35 +337,47 @@ mxde.pro:
 qmake: FORCE
 	@$(QMAKE) -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile mxde.pro
 
-qmake_all: sub-mxdbus-qmake_all FORCE
+qmake_all: sub-mxdbus-qmake_all sub-mxapp-qmake_all FORCE
 
-make_first: sub-mxdbus-make_first  FORCE
-all: sub-mxdbus-all  FORCE
-clean: sub-mxdbus-clean  FORCE
-distclean: sub-mxdbus-distclean  FORCE
+make_first: sub-mxdbus-make_first sub-mxapp-make_first  FORCE
+all: sub-mxdbus-all sub-mxapp-all  FORCE
+clean: sub-mxdbus-clean sub-mxapp-clean  FORCE
+distclean: sub-mxdbus-distclean sub-mxapp-distclean  FORCE
 	-$(DEL_FILE) Makefile
-install_subtargets: sub-mxdbus-install_subtargets FORCE
-uninstall_subtargets: sub-mxdbus-uninstall_subtargets FORCE
+install_subtargets: sub-mxdbus-install_subtargets sub-mxapp-install_subtargets FORCE
+uninstall_subtargets: sub-mxdbus-uninstall_subtargets sub-mxapp-uninstall_subtargets FORCE
 
 sub-mxdbus-debug:
 	@if not exist mxdbus\ mkdir mxdbus\ & if not exist mxdbus\ exit 1
 	cd mxdbus\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxdbus\mxdbus.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile debug
-debug: sub-mxdbus-debug
+sub-mxapp-debug:
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile debug
+debug: sub-mxdbus-debug sub-mxapp-debug
 
 sub-mxdbus-release:
 	@if not exist mxdbus\ mkdir mxdbus\ & if not exist mxdbus\ exit 1
 	cd mxdbus\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxdbus\mxdbus.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile release
-release: sub-mxdbus-release
+sub-mxapp-release:
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile release
+release: sub-mxdbus-release sub-mxapp-release
 
 sub-mxdbus-check:
 	@if not exist mxdbus\ mkdir mxdbus\ & if not exist mxdbus\ exit 1
 	cd mxdbus\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxdbus\mxdbus.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile check
-check: sub-mxdbus-check
+sub-mxapp-check:
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile check
+check: sub-mxdbus-check sub-mxapp-check
 
 sub-mxdbus-benchmark:
 	@if not exist mxdbus\ mkdir mxdbus\ & if not exist mxdbus\ exit 1
 	cd mxdbus\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxdbus\mxdbus.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile benchmark
-benchmark: sub-mxdbus-benchmark
+sub-mxapp-benchmark:
+	@if not exist mxapp\ mkdir mxapp\ & if not exist mxapp\ exit 1
+	cd mxapp\ && ( if not exist Makefile $(QMAKE) D:\Qt\mxde\mxapp\mxapp.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile ) && $(MAKE) -f Makefile benchmark
+benchmark: sub-mxdbus-benchmark sub-mxapp-benchmark
 install:install_subtargets  FORCE
 
 uninstall: uninstall_subtargets FORCE

@@ -36,7 +36,7 @@ public:
     ~ComMyirtechMxdeInterfaceInterface();
 
 public Q_SLOTS: // METHODS
-    inline QDBusPendingReply<> getGpioList()
+    inline QDBusPendingReply<QString> getGpioList()
     {
         QList<QVariant> argumentList;
         return asyncCallWithArgumentList(QStringLiteral("getGpioList"), argumentList);

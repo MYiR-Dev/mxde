@@ -38,10 +38,10 @@ QT_MOC_LITERAL(5, 87, 23), // "sigLedBrightnessChanged"
 QT_MOC_LITERAL(6, 111, 17), // "sigLedDutyChanged"
 QT_MOC_LITERAL(7, 129, 20), // "sigLedTriggerChanged"
 QT_MOC_LITERAL(8, 150, 11), // "getGpioList"
-QT_MOC_LITERAL(9, 162, 19), // "QDBusPendingReply<>"
-QT_MOC_LITERAL(10, 182, 10), // "getLedList"
-QT_MOC_LITERAL(11, 193, 26), // "QDBusPendingReply<QString>"
-QT_MOC_LITERAL(12, 220, 16), // "setGpioDirection"
+QT_MOC_LITERAL(9, 162, 26), // "QDBusPendingReply<QString>"
+QT_MOC_LITERAL(10, 189, 10), // "getLedList"
+QT_MOC_LITERAL(11, 200, 16), // "setGpioDirection"
+QT_MOC_LITERAL(12, 217, 19), // "QDBusPendingReply<>"
 QT_MOC_LITERAL(13, 237, 4), // "gpio"
 QT_MOC_LITERAL(14, 242, 9), // "direction"
 QT_MOC_LITERAL(15, 252, 13), // "setGpioExport"
@@ -62,9 +62,9 @@ QT_MOC_LITERAL(26, 377, 7) // "trigger"
     "sigGpioDirectionChanged\0\0message\0"
     "sigGpioLevelChanged\0sigLedBrightnessChanged\0"
     "sigLedDutyChanged\0sigLedTriggerChanged\0"
-    "getGpioList\0QDBusPendingReply<>\0"
-    "getLedList\0QDBusPendingReply<QString>\0"
-    "setGpioDirection\0gpio\0direction\0"
+    "getGpioList\0QDBusPendingReply<QString>\0"
+    "getLedList\0setGpioDirection\0"
+    "QDBusPendingReply<>\0gpio\0direction\0"
     "setGpioExport\0setGpioLevel\0value\0"
     "setGpioUnexport\0setLedBrightress\0led\0"
     "brightness\0setLedDuty\0delay_on\0delay_off\0"
@@ -95,7 +95,7 @@ static const uint qt_meta_data_ComMyirtechMxdeInterfaceInterface[] = {
  // slots: name, argc, parameters, tag, flags
        8,    0,   99,    2, 0x0a /* Public */,
       10,    0,  100,    2, 0x0a /* Public */,
-      12,    2,  101,    2, 0x0a /* Public */,
+      11,    2,  101,    2, 0x0a /* Public */,
       15,    1,  106,    2, 0x0a /* Public */,
       16,    2,  109,    2, 0x0a /* Public */,
       18,    1,  114,    2, 0x0a /* Public */,
@@ -112,14 +112,14 @@ static const uint qt_meta_data_ComMyirtechMxdeInterfaceInterface[] = {
 
  // slots: parameters
     0x80000000 | 9,
-    0x80000000 | 11,
-    0x80000000 | 9, QMetaType::Int, QMetaType::QString,   13,   14,
-    0x80000000 | 9, QMetaType::Int,   13,
-    0x80000000 | 9, QMetaType::Int, QMetaType::Int,   13,   17,
-    0x80000000 | 9, QMetaType::Int,   13,
-    0x80000000 | 9, QMetaType::QString, QMetaType::Int,   20,   21,
-    0x80000000 | 9, QMetaType::QString, QMetaType::Int, QMetaType::Int,   20,   23,   24,
-    0x80000000 | 9, QMetaType::QString, QMetaType::QString,   20,   26,
+    0x80000000 | 9,
+    0x80000000 | 12, QMetaType::Int, QMetaType::QString,   13,   14,
+    0x80000000 | 12, QMetaType::Int,   13,
+    0x80000000 | 12, QMetaType::Int, QMetaType::Int,   13,   17,
+    0x80000000 | 12, QMetaType::Int,   13,
+    0x80000000 | 12, QMetaType::QString, QMetaType::Int,   20,   21,
+    0x80000000 | 12, QMetaType::QString, QMetaType::Int, QMetaType::Int,   20,   23,   24,
+    0x80000000 | 12, QMetaType::QString, QMetaType::QString,   20,   26,
 
        0        // eod
 };
@@ -135,8 +135,8 @@ void ComMyirtechMxdeInterfaceInterface::qt_static_metacall(QObject *_o, QMetaObj
         case 2: _t->sigLedBrightnessChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 3: _t->sigLedDutyChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 4: _t->sigLedTriggerChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 5: { QDBusPendingReply<> _r = _t->getGpioList();
-            if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
+        case 5: { QDBusPendingReply<QString> _r = _t->getGpioList();
+            if (_a[0]) *reinterpret_cast< QDBusPendingReply<QString>*>(_a[0]) = _r; }  break;
         case 6: { QDBusPendingReply<QString> _r = _t->getLedList();
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<QString>*>(_a[0]) = _r; }  break;
         case 7: { QDBusPendingReply<> _r = _t->setGpioDirection((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])));

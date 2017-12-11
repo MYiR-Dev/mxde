@@ -172,6 +172,8 @@ Makefile: mxapp.pro ../../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ..
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/exclusive_builds.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/default_pre.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/win32/default_pre.prf \
+		../qtsingleapplication/common.pri \
+		../qtsingleapplication/src/qtsingleapplication.pri \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/resolve_config.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/exclusive_builds_post.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/default_post.prf \
@@ -194,6 +196,7 @@ Makefile: mxapp.pro ../../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ..
 		../../Qt5.6.2/5.6/mingw49_32/lib/qtmaind.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Widgets.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Gui.prl \
+		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Network.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Core.prl
 	$(QMAKE) -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile mxapp.pro
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/spec_pre.prf:
@@ -309,6 +312,8 @@ Makefile: mxapp.pro ../../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ..
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/exclusive_builds.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/default_pre.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/win32/default_pre.prf:
+../qtsingleapplication/common.pri:
+../qtsingleapplication/src/qtsingleapplication.pri:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/resolve_config.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/exclusive_builds_post.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/default_post.prf:
@@ -331,6 +336,7 @@ mxapp.pro:
 ../../Qt5.6.2/5.6/mingw49_32/lib/qtmaind.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Widgets.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Gui.prl:
+../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Network.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile mxapp.pro

@@ -33,7 +33,9 @@
 <!--
     GPIO
 -->
-                <method name="getGpioList"/>
+                <method name="getGpioList">
+                    <arg name="gpios" type="s" direction="out"/>
+                </method>
                 <method name="setGpioDirection">
                     <arg name = "gpio" type="i" direction="in"/>
                     <arg name = "direction" type="s" direction="in"/>
