@@ -32,7 +32,7 @@ public:
 signals:
 
 public slots:
-    void onLedBrightnessChanged(QString &message);
+//    void onLedBrightnessChanged(QString &message);
 
 private:
     QObject *m_app;

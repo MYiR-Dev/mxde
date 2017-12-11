@@ -21,19 +21,19 @@
 #include <QtDBus/QtDBus>
 
 /*
- * Proxy class for interface com.myirtech.mxde.Interface
+ * Proxy class for interface com.myirtech.mxde.MxdeInterface
  */
-class ComMyirtechMxdeInterfaceInterface: public QDBusAbstractInterface
+class ComMyirtechMxdeMxdeInterfaceInterface: public QDBusAbstractInterface
 {
     Q_OBJECT
 public:
     static inline const char *staticInterfaceName()
-    { return "com.myirtech.mxde.Interface"; }
+    { return "com.myirtech.mxde.MxdeInterface"; }
 
 public:
-    ComMyirtechMxdeInterfaceInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent = 0);
+    ComMyirtechMxdeMxdeInterfaceInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent = 0);
 
-    ~ComMyirtechMxdeInterfaceInterface();
+    ~ComMyirtechMxdeMxdeInterfaceInterface();
 
 public Q_SLOTS: // METHODS
     inline QDBusPendingReply<QString> getGpioList()
@@ -108,7 +108,7 @@ Q_SIGNALS: // SIGNALS
 namespace com {
   namespace myirtech {
     namespace mxde {
-      typedef ::ComMyirtechMxdeInterfaceInterface Interface;
+      typedef ::ComMyirtechMxdeMxdeInterfaceInterface MxdeInterface;
     }
   }
 }

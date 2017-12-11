@@ -18,47 +18,47 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_ComMyirtechMxdeInterfaceInterface_t {
+struct qt_meta_stringdata_ComMyirtechMxdeMxdeInterfaceInterface_t {
     QByteArrayData data[27];
-    char stringdata0[385];
+    char stringdata0[389];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_ComMyirtechMxdeInterfaceInterface_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_ComMyirtechMxdeMxdeInterfaceInterface_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_ComMyirtechMxdeInterfaceInterface_t qt_meta_stringdata_ComMyirtechMxdeInterfaceInterface = {
+static const qt_meta_stringdata_ComMyirtechMxdeMxdeInterfaceInterface_t qt_meta_stringdata_ComMyirtechMxdeMxdeInterfaceInterface = {
     {
-QT_MOC_LITERAL(0, 0, 33), // "ComMyirtechMxdeInterfaceInter..."
-QT_MOC_LITERAL(1, 34, 23), // "sigGpioDirectionChanged"
-QT_MOC_LITERAL(2, 58, 0), // ""
-QT_MOC_LITERAL(3, 59, 7), // "message"
-QT_MOC_LITERAL(4, 67, 19), // "sigGpioLevelChanged"
-QT_MOC_LITERAL(5, 87, 23), // "sigLedBrightnessChanged"
-QT_MOC_LITERAL(6, 111, 17), // "sigLedDutyChanged"
-QT_MOC_LITERAL(7, 129, 20), // "sigLedTriggerChanged"
-QT_MOC_LITERAL(8, 150, 11), // "getGpioList"
-QT_MOC_LITERAL(9, 162, 26), // "QDBusPendingReply<QString>"
-QT_MOC_LITERAL(10, 189, 10), // "getLedList"
-QT_MOC_LITERAL(11, 200, 16), // "setGpioDirection"
-QT_MOC_LITERAL(12, 217, 19), // "QDBusPendingReply<>"
-QT_MOC_LITERAL(13, 237, 4), // "gpio"
-QT_MOC_LITERAL(14, 242, 9), // "direction"
-QT_MOC_LITERAL(15, 252, 13), // "setGpioExport"
-QT_MOC_LITERAL(16, 266, 12), // "setGpioLevel"
-QT_MOC_LITERAL(17, 279, 5), // "value"
-QT_MOC_LITERAL(18, 285, 15), // "setGpioUnexport"
-QT_MOC_LITERAL(19, 301, 16), // "setLedBrightress"
-QT_MOC_LITERAL(20, 318, 3), // "led"
-QT_MOC_LITERAL(21, 322, 10), // "brightness"
-QT_MOC_LITERAL(22, 333, 10), // "setLedDuty"
-QT_MOC_LITERAL(23, 344, 8), // "delay_on"
-QT_MOC_LITERAL(24, 353, 9), // "delay_off"
-QT_MOC_LITERAL(25, 363, 13), // "setLedTrigger"
-QT_MOC_LITERAL(26, 377, 7) // "trigger"
+QT_MOC_LITERAL(0, 0, 37), // "ComMyirtechMxdeMxdeInterfaceI..."
+QT_MOC_LITERAL(1, 38, 23), // "sigGpioDirectionChanged"
+QT_MOC_LITERAL(2, 62, 0), // ""
+QT_MOC_LITERAL(3, 63, 7), // "message"
+QT_MOC_LITERAL(4, 71, 19), // "sigGpioLevelChanged"
+QT_MOC_LITERAL(5, 91, 23), // "sigLedBrightnessChanged"
+QT_MOC_LITERAL(6, 115, 17), // "sigLedDutyChanged"
+QT_MOC_LITERAL(7, 133, 20), // "sigLedTriggerChanged"
+QT_MOC_LITERAL(8, 154, 11), // "getGpioList"
+QT_MOC_LITERAL(9, 166, 26), // "QDBusPendingReply<QString>"
+QT_MOC_LITERAL(10, 193, 10), // "getLedList"
+QT_MOC_LITERAL(11, 204, 16), // "setGpioDirection"
+QT_MOC_LITERAL(12, 221, 19), // "QDBusPendingReply<>"
+QT_MOC_LITERAL(13, 241, 4), // "gpio"
+QT_MOC_LITERAL(14, 246, 9), // "direction"
+QT_MOC_LITERAL(15, 256, 13), // "setGpioExport"
+QT_MOC_LITERAL(16, 270, 12), // "setGpioLevel"
+QT_MOC_LITERAL(17, 283, 5), // "value"
+QT_MOC_LITERAL(18, 289, 15), // "setGpioUnexport"
+QT_MOC_LITERAL(19, 305, 16), // "setLedBrightress"
+QT_MOC_LITERAL(20, 322, 3), // "led"
+QT_MOC_LITERAL(21, 326, 10), // "brightness"
+QT_MOC_LITERAL(22, 337, 10), // "setLedDuty"
+QT_MOC_LITERAL(23, 348, 8), // "delay_on"
+QT_MOC_LITERAL(24, 357, 9), // "delay_off"
+QT_MOC_LITERAL(25, 367, 13), // "setLedTrigger"
+QT_MOC_LITERAL(26, 381, 7) // "trigger"
 
     },
-    "ComMyirtechMxdeInterfaceInterface\0"
+    "ComMyirtechMxdeMxdeInterfaceInterface\0"
     "sigGpioDirectionChanged\0\0message\0"
     "sigGpioLevelChanged\0sigLedBrightnessChanged\0"
     "sigLedDutyChanged\0sigLedTriggerChanged\0"
@@ -72,7 +72,7 @@ QT_MOC_LITERAL(26, 377, 7) // "trigger"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_ComMyirtechMxdeInterfaceInterface[] = {
+static const uint qt_meta_data_ComMyirtechMxdeMxdeInterfaceInterface[] = {
 
  // content:
        7,       // revision
@@ -124,10 +124,10 @@ static const uint qt_meta_data_ComMyirtechMxdeInterfaceInterface[] = {
        0        // eod
 };
 
-void ComMyirtechMxdeInterfaceInterface::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void ComMyirtechMxdeMxdeInterfaceInterface::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        ComMyirtechMxdeInterfaceInterface *_t = static_cast<ComMyirtechMxdeInterfaceInterface *>(_o);
+        ComMyirtechMxdeMxdeInterfaceInterface *_t = static_cast<ComMyirtechMxdeMxdeInterfaceInterface *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->sigGpioDirectionChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
@@ -159,36 +159,36 @@ void ComMyirtechMxdeInterfaceInterface::qt_static_metacall(QObject *_o, QMetaObj
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (ComMyirtechMxdeInterfaceInterface::*_t)(const QString & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeInterfaceInterface::sigGpioDirectionChanged)) {
+            typedef void (ComMyirtechMxdeMxdeInterfaceInterface::*_t)(const QString & );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeMxdeInterfaceInterface::sigGpioDirectionChanged)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (ComMyirtechMxdeInterfaceInterface::*_t)(const QString & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeInterfaceInterface::sigGpioLevelChanged)) {
+            typedef void (ComMyirtechMxdeMxdeInterfaceInterface::*_t)(const QString & );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeMxdeInterfaceInterface::sigGpioLevelChanged)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (ComMyirtechMxdeInterfaceInterface::*_t)(const QString & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeInterfaceInterface::sigLedBrightnessChanged)) {
+            typedef void (ComMyirtechMxdeMxdeInterfaceInterface::*_t)(const QString & );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeMxdeInterfaceInterface::sigLedBrightnessChanged)) {
                 *result = 2;
                 return;
             }
         }
         {
-            typedef void (ComMyirtechMxdeInterfaceInterface::*_t)(const QString & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeInterfaceInterface::sigLedDutyChanged)) {
+            typedef void (ComMyirtechMxdeMxdeInterfaceInterface::*_t)(const QString & );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeMxdeInterfaceInterface::sigLedDutyChanged)) {
                 *result = 3;
                 return;
             }
         }
         {
-            typedef void (ComMyirtechMxdeInterfaceInterface::*_t)(const QString & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeInterfaceInterface::sigLedTriggerChanged)) {
+            typedef void (ComMyirtechMxdeMxdeInterfaceInterface::*_t)(const QString & );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ComMyirtechMxdeMxdeInterfaceInterface::sigLedTriggerChanged)) {
                 *result = 4;
                 return;
             }
@@ -196,26 +196,26 @@ void ComMyirtechMxdeInterfaceInterface::qt_static_metacall(QObject *_o, QMetaObj
     }
 }
 
-const QMetaObject ComMyirtechMxdeInterfaceInterface::staticMetaObject = {
-    { &QDBusAbstractInterface::staticMetaObject, qt_meta_stringdata_ComMyirtechMxdeInterfaceInterface.data,
-      qt_meta_data_ComMyirtechMxdeInterfaceInterface,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObject ComMyirtechMxdeMxdeInterfaceInterface::staticMetaObject = {
+    { &QDBusAbstractInterface::staticMetaObject, qt_meta_stringdata_ComMyirtechMxdeMxdeInterfaceInterface.data,
+      qt_meta_data_ComMyirtechMxdeMxdeInterfaceInterface,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
-const QMetaObject *ComMyirtechMxdeInterfaceInterface::metaObject() const
+const QMetaObject *ComMyirtechMxdeMxdeInterfaceInterface::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *ComMyirtechMxdeInterfaceInterface::qt_metacast(const char *_clname)
+void *ComMyirtechMxdeMxdeInterfaceInterface::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_ComMyirtechMxdeInterfaceInterface.stringdata0))
-        return static_cast<void*>(const_cast< ComMyirtechMxdeInterfaceInterface*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_ComMyirtechMxdeMxdeInterfaceInterface.stringdata0))
+        return static_cast<void*>(const_cast< ComMyirtechMxdeMxdeInterfaceInterface*>(this));
     return QDBusAbstractInterface::qt_metacast(_clname);
 }
 
-int ComMyirtechMxdeInterfaceInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int ComMyirtechMxdeMxdeInterfaceInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QDBusAbstractInterface::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -233,35 +233,35 @@ int ComMyirtechMxdeInterfaceInterface::qt_metacall(QMetaObject::Call _c, int _id
 }
 
 // SIGNAL 0
-void ComMyirtechMxdeInterfaceInterface::sigGpioDirectionChanged(const QString & _t1)
+void ComMyirtechMxdeMxdeInterfaceInterface::sigGpioDirectionChanged(const QString & _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void ComMyirtechMxdeInterfaceInterface::sigGpioLevelChanged(const QString & _t1)
+void ComMyirtechMxdeMxdeInterfaceInterface::sigGpioLevelChanged(const QString & _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 
 // SIGNAL 2
-void ComMyirtechMxdeInterfaceInterface::sigLedBrightnessChanged(const QString & _t1)
+void ComMyirtechMxdeMxdeInterfaceInterface::sigLedBrightnessChanged(const QString & _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 
 // SIGNAL 3
-void ComMyirtechMxdeInterfaceInterface::sigLedDutyChanged(const QString & _t1)
+void ComMyirtechMxdeMxdeInterfaceInterface::sigLedDutyChanged(const QString & _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 
 // SIGNAL 4
-void ComMyirtechMxdeInterfaceInterface::sigLedTriggerChanged(const QString & _t1)
+void ComMyirtechMxdeMxdeInterfaceInterface::sigLedTriggerChanged(const QString & _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 4, _a);

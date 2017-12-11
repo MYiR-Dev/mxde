@@ -184,6 +184,9 @@ Makefile: mxapp.pro ../../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ..
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/qt.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/resources.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/moc.prf \
+		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/dbuscommon.pri \
+		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/dbusinterfaces.prf \
+		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/dbusadaptors.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/win32/opengl.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/uic.prf \
 		../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/file_copies.prf \
@@ -196,6 +199,7 @@ Makefile: mxapp.pro ../../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ..
 		../../Qt5.6.2/5.6/mingw49_32/lib/qtmaind.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Widgets.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Gui.prl \
+		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5DBus.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Network.prl \
 		../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Core.prl
 	$(QMAKE) -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile mxapp.pro
@@ -324,6 +328,9 @@ Makefile: mxapp.pro ../../Qt5.6.2/5.6/mingw49_32/mkspecs/win32-g++/qmake.conf ..
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/qt.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/resources.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/moc.prf:
+../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/dbuscommon.pri:
+../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/dbusinterfaces.prf:
+../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/dbusadaptors.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/win32/opengl.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/uic.prf:
 ../../Qt5.6.2/5.6/mingw49_32/mkspecs/features/file_copies.prf:
@@ -336,6 +343,7 @@ mxapp.pro:
 ../../Qt5.6.2/5.6/mingw49_32/lib/qtmaind.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Widgets.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Gui.prl:
+../../Qt5.6.2/5.6/mingw49_32/lib/Qt5DBus.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Network.prl:
 ../../Qt5.6.2/5.6/mingw49_32/lib/Qt5Core.prl:
 qmake: FORCE

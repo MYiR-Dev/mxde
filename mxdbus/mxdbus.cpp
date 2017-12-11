@@ -17,7 +17,6 @@
 MxDbus::MxDbus(QObject *parent) : QObject(parent)
 {
     m_object = parent;
-    m_dbus = this;
     startService();
 }
 
@@ -27,11 +26,21 @@ MxDbus::~MxDbus()
     delete m_dbus;
     m_dbus = NULL;
 }
+MxDbus* MxDbus::m_dbus = NULL;
+
+MxDbus *MxDbus::getMxDubs(QObject *object)
+{
+        if(m_dbus == NULL){
+            m_dbus = new MxDbus(object);
+        }
+        return m_dbus;
+}
+
 
 void MxDbus::startService()
 {
     QDBusConnection session_bus = QDBusConnection::sessionBus();
-    mxde_session_iface = new com::myirtech::mxde::Interface(QString(DBUS_SERVICE_NAME),\
+    mxde_session_iface = new com::myirtech::mxde::MxdeInterface(QString(DBUS_SERVICE_NAME),\
                                                             QString(DBUS_SERVICE_PATH),\
                                                             session_bus,this);
     connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), \
@@ -50,5 +59,6 @@ QString MxDbus::getLedList(){
 
 void    MxDbus::setLedBrightness(QString &led, int brightness)
 {
+    qDebug() << "setLedBrightness\n" << led << brightness <<  endl;
     mxde_session_iface->setLedBrightress(led,brightness);
 }

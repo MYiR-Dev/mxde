@@ -22,18 +22,13 @@
 #include "mxde_interface.h"
 
 #define DBUS_SERVICE_NAME   "com.myirtech.mxde"
-#define DBUS_SERVICE_PATH   "com/myirtech/mxde"
+#define DBUS_SERVICE_PATH   "/com/myirtech/mxde"
 
 class MxDbus : public QObject
 {
     Q_OBJECT
 public:
-    static MxDbus *getMxDubs(QObject *object){
-        if(m_dbus == NULL){
-            m_dbus = new MxDbus(object);
-        }
-        return m_dbus;
-    }
+    static MxDbus *getMxDubs(QObject *object);
 
     QString getLedList();
     void    setLedBrightness(QString &led, int brightness);
@@ -54,9 +49,9 @@ private:
 //    static QMutex  m_mutex;
 //    static QAtomicPointer<MxDbus> m_dbus;
     static MxDbus   *m_dbus;
-    static QObject  *m_object;
-    com::myirtech::mxde::Interface  *mxde_session_iface;
-    com::myirtech::mxde::Interface  *mxde_system_iface;
+    QObject  *m_object;
+    com::myirtech::mxde::MxdeInterface  *mxde_session_iface;
+    com::myirtech::mxde::MxdeInterface  *mxde_system_iface;
 };
 
 #endif // MXDBUS_H

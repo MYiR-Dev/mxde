@@ -11,15 +11,15 @@
 
 #include "mxde_interface.h"
 /*
- * Implementation of interface class ComMyirtechMxdeInterfaceInterface
+ * Implementation of interface class ComMyirtechMxdeMxdeInterfaceInterface
  */
 
-ComMyirtechMxdeInterfaceInterface::ComMyirtechMxdeInterfaceInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
+ComMyirtechMxdeMxdeInterfaceInterface::ComMyirtechMxdeMxdeInterfaceInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
     : QDBusAbstractInterface(service, path, staticInterfaceName(), connection, parent)
 {
 }
 
-ComMyirtechMxdeInterfaceInterface::~ComMyirtechMxdeInterfaceInterface()
+ComMyirtechMxdeMxdeInterfaceInterface::~ComMyirtechMxdeMxdeInterfaceInterface()
 {
 }
 
