@@ -30,6 +30,16 @@ MxDE::~MxDE()
     m_dbus = NULL;
 }
 
+bool MxDE::isValid(){
+    if(m_dbus){
+        MxDbus *bus = (MxDbus*)m_dbus;
+        return bus->isValid();
+    }
+    else
+    {
+        return false;
+    }
+}
 QString MxDE::callGetLedList()
 {
     MxDbus *bus = (MxDbus *)m_dbus;

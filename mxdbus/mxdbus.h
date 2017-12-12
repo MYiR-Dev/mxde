@@ -29,6 +29,7 @@ class MxDbus : public QObject
     Q_OBJECT
 public:
     static MxDbus *getMxDubs(QObject *object);
+    bool    isValid();
 
     QString getLedList();
     void    setLedBrightness(QString &led, int brightness);
@@ -52,6 +53,7 @@ private:
     QObject  *m_object;
     com::myirtech::mxde::MxdeInterface  *mxde_session_iface;
     com::myirtech::mxde::MxdeInterface  *mxde_system_iface;
+    bool isvalid;
 };
 
 #endif // MXDBUS_H

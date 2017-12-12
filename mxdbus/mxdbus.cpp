@@ -42,9 +42,19 @@ void MxDbus::startService()
     QDBusConnection session_bus = QDBusConnection::sessionBus();
     mxde_session_iface = new com::myirtech::mxde::MxdeInterface(QString(DBUS_SERVICE_NAME),\
                                                             QString(DBUS_SERVICE_PATH),\
-                                                            session_bus,this);
-    connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), \
+                                                            session_bus,m_object);
+    isvalid = mxde_session_iface->isValid();
+
+    if(isvalid){
+        connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), \
             m_object, SLOT(onLedBrightnessChanged(QString)));
+        connect(mxde_session_iface, SIGNAL(crashed()), m_object, SLOT(on_car_crashed()));
+
+    }
+}
+
+bool MxDbus::isValid(){
+    return mxde_session_iface->isValid();
 }
 
 void MxDbus::stopService()

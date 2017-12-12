@@ -28,6 +28,7 @@ public:
 
     QString callGetLedList();
     void    callSetLedBrightness(QString &led, int brightness);
+    bool    isValid();
 
 signals:
 
@@ -37,6 +38,7 @@ public slots:
 private:
     QObject *m_app;
     QObject *m_dbus;
+    bool    isvalid;
 };
 
 #endif // MXDE_H
