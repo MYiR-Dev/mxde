@@ -57,6 +57,7 @@ typedef enum{
 
 #define MXDE_SETTING_FILE_NAME_SETTING  "mxde"
 #define MXDE_COMPANY_SETTING            "myirtech"
+#define MXDE_SETTING_FILE_PATH          "/usr/share/myir/settings.ini"
 class MxApplication : public QtSingleApplication
 {
     Q_OBJECT

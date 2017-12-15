@@ -44,8 +44,7 @@ MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
     m_status = HOMEPAGE;
     m_statusFlag = false;
 
-    m_Settings = new QSettings(MXDE_COMPANY_SETTING, MXDE_SETTING_FILE_NAME_SETTING);
-    m_Settings->setIniCodec("UTF-8");
+    m_Settings = new QSettings(QString(MXDE_SETTING_FILE_PATH), QSettings::IniFormat);
 
     m_Settings->beginGroup("LANGUAGE");
     m_current_language = m_Settings->value("language").toString();
