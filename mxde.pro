@@ -3,7 +3,8 @@ TEMPLATE = subdirs
 SUBDIRS += \
     mxbackend \
     mxdbus \
-    mxapp
+    mxapp \
+    mxled
 
 TRANSLATIONS += \
     mxapp/res/translation/mxapp_zh_CN.ts \

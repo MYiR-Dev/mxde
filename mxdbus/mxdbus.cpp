@@ -48,8 +48,6 @@ void MxDbus::startService()
     if(isvalid){
         connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), \
             m_object, SLOT(onLedBrightnessChanged(QString)));
-        connect(mxde_session_iface, SIGNAL(crashed()), m_object, SLOT(on_car_crashed()));
-
     }
 }
 
