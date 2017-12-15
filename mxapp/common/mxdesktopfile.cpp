@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QFile>
 #include <QDebug>
+#include <QTimer>
 
 #include "mxdesktopfile.h"
 #include "mxproperties.h"
@@ -115,5 +116,6 @@ void MxDesktopFile::processError(QProcess::ProcessError err)
 
 void MxDesktopFile::processStarted()
 {
-    emit demoStarted();
+    //emit demoStarted();
+    QTimer::singleShot(500, this, SIGNAL(demoStarted()));
 }

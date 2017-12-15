@@ -88,7 +88,7 @@ void BoxContentWidget::setCurrentLanguage(QString &lang)
     qDebug() << "setLanguage: " << lang << "\n" << endl;
     QModelIndex qindex = m_appModel.index(0,0,QModelIndex());
     m_appModel.setData(qindex, tr(QT_TRANSLATE_NOOP("BoxContentWidget","System Information")));
-    m_appModel.setData(qindex,QIcon(QPixmap(":/res/images/myir/icon-information192.png")),Qt::DecorationRole);
+    m_appModel.setData(qindex,QIcon(QString("/usr/share/pixmaps/system192.png")),Qt::DecorationRole);
 
     for(int i=0; i< m_apps.size(); i++){
 
@@ -126,7 +126,7 @@ void BoxContentWidget::loadApplicationWidgets()
     QModelIndex qindex = m_appModel.index(0,0,QModelIndex());
 
     m_appModel.setData(qindex, tr(QT_TRANSLATE_NOOP("BoxContentWidget","System Information")));
-    m_appModel.setData(qindex,QIcon(QPixmap(":/res/images/myir/icon-information192.png")),Qt::DecorationRole);
+    m_appModel.setData(qindex,QIcon(QString("/usr/share/pixmaps/system192.png")),Qt::DecorationRole);
 
     for(int i=0; i< m_apps.size(); i++){
 

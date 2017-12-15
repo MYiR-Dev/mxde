@@ -44,6 +44,8 @@ public:
 
 signals:
     void sigClickSystemInfo();
+    void demoFinished();
+    void demoStarted();
 
 public slots:
     void OnClickListView(const QModelIndex &index);

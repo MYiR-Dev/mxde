@@ -11,6 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = mxapp
 TEMPLATE = app
 
+target.path = /home/sunny/
+INSTALLS += target
+
 include(../qtsingleapplication/src/qtsingleapplication.pri)
 INCLUDEPATH += $$PWD/widgets
 INCLUDEPATH += $$PWD/common
@@ -26,7 +29,7 @@ SOURCES += main.cpp\
         widgets/shadowwidget.cpp \
         common/mxdesktopfile.cpp \
         common/mxproperties.cpp \
-    common/mxlistmodel.cpp
+        common/mxlistmodel.cpp
 
 HEADERS  += mxmaindialog.h \
             mxapplication.h \
@@ -39,7 +42,7 @@ HEADERS  += mxmaindialog.h \
             widgets/shadowwidget.h \
             common/mxdesktopfile.h \
             common/mxproperties.h \
-    common/mxlistmodel.h
+            common/mxlistmodel.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mxdbus/release/ -lmxdbus
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mxdbus/debug/ -lmxdbus

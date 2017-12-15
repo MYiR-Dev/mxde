@@ -23,7 +23,10 @@
 #include <QPoint>
 #include <QPropertyAnimation>
 #include <QTranslator>
-
+#include <QTimer>
+#include <QTime>
+#include <QEventLoop>
+#include <QCoreApplication>
 
 
 MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
@@ -268,6 +271,8 @@ void MxMainDialog::initConnect()
 {
     connect(home_content_widget, SIGNAL(sigLanguageChanged(QString)), this, SLOT(OnLanguageChanged(QString)));
     connect(box_content_widget, SIGNAL(sigClickSystemInfo()), this, SLOT(OnSystemInfoClicked()));
+    connect(box_content_widget, SIGNAL(demoStarted()), this , SLOT(OnDemoStarted()));
+    connect(box_content_widget, SIGNAL(demoFinished()), this, SLOT(OnDemoFinished()));
 }
 
 void MxMainDialog::onCloseAnimFinished()
@@ -332,4 +337,19 @@ void MxMainDialog::OnLanguageChanged(QString language)
 
     OnCurrentPageChanged(0);
 
+}
+
+void MxMainDialog::OnDemoStarted()
+{
+    qDebug() << "hide main\n" << endl;
+    lower();
+    this->hide();
+}
+
+void MxMainDialog::OnDemoFinished()
+{
+    qDebug() << "show main\n" << endl;
+    this->show();
+    raise();
+    activateWindow();
 }

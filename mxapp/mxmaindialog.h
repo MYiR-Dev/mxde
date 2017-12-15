@@ -54,6 +54,8 @@ public slots:
     void OnLanguageChanged(QString language);
     void OnOpenAnimFinished();
     void onCloseAnimFinished();
+    void OnDemoStarted();
+    void OnDemoFinished();
 
 private:
     QApplication        *m_app;
