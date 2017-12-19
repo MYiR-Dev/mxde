@@ -46,8 +46,8 @@ void MxDbus::startService()
     isvalid = mxde_session_iface->isValid();
 
     if(isvalid){
-        connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), \
-            m_object, SLOT(onLedBrightnessChanged(QString)));
+        connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(const QString)), \
+            m_object, SLOT(onLedBrightnessChanged(const QString)));
     }
 }
 

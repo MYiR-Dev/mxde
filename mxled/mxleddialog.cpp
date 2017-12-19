@@ -27,7 +27,12 @@ MxLedDialog::MxLedDialog(QObject *obj, QWidget *parent):QDialog(parent)
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
 
+    bigEditor = new QTextEdit;
+    bigEditor->setReadOnly(true);
+    getBoardLedInfo();
+
     mainLayout->addWidget(horizontalGroupBox);
+    mainLayout->addWidget(bigEditor);
     mainLayout->addWidget(buttonBox);
     setLayout(mainLayout);
 
@@ -37,7 +42,31 @@ MxLedDialog::MxLedDialog(QObject *obj, QWidget *parent):QDialog(parent)
     this->resize(QSize(800,480));
     this->move((deskRect.width()-this->width())/2, (deskRect.height()-this->height())/2);
 
+
+
     connect(this, SIGNAL(click_Button(int)), this, SLOT(on_click_Button(int)));
+    //connect(m_mxde->m_dbus->mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), this, SLOT(onLedBrightnessChanged(QString)));
+
+}
+void MxLedDialog::getBoardLedInfo()
+{
+    QFile f("/usr/share/myir/board_led_info");
+    if(!f.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+         qDebug()  << "Open failed.";
+
+    }
+#if 1
+    QTextStream txtInput(&f);
+    QString lineStr;
+    while(!txtInput.atEnd())
+    {
+       bigEditor->append(txtInput.readLine());
+
+    }
+
+    //f.close();
+#endif
 
 }
 //! [5]
@@ -125,27 +154,41 @@ void MxLedDialog::on_click_Button(int index)
     MxLedIndicator *led = leds.at(index);
     QString ledName = QString(led_name[index]);
 
-//    leds.at(index)->toggle();
+
     if(led->getState() == true){
-       //m_bus->callGetLedList("{\"request\":\"led\",\"operation\": \"set\",\"param\":{\"name\": \"myd:green:user3\", \"value\": 0 }}");
 
-        m_mxde->callSetLedBrightness(ledName,0);
-
-        //ledbus->Method();
+        m_mxde->callSetLedBrightness(ledName,0);   
         led->setState(false);
     }
     else
     {
 
-        //m_bus->callGetLedList("{\"request\":\"led\",\"operation\": \"set\",\"param\":{\"name\": \"myd:green:user3\", \"value\": 1 }}");
          m_mxde->callSetLedBrightness(ledName,1);
-        //ledbus->Method();
+
         led->setState(true);
 
     }
 }
 
-void MxLedDialog::onLedBrightnessChanged(QString &message)
+void MxLedDialog::onLedBrightnessChanged(const QString &message)
 {
     qDebug() << "onLedBrightnessChanged " << message << "\n" << endl;
+    int i=0;
+    QStringList   strlist = message.split(" ");
+    char * name = strdup(strlist.at(0).toLocal8Bit().data());
+    int statu = strlist.at(1).toInt();
+
+
+    for(i = 0; i < m_ledNum; i++)
+    {
+        if(strcmp(led_name[i],name) == 0)
+        {
+            break;
+        }
+    }
+    if(i < m_ledNum)
+    {
+        MxLedIndicator *led = leds.at(i);
+        led->setState(statu);
+    }
 }

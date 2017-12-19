@@ -6,7 +6,7 @@
 #include <libxml/parser.h>  
 #include <libxml/xmlmemory.h>  
 #include "led.h"
-#include "dbus_service.h"
+#include "dbus_server.h"
 
 
 void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
@@ -68,7 +68,6 @@ void send_led_set_signal(char *name, int brightness,DBusConnection * conn)
 #endif
 void setLedBrightress_method_call(DBusMessage * msg, DBusConnection * conn)
 {
-	DBusMessage * reply;
 	DBusMessageIter arg;
 	char *led_name = NULL;
 	int led_brightness = 0;
@@ -142,7 +141,7 @@ void listen_dbus()
     if(ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER)
         return;
 
-    //要求监听某个singal：来自接口test.signal.Type的信号 
+    //listen signal
     dbus_bus_add_match(connection,DBUS_SIGNAL_MATCH,&err);
     dbus_connection_flush(connection);
     if(dbus_error_is_set(&err)){

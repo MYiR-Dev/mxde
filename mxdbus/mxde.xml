@@ -57,5 +57,10 @@
                     <arg name="message" type="s" direction="out"/>
                 </signal>
         </interface>
+        <interface name="org.freedesktop.DBus.Introspectable">
+            <method name="Introspect">
+                <arg name="xml_data" type="s" direction="out"/>
+            </method>
+        </interface>
 </node>
 

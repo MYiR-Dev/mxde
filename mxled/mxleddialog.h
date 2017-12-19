@@ -12,6 +12,7 @@
 #include <QStringList>
 #include <QDialogButtonBox>
 #include <QGroupBox>
+#include <QTextEdit>
 #include <QApplication>
 
 #include "mxledindicator.h"
@@ -31,7 +32,7 @@ signals:
 public slots:
     void on_click_Button(int index);
     void switchSelectedLedButtoIndex(QString str);
-    void onLedBrightnessChanged(QString &message);
+    void onLedBrightnessChanged(const QString &message);
 
 private:
     void createMenu();
@@ -39,8 +40,10 @@ private:
     void createGridGroupBox();
     void createFormGroupBox();
     void getLedNameAndStatus();
+    void getBoardLedInfo();
     QDialogButtonBox *buttonBox;
     QGroupBox          *horizontalGroupBox;
+    QTextEdit *bigEditor;
     QList<MxLedIndicator *> leds;
     QStringList          m_ledList;
     int                  m_ledNum;

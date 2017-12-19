@@ -15,7 +15,6 @@ inst1.path = /usr/share/myir
 INSTALLS += target inst1
 
 HEADERS += \
-    dbus_service.h \
     led.h \
     dbus/dbus-address.h \
     dbus/dbus-arch-deps.h \
@@ -39,5 +38,6 @@ HEADERS += \
     dbus/dbus-syntax.h \
     dbus/dbus-threads.h \
     dbus/dbus-types.h \
-    dbus/dbus.h
+    dbus/dbus.h \
+    dbus_server.h
 
