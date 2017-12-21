@@ -13,8 +13,7 @@
 * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 *******************************************************************************/
 #include "mxmaindialog.h"
-#include "mxde.h"
-
+//#include "mxsystemdialog.h"
 #include <QDebug>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -33,7 +32,6 @@ MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
     : QDialog(parent)
 {
 // create a MxDE object and connect its signals to MxMainDialog
-    m_mxde = new MxDE(this);
     this->setApplication(app);
 
     this->resize(800,480);
@@ -68,7 +66,7 @@ MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
     shadow_widget->setColor(QColor("#666666"));
 //    shadow_widget->hide();
 
-    default_action_widget = new BaseWidget(this);
+    default_action_widget = new BaseWidget();
     default_action_widget->setGeometry(QRect(0,0,800,300));
     default_action_widget->setFixedSize(800,300);
     default_action_widget->setAutoFillBackground(true);
@@ -81,14 +79,15 @@ MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
     topStack = new QStackedWidget(other_action_widget);
     topStack->setGeometry(other_action_widget->rect());
     QPalette palette_back;
-    palette_back.setBrush(QPalette::Background, QBrush(QPixmap(":/res/images/myir/mxde_background.jpg")));
+    palette_back.setBrush(QPalette::Background, QBrush(QPixmap(":/res/images/myir/mxde_background1.png")));
     default_action_widget->setPalette(palette_back);
     other_action_widget->setPalette(palette_back);
 
     default_content_widget = new BaseWidget(this);
-    default_content_widget->setGeometry(QRect(QRect(0,300,800,180)));
-    default_content_widget->setFixedSize(800,180);
-//    default_content_widget->setAutoFillBackground(true);
+    default_content_widget->setGeometry(QRect(QRect(0,0,800,48)));
+    default_content_widget->setFixedSize(800,480);
+    default_content_widget->setAutoFillBackground(true);
+    default_content_widget->setPalette(palette_back);
 
     other_content_widget = new BaseWidget(this);
     other_content_widget->setGeometry(QRect(0,480,800,420));
@@ -107,16 +106,34 @@ MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
 
 MxMainDialog::~MxMainDialog()
 {
-    if(m_mxde){
-        delete m_mxde;
-        m_mxde = NULL;
+    if(home_action_widget != NULL){
+        delete home_action_widget;
+        home_action_widget = NULL;
     }
+    if(home_content_widget != NULL){
+        delete home_content_widget;
+        home_content_widget = NULL;
+    }
+    if(box_action_widget != NULL){
+        delete box_action_widget;
+        box_action_widget = NULL;
+    }
+    if(box_content_widget != NULL){
+        delete box_content_widget;
+        box_content_widget = NULL;
+    }
+
 }
 
 void MxMainDialog::setApplication(QApplication *app)
 {
     m_app = app;
 }
+
+//void MxMainDialog::setDbusProxy(MxDE *mxde)
+//{
+//    m_mxde = mxde ;
+//}
 
 void MxMainDialog::setTranslator(QTranslator *tr)
 {
@@ -148,7 +165,7 @@ void MxMainDialog::initAnimation()
     QPoint origPoint2(0, -60);
     QPoint needPoint2(0, 0);
 
-    QPoint origPoint3(0, 300);
+    QPoint origPoint3(0, 0);
     QPoint needPoint3(0, 480);
     QPoint origPoint4(0, 480);
     QPoint needPoint4(0, 60);
@@ -237,12 +254,14 @@ void MxMainDialog::initHomePage()
 
     if(home_content_widget == NULL)
     {
-        QGridLayout *home_bottom_grid_layout = new QGridLayout();
+        QVBoxLayout *home_bottom_grid_layout = new QVBoxLayout();
         home_content_widget = new HomeContentWidget(this);
         home_content_widget->initUI();
         home_content_widget->initConnection();
+        home_content_widget->setObjectName("transparentWidget");
 
-        home_bottom_grid_layout->addWidget(home_content_widget,0,0);
+        home_bottom_grid_layout->addStretch();
+        home_bottom_grid_layout->addWidget(home_content_widget);
         default_content_widget->setLayout(home_bottom_grid_layout);
         home_bottom_grid_layout->setSpacing(0);
         home_bottom_grid_layout->setContentsMargins(0, 0, 0, 0);
@@ -269,6 +288,7 @@ void MxMainDialog::initOtherPage()
 void MxMainDialog::initConnect()
 {
     connect(home_content_widget, SIGNAL(sigLanguageChanged(QString)), this, SLOT(OnLanguageChanged(QString)));
+    connect(box_action_widget, SIGNAL(CloseBox()), this, SLOT(OnCloseBox()));
     connect(box_content_widget, SIGNAL(sigClickSystemInfo()), this, SLOT(OnSystemInfoClicked()));
     connect(box_content_widget, SIGNAL(demoStarted()), this , SLOT(OnDemoStarted()));
     connect(box_content_widget, SIGNAL(demoFinished()), this, SLOT(OnDemoFinished()));
@@ -292,10 +312,22 @@ void MxMainDialog::OnApplicationClosed()
 void MxMainDialog::OnSystemInfoClicked()
 {
         qDebug() << "OnSystemInfoClicked  \n" << endl;
+
+//        MxSystemDialog *w = new MxSystemDialog(m_app);
+//        w->setParentWindow(this);
+//        w->setDbusProxy(m_mxde);
+//        this->hide();
+//        this->lower();
+//        w->display();
+}
+
+void MxMainDialog::OnCloseBox()
+{
+    OnCurrentPageChanged(0);
 }
 
 void MxMainDialog::OnCurrentPageChanged(int index){
-    if(index == 0){
+    if(index == 1){
 //        shadow_widget->show();
         topStack->setCurrentWidget(box_action_widget);
         bottomStack->setCurrentWidget(box_content_widget);
@@ -304,6 +336,9 @@ void MxMainDialog::OnCurrentPageChanged(int index){
     else
     {
         qDebug() << "onCurrentPageChanged " << index << "\n" << endl;
+        bottomStack->setCurrentWidget(home_content_widget);
+        gatherGroup->start();
+
     }
 }
 
@@ -319,6 +354,7 @@ void MxMainDialog::OnLanguageChanged(QString language)
     else
     {
         m_app->removeTranslator(m_translator);
+        m_translator->load(QString(":/res/translation/mxapp_en.qm"));
     }
 
     m_app->installTranslator(m_translator);
@@ -334,7 +370,7 @@ void MxMainDialog::OnLanguageChanged(QString language)
     box_action_widget->setCurrentLanguage(language);
     box_content_widget->setCurrentLanguage(language);
 
-    OnCurrentPageChanged(0);
+    OnCurrentPageChanged(1);
 
 }
 

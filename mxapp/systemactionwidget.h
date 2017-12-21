@@ -12,8 +12,8 @@
 *
 * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 *******************************************************************************/
-#ifndef BOXACTIONWIDGET_H
-#define BOXACTIONWIDGET_H
+#ifndef SYSTEMACTIONWIDGET_H
+#define SYSTEMACTIONWIDGET_H
 
 #include <QObject>
 #include <QWidget>
@@ -24,27 +24,26 @@
 #include "basewidget.h"
 #include "systembutton.h"
 
-class BoxActionWidget : public BaseWidget
+class SystemActionWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    explicit BoxActionWidget(QWidget *parent = 0,QObject *obj = 0);
+    explicit SystemActionWidget(QWidget *parent = 0,QObject *obj = 0);
+    void setParentWindow(QWidget *parent);
 
     void setCurrentLanguage(QString &lang);
     void initUI();
     void initConnection();
     void display();
 
-signals:
-    void CloseBox();
-
 private:
     QLabel *logo_myir_label;
     QLabel *title_myir_label;
 
     SystemButton *m_closeButton;
+    QWidget *m_parent;
 
 
 };
 
-#endif // BOXACTIONWIDGET_H
+#endif // SYSTEMACTIONWIDGET_H

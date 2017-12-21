@@ -13,7 +13,7 @@
 *
 * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 *******************************************************************************/
-#include "boxcontentwidget.h"
+#include "systemcontentwidget.h"
 #include "mxmaindialog.h"
 
 #include <QHBoxLayout>
@@ -25,7 +25,7 @@
 #include <QPalette>
 #include <QDebug>
 
-BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
+SystemContentWidget::SystemContentWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
 {
         this->setFixedSize(800, 420);
         //set white background color
@@ -38,7 +38,7 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj):BaseWidget(par
         m_list_view = new QListView(this);
         m_list_view->setFocusPolicy(Qt::NoFocus);
         m_list_view->setAutoFillBackground(true);
-        m_list_view->setIconSize(QSize(120, 120));
+        m_list_view->setIconSize(QSize(128, 128));
         m_list_view->setResizeMode(QListView::Adjust);
         m_list_view->setModel(&m_appModel);
         m_list_view->setViewMode(QListView::IconMode);
@@ -63,37 +63,36 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj):BaseWidget(par
         this->initUI();
 }
 
-void BoxContentWidget::initUI()
+void SystemContentWidget::initUI()
 {
 
 }
 
-void BoxContentWidget::initConnection()
+void SystemContentWidget::initConnection()
 {
     connect(this, SIGNAL(sigClickSystemInfo()), m_parent_window, SLOT(OnSystemInfoClicked()));
 }
 
-void BoxContentWidget::display()
+void SystemContentWidget::display()
 {
 
 }
 
-void BoxContentWidget::setParentWindow(QWidget *w)
+void SystemContentWidget::setParentWindow(QWidget *w)
 {
     m_parent_window = w;
 }
 
-void BoxContentWidget::setCurrentLanguage(QString &lang)
+void SystemContentWidget::setCurrentLanguage(QString &lang)
 {
     qDebug() << "setLanguage: " << lang << "\n" << endl;
-    QModelIndex qindex;
-//    qindex = m_appModel.index(0,0,QModelIndex());
-//    m_appModel.setData(qindex, tr(QT_TRANSLATE_NOOP("BoxContentWidget","System Information")));
-//    m_appModel.setData(qindex,QIcon(QString("/usr/share/pixmaps/system192.png")),Qt::DecorationRole);
+    QModelIndex qindex = m_appModel.index(0,0,QModelIndex());
+    m_appModel.setData(qindex, tr(QT_TRANSLATE_NOOP("BoxContentWidget","System Information")));
+    m_appModel.setData(qindex,QIcon(QString("/usr/share/pixmaps/system192.png")),Qt::DecorationRole);
 
     for(int i=0; i< m_apps.size(); i++){
 
-        qindex = m_appModel.index(i, 0, QModelIndex());
+        qindex = m_appModel.index(i+1, 0, QModelIndex());
         m_appModel.setData(qindex,QIcon(m_apps.at(i)->getIcon()), Qt::DecorationRole);
         if(lang == "zh_CN"){
             m_appModel.setData(qindex,m_apps.at(i)->getNameCN());
@@ -106,7 +105,7 @@ void BoxContentWidget::setCurrentLanguage(QString &lang)
     }
 }
 
-void BoxContentWidget::loadApplications()
+void SystemContentWidget::loadApplications()
 {
     QDirIterator it("/usr/share/applications", QStringList("*.desktop"),
         QDir::Files | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
@@ -116,24 +115,23 @@ void BoxContentWidget::loadApplications()
         }
 }
 
-void BoxContentWidget::loadApplicationWidgets()
+void SystemContentWidget::loadApplicationWidgets()
 {
     QStringList title;
     qDebug() << "loadApplicationWidgets\n" << endl;
     title << tr("");
     m_appModel.setTitle(title);
-    QModelIndex qindex;
 
-//    m_appModel.insertRows(0,1,QModelIndex());
-//    qindex = m_appModel.index(0,0,QModelIndex());
+    m_appModel.insertRows(0,1,QModelIndex());
+    QModelIndex qindex = m_appModel.index(0,0,QModelIndex());
 
-//    m_appModel.setData(qindex, tr(QT_TRANSLATE_NOOP("BoxContentWidget","System Information")));
-//    m_appModel.setData(qindex,QIcon(QString("/usr/share/pixmaps/system192.png")),Qt::DecorationRole);
+    m_appModel.setData(qindex, tr(QT_TRANSLATE_NOOP("BoxContentWidget","System Information")));
+    m_appModel.setData(qindex,QIcon(QString("/usr/share/pixmaps/system192.png")),Qt::DecorationRole);
 
     for(int i=0; i< m_apps.size(); i++){
 
-        m_appModel.insertRows(i, 1, QModelIndex());
-        qindex = m_appModel.index(i, 0, QModelIndex());
+        m_appModel.insertRows(i+1, 1, QModelIndex());
+        qindex = m_appModel.index(i+1, 0, QModelIndex());
         m_appModel.setData(qindex,QIcon(m_apps.at(i)->getIcon()), Qt::DecorationRole);
         m_appModel.setData(qindex,m_apps.at(i)->getName());
     }
@@ -141,16 +139,21 @@ void BoxContentWidget::loadApplicationWidgets()
 
 }
 
-void BoxContentWidget::OnClickListView(const QModelIndex & index)
+void SystemContentWidget::OnClickListView(const QModelIndex & index)
 {
     qDebug() << "click row "<< index.row() << endl;
+    if(index.row() == 0)
+    {
+        emit this->sigClickSystemInfo();
+    }
+    else
+    {
+       int i = index.row();
+       MxDesktopFile *app = m_apps.at(i-1);
 
-    int i = index.row();
-    MxDesktopFile *app = m_apps.at(i);
+       QObject::connect(app, SIGNAL(demoFinished()), this, SIGNAL(demoFinished()));
+       QObject::connect(app, SIGNAL(demoStarted()), this, SIGNAL(demoStarted()));
 
-    QObject::connect(app, SIGNAL(demoFinished()), this, SIGNAL(demoFinished()));
-    QObject::connect(app, SIGNAL(demoStarted()), this, SIGNAL(demoStarted()));
-
-    app->launch();
-
+       app->launch();
+    }
 }

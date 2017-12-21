@@ -2,12 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>BoxContentWidget</name>
+    <name>BoxActionWidget</name>
     <message>
-        <location filename="../../boxcontentwidget.cpp" line="91"/>
-        <source>DEMO</source>
-        <translation type="unfinished"></translation>
+        <source>QT5 Demo System</source>
+        <translation></translation>
     </message>
+</context>
+<context>
+    <name>BoxContentWidget</name>
     <message>
         <source>System Information</source>
         <translation type="vanished">System Information</translation>

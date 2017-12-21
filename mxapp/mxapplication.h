@@ -18,42 +18,6 @@
 #include <QObject>
 #include <QWidget>
 #include <QtSingleApplication>
-#include "mxde.h"
-
-typedef enum{
-    CACHE,
-    PACAKAGE,
-    COOKIES,
-    BROWSER,
-    TRACE,
-    BIGFILE,
-} CLEANERTAB;
-
-struct AutoData
-{
-    QString appPath;
-    QString appName;
-    QString appComment;
-    QString iconName;
-    QString appStatus;
-};
-
-typedef enum{
-    BUTTON_ENTER,
-    BUTTON_LEAVE,
-    BUTTON_PRESSED,
-    BUTTON_DISABLE,
-    BUTTON_FIRST,
-    BUTTON_SCALED,
-}BUTTONSTATUS;
-
-typedef enum{
-    HOMEPAGE,
-    BOXPAGE,
-    SYSTEMPAGE,
-    SETTINGPAGE,
-    ABOUTPAGE,
-}PAGESTATUS;
 
 #define MXDE_SETTING_FILE_NAME_SETTING  "mxde"
 #define MXDE_COMPANY_SETTING            "myirtech"
