@@ -2,11 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>BoxActionWidget</name>
+    <message>
+        <source>QT5 Demo System</source>
+        <translation>QT5演示系统</translation>
+    </message>
+</context>
+<context>
     <name>BoxContentWidget</name>
     <message>
-        <location filename="../../boxcontentwidget.cpp" line="91"/>
         <source>DEMO</source>
-        <translation>演示系统</translation>
+        <translation type="vanished">演示系统</translation>
     </message>
     <message>
         <source>System Information</source>

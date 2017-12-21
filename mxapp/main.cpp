@@ -14,7 +14,7 @@
 *******************************************************************************/
 #include "mxmaindialog.h"
 #include "mxapplication.h"
-#include "mxsplashscreen.h"
+//#include "mxsplashscreen.h"
 
 #include <QFile>
 #include <QTranslator>
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     if(app.isRunning()){
         return 0;
     }
+
 
     QTranslator translator;
 
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
 
     MxMainDialog w(&app);
     w.setTranslator(&translator);
+//    w.setDbusProxy(mxde);
 
     w.display();
 

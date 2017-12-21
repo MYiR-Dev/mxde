@@ -20,7 +20,7 @@ QLabel#titleLabel{
 QLabel#whiteLabel{
     color:#ffffff;
     font-family: "????_GBK";
-    font-size: 30px;
+    font-size: 24px;
     font-weight:bold;
     text-align: left;
 }

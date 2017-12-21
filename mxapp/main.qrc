@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>res/images/myir/myir_logo.png</file>
         <file>res/images/myir/th.jpg</file>
         <file>res/images/myir/th_chip.jpg</file>
         <file>res/images/myir/th_ok.jpg</file>
@@ -15,8 +14,6 @@
         <file>res/images/myir/icon-light.png</file>
         <file>res/images/myir/icon-light48.png</file>
         <file>res/images/myir/information-icon.png</file>
-        <file>res/images/myir/logo_myir.png</file>
-        <file>res/images/myir/mx_de_main_background.jpg</file>
         <file>res/images/myir/sh48.png</file>
         <file>res/images/myir/sh200.png</file>
         <file>res/images/myir/sz48.png</file>
@@ -26,5 +23,10 @@
         <file>res/translation/mxapp_en.ts</file>
         <file>res/translation/mxapp_zh_CN.qm</file>
         <file>res/translation/mxapp_zh_CN.ts</file>
+        <file>res/images/sys/close_button.png</file>
+        <file>res/images/myir/chinese_wvga.png</file>
+        <file>res/images/myir/english_wvga.png</file>
+        <file>res/images/myir/mxde_background1.png</file>
+        <file>res/images/myir/logo_myir.png</file>
     </qresource>
 </RCC>

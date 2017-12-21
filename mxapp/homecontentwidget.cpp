@@ -19,6 +19,8 @@
 #include <QSignalMapper>
 #include <QDebug>
 
+#include "systembutton.h"
+
 HomeContentWidget::HomeContentWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
 {
         this->setFixedSize(800, 180);
@@ -36,21 +38,23 @@ HomeContentWidget::HomeContentWidget(QWidget *parent, QObject *obj):BaseWidget(p
 void HomeContentWidget::initUI()
 {
     QStringList icon_list;
-    icon_list<<":/myir/res/myir/sz48.png"<<":/myir/res/myir/bj48.png";
+    icon_list<<":/res/images/myir/chinese_wvga.png"<<":/res/images/myir/english_wvga.png";
     QStringList text_list;
     text_list << QString("[简体中文]") << QString("[English]") ;
     QHBoxLayout *button_layout = new QHBoxLayout();
     QSignalMapper *signal_mapper = new QSignalMapper(this);
     for(int i=0; i<icon_list.size(); i++)
     {
-        QPushButton *tool_button = new QPushButton();
+        SystemButton *tool_button = new SystemButton();
         tool_button->setFocusPolicy(Qt::NoFocus);
        // tool_button->setIcon(icon_list.at(i));
-        tool_button->setFixedWidth(150);
-        tool_button->setText(text_list.at(i));
+//        tool_button->setFixedWidth(150);
+//        tool_button->setText(text_list.at(i));
+        tool_button->loadPixmap(icon_list.at(i));
         connect(tool_button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
         signal_mapper->setMapping(tool_button, QString::number(i, 10));
         button_layout->addWidget(tool_button);
+        button_layout->setSpacing(100);
 //        item_list.append(tool_button);
 
     }

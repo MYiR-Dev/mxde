@@ -15,7 +15,7 @@
 #ifndef MXMAINDIALOG_H
 #define MXMAINDIALOG_H
 
-#include "mxde.h"
+#include "constant.h"
 #include "mxapplication.h"
 #include "shadowwidget.h"
 #include "homeactionwidget.h"
@@ -35,8 +35,9 @@ class MxMainDialog : public QDialog
     Q_OBJECT
 
 public:
-    MxMainDialog(QApplication *app, QWidget *parent = 0);
+    MxMainDialog(QApplication *app = 0, QWidget *parent = 0);
     ~MxMainDialog();
+
 
     void setApplication(QApplication *app);
     void display();
@@ -49,6 +50,7 @@ public:
 public slots:
 
     void OnApplicationClosed();
+    void OnCloseBox();
     void OnCurrentPageChanged(int index);
     void OnSystemInfoClicked();
     void OnLanguageChanged(QString language);
@@ -59,7 +61,6 @@ public slots:
 
 private:
     QApplication        *m_app;
-    MxDE                *m_mxde;
     QSettings           *m_Settings;
     QTranslator         *m_translator;
 
