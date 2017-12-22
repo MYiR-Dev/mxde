@@ -13,38 +13,21 @@ TEMPLATE = app
 
 target.path = /home/sunny/
 INSTALLS += target
-
-include(../qtsingleapplication/src/qtsingleapplication.pri)
-INCLUDEPATH += $$PWD/widgets
-INCLUDEPATH += $$PWD/common
+include(../mxbase/mxbase.pri)
 
 SOURCES += main.cpp\
         mxmaindialog.cpp \
-        mxapplication.cpp \
         homeactionwidget.cpp \
         homecontentwidget.cpp \
         boxactionwidget.cpp \
-        boxcontentwidget.cpp \
-        widgets/basewidget.cpp \
-        widgets/shadowwidget.cpp \
-        common/mxdesktopfile.cpp \
-        common/mxproperties.cpp \
-        common/mxlistmodel.cpp \
-        common/systembutton.cpp
+        boxcontentwidget.cpp
 
 HEADERS  += mxmaindialog.h \
-            mxapplication.h \
             homeactionwidget.h \
             homeactionwidget.h \
             homecontentwidget.h \
             boxactionwidget.h \
-            boxcontentwidget.h \
-            widgets/basewidget.h \
-            widgets/shadowwidget.h \
-            common/mxdesktopfile.h \
-            common/mxproperties.h \
-            common/mxlistmodel.h \
-            common/systembutton.h
+            boxcontentwidget.h
 
 RESOURCES += \
     main.qrc
