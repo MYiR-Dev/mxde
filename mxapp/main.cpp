@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+//    app.setQuitOnLastWindowClosed(false);
 
     QTranslator translator;
 

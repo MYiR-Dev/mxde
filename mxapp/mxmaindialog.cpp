@@ -142,7 +142,7 @@ void MxMainDialog::setTranslator(QTranslator *tr)
 
 void MxMainDialog::display()
 {
-    if (this->isHidden()) {
+
         int windowWidth, windowHeight = 0;
             windowWidth = QApplication::desktop()->screenGeometry(0).width();
             windowHeight = QApplication::desktop()->screenGeometry(0).height();
@@ -150,10 +150,7 @@ void MxMainDialog::display()
         this->show();
         this->raise();
 //        QTimer::singleShot(100, this, SLOT(startDbusDaemon()));
-    }
-    else {
-        this->hide();
-    }
+
 }
 
 void MxMainDialog::initAnimation()
@@ -376,15 +373,20 @@ void MxMainDialog::OnLanguageChanged(QString language)
 
 void MxMainDialog::OnDemoStarted()
 {
-    qDebug() << "hide main\n" << endl;
-    lower();
-    this->hide();
+    qDebug() << "hide main \n" << endl;
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+    animation->setDuration(1000);
+    animation->setStartValue(this->pos());
+    animation->setEndValue(this->pos()-QPoint(0,QApplication::desktop()->screenGeometry(0).height()));
+    animation->start();
+    connect(animation, SIGNAL(finished()), this, SLOT(hide()));
+//    lower();
 }
 
 void MxMainDialog::OnDemoFinished()
 {
     qDebug() << "show main\n" << endl;
-    this->show();
+    this->display();
     raise();
     activateWindow();
 }
