@@ -57,7 +57,7 @@ private:
     void getLedNameAndStatus();
     void getBoardLedInfo();
     QGroupBox          *horizontalGroupBox;
-    QTextEdit *bigEditor;
+    QTextEdit             *bigEditor;
     QList<MxLedIndicator *> leds;
     QStringList          m_ledList;
     int                  m_ledNum;
