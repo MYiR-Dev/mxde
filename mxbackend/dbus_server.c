@@ -7,11 +7,123 @@
 #include <libxml/xmlmemory.h>  
 #include "led.h"
 #include "dbus_server.h"
+#include "tty.h"
+
+//serial start
+void getSerialList_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char *respone;
+    char data[60];
+
+    get_serial_list(data);
+    respone = &data[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
 
 
+}
+void setSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessageIter arg;
+    char *tty_param;
+
+    tty_send_conn = conn;
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &tty_param);
+
+    parse_tty_param(tty_param);
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (msg);
+
+}
+
+void closeSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessageIter arg;
+
+    int  fd;
+
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &fd);
+
+
+    delete_tty_read_thread();
+    tty_close(fd);
+
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (msg);
+}
+
+
+void openSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessageIter arg;
+    DBusMessage * reply;
+    char *dev_name = NULL;
+    int fd;
+
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &dev_name);
+
+    dbg_printf("serial_name:%s\n",dev_name);
+    fd = tty_open(dev_name);
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_INT32,&fd)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+
+}
+void SerialWrite_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessageIter arg;
+    int fd,len;
+    char *data;
+
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &fd);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &data);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &len);
+
+    tty_write(fd ,data , len);
+
+    dbus_connection_flush(conn);
+    dbus_message_unref(msg);
+
+}
+//serial end
 void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
 {
-	DBusMessage * reply;
+    DBusMessage * reply;
 	DBusMessageIter arg;
     xmlChar *xmlbuf;
 	xmlDocPtr doc; 
@@ -36,7 +148,7 @@ void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
 	dbus_connection_flush (conn);
 	dbus_message_unref (reply);		
 }
-#if 1
+
 void send_led_set_signal(char *name, int brightness,DBusConnection * conn)
 {
 	dbus_uint32_t serial = 0; 
@@ -65,7 +177,7 @@ void send_led_set_signal(char *name, int brightness,DBusConnection * conn)
 	dbus_connection_flush(conn);
 	dbus_message_unref(msg);	
 }
-#endif
+
 void setLedBrightress_method_call(DBusMessage * msg, DBusConnection * conn)
 {
 	DBusMessageIter arg;
@@ -170,15 +282,31 @@ void listen_dbus()
 				
 				setLedBrightress_method_call(msg,connection);
 				
-			}else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"setLedTrigger")){ 
-				
-			}else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"setLedDuty")){ 
-			
-			}else if(dbus_message_is_method_call(msg,DBUS_INTROSSPECTABLE_INTERFACE,"Introspect")){
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"openSerialPort")){
+
+                openSerialPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"setSerialPort")){
+
+                setSerialPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"getSerialList")){
+
+                getSerialList_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"closeSerialPort")){
+
+                closeSerialPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"SerialWrite")){
+
+                SerialWrite_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_INTROSSPECTABLE_INTERFACE,"Introspect")){
 				Introspect_method_call(msg,connection);
 			}
 		}
-        dbus_message_unref(msg); 
+        //dbus_message_unref(msg);
     }
     
     
@@ -186,6 +314,7 @@ void listen_dbus()
 int main( int argc , char ** argv){
 	
 	led_init();
+
     listen_dbus(); 
     return 0;
 }
