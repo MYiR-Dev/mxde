@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QLabel>
 
-#include "mxleddialog.h"
+#include "mxmaindialog.h"
 #include "mxledindicator.h"
 
 MxLedIndicator::MxLedIndicator(QWidget *parent) :

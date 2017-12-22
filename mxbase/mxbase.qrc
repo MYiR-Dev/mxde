@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/qss/mxde.qss</file>
+        <file>res/images/myir/mxde_background.jpg</file>
+        <file>res/images/myir/cover_myir.png</file>
+        <file>res/translation/mxapp_en.qm</file>
+        <file>res/translation/mxapp_en.ts</file>
+        <file>res/translation/mxapp_zh_CN.qm</file>
+        <file>res/translation/mxapp_zh_CN.ts</file>
+        <file>res/images/sys/close_button.png</file>
+        <file>res/images/myir/mxde_background1.png</file>
+        <file>res/images/myir/logo_myir.png</file>
+    </qresource>
+</RCC>
