@@ -117,6 +117,26 @@ QWidget#transparentWidget {
 
 }*/
 
+QPushButton#ledButton{
+    border: 1px solid #333333;
+    border-radius: 2px;
+    border-color:
+        qlineargradient(x1:0, y1:0, x2:1, y2:0, stop: 0 blue, stop: 1 red)
+        blue
+        qlineargradient(x1:0, y1:0, x2:1, y2:0, stop: 0 blue, stop: 1 red)
+        blue;
+    padding: 4px;
+    min-width: 65px;
+    min-height: 12px;
+    margin: 5px;
+}
+
+QPushButton#ledButton:pressed{
+    /*color:rgb(50, 150, 255);*/
+    background:#ffff00;
+    color:#3f96e4;
+}
+
 QPushButton#transparentButton{
     background:transparent;
 }

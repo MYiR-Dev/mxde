@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     }
 
 
-    MxDE        *mxde = new MxDE(&app);
+//    MxDE        *mxde = new MxDE(&app);
 
     QTranslator translator;
 
@@ -49,10 +49,12 @@ int main(int argc, char *argv[])
 
     MxMainDialog w(&app);
     w.setApplication(&app);
-    w.setDbusProxy(mxde);
+//    w.setDbusProxy(mxde);
 
 
     w.display();
+    w.raise();
+    w.activateWindow();
 
     return app.exec();
 }

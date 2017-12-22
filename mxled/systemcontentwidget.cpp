@@ -160,6 +160,7 @@ void SystemContentWidget::createHorizontalGroupBox()
  //      buttons[i] = new QPushButton(leds.at(i)->getLedName());
         QVBoxLayout *ledLayout = new QVBoxLayout();
         QPushButton *ledButton = new QPushButton();
+        ledButton->setObjectName("ledButton");
         ledButton->setText(leds.at(i)->getLedName());
         connect(ledButton, SIGNAL(clicked()), signal_mapper, SLOT(map()));
         signal_mapper->setMapping(ledButton, QString::number(i, 10));
