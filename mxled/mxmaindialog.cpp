@@ -9,7 +9,8 @@
 
 MxMainDialog::MxMainDialog(QApplication *app,  QWidget *parent):QDialog(parent)
 {
-//    this->setApplication(app);
+    m_mxde = new MxDE(this);
+    this->setApplication(app);
     this->resize(800,480);
     this->setAutoFillBackground(true);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
@@ -69,6 +70,7 @@ void MxMainDialog::display(){
         m_contentwidget->initUI();
         m_contentwidget->setApplication(m_app);
         m_contentwidget->setParentWindow(this);
+        connect(this, SIGNAL(LedBrightnessChanged(const QString)), m_contentwidget, SLOT(onLedBrightnessChanged(const QString)));
     }
 
     if (this->isHidden()) {
@@ -92,4 +94,9 @@ void MxMainDialog::OnSystemDialogClosed()
         m_parent->raise();
     }
     this->close();
+}
+
+void MxMainDialog::onLedBrightnessChanged(const QString &message)
+{
+    emit this->LedBrightnessChanged(message);
 }

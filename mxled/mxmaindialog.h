@@ -33,6 +33,7 @@ signals:
 
 public slots:
     void OnSystemDialogClosed();
+    void onLedBrightnessChanged(const QString &message);
 
 private:
     QApplication        *m_app;

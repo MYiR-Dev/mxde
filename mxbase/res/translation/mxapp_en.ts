@@ -15,4 +15,11 @@
         <translation type="vanished">System Information</translation>
     </message>
 </context>
+<context>
+    <name>SystemActionWidget</name>
+    <message>
+        <source>LED Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

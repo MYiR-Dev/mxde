@@ -19,4 +19,11 @@
         <translation type="vanished">系统信息</translation>
     </message>
 </context>
+<context>
+    <name>SystemActionWidget</name>
+    <message>
+        <source>LED Test</source>
+        <translation type="unfinished">LED测试</translation>
+    </message>
+</context>
 </TS>
