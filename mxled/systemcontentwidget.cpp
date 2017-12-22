@@ -46,19 +46,21 @@ void SystemContentWidget::initUI()
 {
         createHorizontalGroupBox();
 
-        QVBoxLayout *mainLayout = new QVBoxLayout;
+        QGridLayout *mainLayout = new QGridLayout;
 
         bigEditor = new QTextEdit;
         bigEditor->setReadOnly(true);
+        bigEditor->setStyleSheet("border:none");
+
         getBoardLedInfo();
 
         QLabel *m = new QLabel();
         m->setPixmap(QPixmap("/usr/share/myir/MYD-AM335Xs.jpg"));
         m->setAlignment(Qt::AlignCenter);
 
-        mainLayout->addWidget(horizontalGroupBox);
-//        mainLayout->addWidget(bigEditor);
-        mainLayout->addWidget(m);
+        mainLayout->addWidget(horizontalGroupBox,0,0,1,3,Qt::AlignCenter);
+//        mainLayout->addWidget(m,1,0,2,1);
+        mainLayout->addWidget(bigEditor,1,1,2,1);
 
 //        mainLayout->addWidget(buttonBox);
         setLayout(mainLayout);
@@ -79,6 +81,8 @@ void SystemContentWidget::initUI()
 void SystemContentWidget::getBoardLedInfo()
 {
     QFile f("/usr/share/myir/board_led_info");
+    QTextCodec *codec = QTextCodec::codecForName("UTF8");
+
     if(!f.open(QIODevice::ReadOnly | QIODevice::Text))
     {
          qDebug()  << "Open failed.";
@@ -86,10 +90,11 @@ void SystemContentWidget::getBoardLedInfo()
     }
 #if 1
     QTextStream txtInput(&f);
+    txtInput.setCodec(codec);
     QString lineStr;
     while(!txtInput.atEnd())
     {
-       bigEditor->append(txtInput.readLine());
+       bigEditor->append(codec->fromUnicode(txtInput.readLine()));
 
     }
 
@@ -166,6 +171,7 @@ void SystemContentWidget::createHorizontalGroupBox()
     }
     connect(signal_mapper, SIGNAL(mapped(QString)), this, SLOT(switchSelectedLedButtoIndex(QString)));
     horizontalGroupBox->setLayout(layout);
+    horizontalGroupBox->setStyleSheet("QGroupBox{border: 0px solid white;border-radius:1px;background-color: #ffffff;}");
 }
 
 void SystemContentWidget::switchSelectedLedButtoIndex(QString index)
