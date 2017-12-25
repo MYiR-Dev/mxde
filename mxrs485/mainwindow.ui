@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string/>
+   <string>串口助手－－by HQ</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -221,7 +221,7 @@ QGroupBox::title {
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>串　口：　</string>
+              <string>RS485：　</string>
              </property>
             </widget>
            </item>
@@ -406,7 +406,7 @@ QGroupBox::title {
          <item>
           <widget class="QPushButton" name="openPushButton">
            <property name="text">
-            <string>打开串口</string>
+            <string>打开RS485</string>
            </property>
           </widget>
          </item>

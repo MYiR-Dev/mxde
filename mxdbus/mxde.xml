@@ -82,6 +82,12 @@
                     <arg name="data" type="s" direction="out"/>
                     <arg name="size" type="i" direction="out"/>
                 </signal>
+<!--
+    RS485
+-->
+                <method name="getRs485List">
+                    <arg name="rs485_list" type="s" direction="out"/>
+                </method>
         </interface>
 		
 		

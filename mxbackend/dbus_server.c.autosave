@@ -121,7 +121,7 @@ void SerialWrite_method_call(DBusMessage * msg, DBusConnection * conn)
 
 }
 //serial end
-
+//Rs485 start
 void getRs485List_method_call(DBusMessage * msg, DBusConnection * conn)
 {
 
