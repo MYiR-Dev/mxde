@@ -15,6 +15,8 @@
 #include "systemcontentwidget.h"
 #include "mxledindicator.h"
 #include "mxde.h"
+#include "constant.h"
+#include "mxapplication.h"
 
 #include <QObject>
 #include <QtWidgets>
@@ -29,9 +31,19 @@
 char *led_name[5];
 char *led_statu[5];
 
-SystemContentWidget::SystemContentWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
+SystemContentWidget::SystemContentWidget(QWidget *parent, MxApplication *obj, int width , int height ):BaseWidget(parent,obj)
 {
-    this->setFixedSize(800, 420);
+    m_width = width;
+    if(m_width <=0){
+        m_width = DEFAULT_SCREEN_WIDTH;
+    }
+    m_height = height;
+    if(m_height <= 0){
+        m_height = DEFAULT_SCREEN_HEIGHT;
+    }
+
+    this->setFixedSize(m_width, m_height);
+
     this->setAutoFillBackground(true);
     QPalette palette;
     palette.setBrush(QPalette::Window, QBrush(Qt::white));
@@ -227,7 +239,7 @@ void SystemContentWidget::onLedBrightnessChanged(const QString &message)
         led->setState(statu);
     }
 }
-void SystemContentWidget::setApplication(QApplication *app)
+void SystemContentWidget::setApplication(MxApplication *app)
 {
     m_app = app;
 }

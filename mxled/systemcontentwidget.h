@@ -28,6 +28,7 @@
 
 #include "mxde.h"
 #include "mxledindicator.h"
+#include "mxapplication.h"
 
 
 class SystemContentWidget : public BaseWidget
@@ -35,9 +36,9 @@ class SystemContentWidget : public BaseWidget
     Q_OBJECT
 public:
     MxDE    *m_mxde;
-    SystemContentWidget(QWidget *parent = 0,QObject *obj = 0);
+    SystemContentWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
     ~SystemContentWidget();
-    void setApplication(QApplication *app);
+    void setApplication(MxApplication *app);
     void setDbusProxy(MxDE *mxde);
     void setParentWindow(QWidget *parent);
     void initUI();
@@ -62,7 +63,9 @@ private:
     QStringList          m_ledList;
     int                  m_ledNum;
     QWidget             *m_parent;
-    QApplication        *m_app;
+    MxApplication        *m_app;
+    int                      m_width;
+    int                      m_height;
 };
 
 #endif // SYSTEMCONTENTWIDGET_H

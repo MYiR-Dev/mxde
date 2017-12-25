@@ -27,6 +27,11 @@ class MxApplication : public QtSingleApplication
     Q_OBJECT
 public:
     MxApplication(int &argc, char **argv, bool GUIenabled = true);
+    void setMainWindow(QWidget *w);
+    QWidget * getMainWindow();
+
+    int getMainWindowWidth();
+    int getMainWindowHeight();
 
 signals:
 	void sigLedBrightnessChanged(const QString &message);
@@ -35,8 +40,7 @@ public slots:
     void onLedBrightnessChanged(const QString &message);
 
 private:
-
-
+    QWidget *m_mainWindow;
 };
 
 #endif // MXAPPLICATION_H

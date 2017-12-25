@@ -6,9 +6,9 @@
 #include "mxdesktopfile.h"
 #include "mxproperties.h"
 
-MxDesktopFile::MxDesktopFile(const QString &fileName)
+MxDesktopFile::MxDesktopFile(const QString &fileName, MxApplication *app)
 {
-	
+    this->m_app = app;
 	this->fileName = fileName;
 	
 	if(!QFile::exists(fileName)){
@@ -92,7 +92,19 @@ QStringList MxDesktopFile::getMimeType() const
 void MxDesktopFile::launch()
 {
     qDebug() << getExec() << endl;
-    process.start(getExec());
+    QString  parameter="";
+    if(this->m_app){
+        parameter += getExec();
+        parameter +=" --width ";
+        parameter += QString::number(this->m_app->getMainWindowWidth(),10);
+        parameter +=" --height ";
+        parameter += QString::number(this->m_app->getMainWindowHeight(),10);
+        qDebug() << parameter << endl;
+        process.start(parameter);
+    }
+    else{
+        process.start(getExec());
+    }
 }
 
 void MxDesktopFile::processFinished(int exitCode, QProcess::ExitStatus exitStatus)

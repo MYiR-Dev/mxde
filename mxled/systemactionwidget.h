@@ -23,12 +23,13 @@
 
 #include "basewidget.h"
 #include "systembutton.h"
+#include "mxapplication.h"
 
 class SystemActionWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    explicit SystemActionWidget(QWidget *parent = 0,QObject *obj = 0);
+    explicit SystemActionWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
     void setParentWindow(QWidget *parent);
 
     void setCurrentLanguage(QString &lang);
@@ -42,7 +43,8 @@ private:
 
     SystemButton *m_closeButton;
     QWidget *m_parent;
-
+    int                      m_width;
+    int                      m_height;
 
 };
 

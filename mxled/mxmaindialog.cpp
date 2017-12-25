@@ -1,3 +1,19 @@
+
+/******************************************************************************
+* Copyright (C), 2016-2017, Sunny.Guo
+* FileName:
+* Author: Sunny.Guo
+* Version: 1.0
+* Date:
+* Description:
+*
+* History:
+*  <author>  	<time>   	<version >   	<desc>
+*  Sunny.Guo   	19/01/2017      1.0     	create this moudle
+*
+* Licensed under GPLv2 or later, see file LICENSE in this source tree.
+*******************************************************************************/
+#include "constant.h"
 #include "mxmaindialog.h"
 #include "systemactionwidget.h"
 #include "systemcontentwidget.h"
@@ -6,12 +22,18 @@
 #include <QDesktopWidget>
 #include <QDialog>
 
-
-MxMainDialog::MxMainDialog(QApplication *app,  QWidget *parent):QDialog(parent)
+MxMainDialog::MxMainDialog(MxApplication *app, QWidget *parent, int w, int h)
+    : QDialog(parent)
 {
     m_mxde = new MxDE(this);
     this->setApplication(app);
-    this->resize(800,480);
+    m_width = w;
+    m_height = h;
+    m_default_action_width = m_width;
+    m_default_content_width = m_width;
+    m_default_action_height = OTHER_ACTION_HEIGHT(m_height);
+    m_default_content_height = OTHER_CONTENT_HEIGHT(m_height);
+    this->resize(m_width,m_height);
     this->setAutoFillBackground(true);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
 //    this->setWindowOpacity(1);
@@ -33,7 +55,7 @@ MxMainDialog::~MxMainDialog()
     }
 }
 
-void MxMainDialog::setApplication(QApplication *app)
+void MxMainDialog::setApplication(MxApplication *app)
 {
     m_app = app;
 }
@@ -50,21 +72,22 @@ void MxMainDialog::setParentWindow(QWidget *parent)
 
 void MxMainDialog::display(){
     if(m_actionwidget == NULL){
-        m_actionwidget = new SystemActionWidget(this,m_app);
+        m_actionwidget = new SystemActionWidget(this,m_app,m_default_action_width,m_default_action_height);
         m_actionwidget->setParentWindow(this);
         m_actionwidget->initConnection();
 
-        m_actionwidget->setGeometry(QRect(0,0,800,60));
-        QPalette palette_back;
-        palette_back.setBrush(QPalette::Background, QBrush(QPixmap(":/res/images/myir/mxde_background1.png")));
-        m_actionwidget->setPalette(palette_back);
-        m_actionwidget->setPalette(palette_back);
+        m_actionwidget->setGeometry(QRect(0,0,m_default_action_width,m_default_action_height));
+        m_actionwidget->setObjectName("transparentWidget");
+//        QPalette palette_back;
+//        palette_back.setBrush(QPalette::Background, QBrush(QPixmap(":/res/images/myir/mxde_background1.png")));
+//        m_actionwidget->setPalette(palette_back);
+//        m_actionwidget->setPalette(palette_back);
     }
 
     if(m_contentwidget == NULL)
     {
-        m_contentwidget = new SystemContentWidget(this, m_app);
-        m_contentwidget->setGeometry(QRect(0,60,800,420));
+        m_contentwidget = new SystemContentWidget(this, m_app,m_default_content_width, m_default_content_height);
+        m_contentwidget->setGeometry(QRect(0,m_default_action_height,m_default_content_width,m_default_content_height));
         m_contentwidget->setDbusProxy(m_mxde);
         m_contentwidget->loadLeds();
         m_contentwidget->initUI();
@@ -99,4 +122,12 @@ void MxMainDialog::OnSystemDialogClosed()
 void MxMainDialog::onLedBrightnessChanged(const QString &message)
 {
     emit this->LedBrightnessChanged(message);
+}
+
+void MxMainDialog::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    main_skin_pixmap = new QPixmap(":/res/images/myir/mxde_background1.png");
+
+    painter.drawPixmap(0,0,this->width(), this->height(), *main_skin_pixmap);
 }

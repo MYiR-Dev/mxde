@@ -25,7 +25,7 @@ class HomeContentWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    HomeContentWidget(QWidget *parent = 0,QObject *obj = 0, int width = 0, int height = 0);
+    HomeContentWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
 
     void setCurrentLanguage(QString &lang);
     void initUI();
@@ -40,7 +40,7 @@ public slots:
 
 private:
     QWidget *m_parent;
-
+    MxApplication           *m_mxapp;
     int                      m_width;
     int                      m_height;
 };

@@ -26,12 +26,13 @@
 #include "basewidget.h"
 #include "mxdesktopfile.h"
 #include "mxlistmodel.h"
+#include "mxapplication.h"
 
 class BoxContentWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    BoxContentWidget(QWidget *parent = 0,QObject *obj = 0, int width = 0, int height = 0);
+    BoxContentWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
 
     void setParentWindow(QWidget *w);
     void setCurrentLanguage(QString &lang);
@@ -52,6 +53,7 @@ public slots:
 
 private:
     QWidget                 *m_parent;
+    MxApplication           *m_mxapp;
     QLabel                  *m_demo;
     QListView               *m_list_view;
     QList<MxDesktopFile *>   m_apps;

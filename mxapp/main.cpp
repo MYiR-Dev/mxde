@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
 //    w.setDbusProxy(mxde);
 
     w.display();
+    app.setMainWindow(&w);
 
     return app.exec();
 }

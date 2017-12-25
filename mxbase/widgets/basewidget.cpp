@@ -13,11 +13,12 @@
 * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 *******************************************************************************/
 #include "basewidget.h"
+#include "mxapplication.h"
 
 #include <QObject>
 #include <QWidget>
 
-BaseWidget::BaseWidget(QWidget *parent, QObject *obj) : QWidget(parent)
+BaseWidget::BaseWidget(QWidget *parent, MxApplication *obj) : QWidget(parent)
 {
     m_obj = obj;
 }

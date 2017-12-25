@@ -29,7 +29,7 @@
 #include <QCoreApplication>
 
 
-MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent, int w, int h)
+MxMainDialog::MxMainDialog(MxApplication *app, QWidget *parent, int w, int h)
     : QDialog(parent)
 {
 // create a MxDE object and connect its signals to MxMainDialog
@@ -149,7 +149,7 @@ MxMainDialog::~MxMainDialog()
 
 }
 
-void MxMainDialog::setApplication(QApplication *app)
+void MxMainDialog::setApplication(MxApplication *app)
 {
     m_app = app;
 }

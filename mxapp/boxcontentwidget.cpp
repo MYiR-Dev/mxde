@@ -15,6 +15,7 @@
 *******************************************************************************/
 #include "boxcontentwidget.h"
 #include "mxmaindialog.h"
+#include "mxapplication.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -25,9 +26,10 @@
 #include <QPalette>
 #include <QDebug>
 
-BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj, int width, int height):BaseWidget(parent,obj)
+BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
         m_parent = parent;
+        m_mxapp = obj;
 
         m_width = width;
         if(m_width <=0){
@@ -37,7 +39,8 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj, int width, int
         if(m_height <= 0){
             m_height = DEFAULT_SCREEN_HEIGHT;
         }
-	qDebug() << m_width << m_height << " of BoxContentWidget \n" << endl;
+		qDebug() << m_width << m_height << " of BoxContentWidget \n" << endl;
+    	this->loadApplications();
 
         this->setFixedSize(m_width, m_height);
 
@@ -68,7 +71,6 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj, int width, int
     //    list_view->setLineWidth(110);
         m_list_view->setGeometry(rect());
         m_list_view->setUniformItemSizes(true);
-        this->loadApplications();
         this->loadApplicationWidgets();
 
         connect(m_list_view,SIGNAL(clicked(const QModelIndex&)),this,SLOT(OnClickListView(const QModelIndex &)));
@@ -132,7 +134,7 @@ void BoxContentWidget::loadApplications()
         QDir::Files | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             it.next();
-            m_apps.append(new MxDesktopFile(it.filePath()));
+            m_apps.append(new MxDesktopFile(it.filePath(),m_mxapp));
         }
 }
 
