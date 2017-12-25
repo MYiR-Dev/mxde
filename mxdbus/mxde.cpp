@@ -51,3 +51,28 @@ void MxDE::callSetLedBrightness(QString &led, int brightness)
     MxDbus *bus = (MxDbus *)m_dbus;
     bus->setLedBrightness(led, brightness);
 }
+int MxDE::callOpenSerialPort(const QString &dev_name)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->openSerialPort(dev_name);
+}
+void MxDE::callCloseSerialPort(int uart_fd)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    bus->closeSerialPort(uart_fd);
+}
+void MxDE::callSetSerialPort(const QString &parameter)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    bus->setSerialPort(parameter);
+}
+QString MxDE::callGetSerialList()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getSerialList();
+}
+void MxDE::callSerialWrite(int uart_fd, const QString &data, int size)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    bus->SerialWrite(uart_fd,data,size);
+}

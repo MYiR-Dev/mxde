@@ -48,6 +48,8 @@ void MxDbus::startService()
     if(isvalid){
         connect(mxde_session_iface, SIGNAL(sigLedBrightnessChanged(const QString)), \
             m_object, SLOT(onLedBrightnessChanged(const QString)));
+        connect(mxde_session_iface,SIGNAL(sigSerialRecv(int , const QString , int )),\
+                m_object,SLOT(onSerialRecvData(int , const QString , int )));
     }
 }
 
@@ -69,4 +71,24 @@ void    MxDbus::setLedBrightness(QString &led, int brightness)
 {
     qDebug() << "setLedBrightness\n" << led << brightness <<  endl;
     mxde_session_iface->setLedBrightress(led,brightness);
+}
+int    MxDbus::openSerialPort(const QString &dev_name){
+
+    return mxde_session_iface->openSerialPort(dev_name);
+}
+void    MxDbus::closeSerialPort(int uart_fd)
+{
+    mxde_session_iface->closeSerialPort(uart_fd);
+}
+void    MxDbus::setSerialPort(const QString &parameter)
+{
+    mxde_session_iface->setSerialPort(parameter);
+}
+QString MxDbus::getSerialList()
+{
+    return mxde_session_iface->getSerialList();
+}
+void MxDbus::SerialWrite(int uart_fd, const QString &data, int size)
+{
+    mxde_session_iface->SerialWrite(uart_fd,data,size);
 }

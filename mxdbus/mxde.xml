@@ -63,24 +63,24 @@
                     <arg name= "dev_name" type="s" direction="in"/>
                     <arg name="uart_fd" type="i" direction="out"/>
                 </method>
-				<method name="closeSerialPort">
-                    <arg name= "uart_fd" type="i" direction="in"/>
+                <method name="closeSerialPort">
+                    <arg name="uart_fd" type="i" direction="in"/>
                 </method>
                 <method name="setSerialPort">
-                    <arg name="parameter" type="s" direction="in"/> <!-- int fd, int bitrate, int datasize, int mode, int flow, int par, int stop -->
+                    <arg name="parameter" type="s" direction="in"/> <!-- int fd, int bitrate, int datasize, int mode, int flow, char* par, int stop -->
                 </method>
                 <method name="getSerialList">
                     <arg name="serial_list" type="s" direction="out"/>
                 </method>
-				<method name="SerialWrite">
+                <method name="SerialWrite">
                     <arg name="uart_fd" type="i" direction="in"/>
-					<arg name="data" type="s" direction="in"/>
-					<arg name="size" type="i" direction="in"/>
+                    <arg name="data" type="s" direction="in"/>
+                    <arg name="size" type="i" direction="in"/>
                 </method>
-				<signal name="Serialrecv">
+                <signal name="sigSerialRecv">
                     <arg name="uart_fd" type="i" direction="out"/>
-					<arg name="data" type="s" direction="out"/>
-					<arg name="size" type="i" direction="out"/>
+                    <arg name="data" type="s" direction="out"/>
+                    <arg name="size" type="i" direction="out"/>
                 </signal>
         </interface>
 		

@@ -4,7 +4,10 @@ SUBDIRS += \
     mxbackend \
     mxdbus \
     mxapp \
-    mxled
+    mxled \
+    mxserial
+
+
 
 TRANSLATIONS += \
     mxapp/res/translation/mxapp_zh_CN.ts \

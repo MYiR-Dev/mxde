@@ -28,6 +28,11 @@ public:
 
     QString callGetLedList();
     void    callSetLedBrightness(QString &led, int brightness);
+    int callOpenSerialPort(const QString &dev_name);
+    void callCloseSerialPort(int uart_fd);
+    void callSetSerialPort(const QString &parameter);
+    QString callGetSerialList();
+    void callSerialWrite(int uart_fd, const QString &data, int size);
     bool    isValid();
 
 signals:
