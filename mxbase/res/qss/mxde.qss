@@ -17,6 +17,14 @@ QLabel#titleLabel{
     color:black;
 }
 
+QLabel#bigWhiteLabel{
+    color:#ffffff;
+    font-family: "????_GBK";
+    font-size: 36px;
+    font-weight:bold;
+    text-align: left;
+}
+
 QLabel#whiteLabel{
     color:#ffffff;
     font-family: "????_GBK";

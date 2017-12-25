@@ -17,14 +17,15 @@
 
 #include <QObject>
 #include <QWidget>
-#include "basewidget.h"
 #include <QPushButton>
+
+#include "basewidget.h"
 
 class HomeContentWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    HomeContentWidget(QWidget *parent = 0,QObject *obj = 0);
+    HomeContentWidget(QWidget *parent = 0,QObject *obj = 0, int width = 0, int height = 0);
 
     void setCurrentLanguage(QString &lang);
     void initUI();
@@ -36,6 +37,12 @@ signals:
 
 public slots:
     void switchPageIndex(QString language);
+
+private:
+    QWidget *m_parent;
+
+    int                      m_width;
+    int                      m_height;
 };
 
 #endif // HOMECONTENTWIDGET_H

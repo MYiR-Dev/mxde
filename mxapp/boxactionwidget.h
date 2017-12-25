@@ -28,7 +28,7 @@ class BoxActionWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    explicit BoxActionWidget(QWidget *parent = 0,QObject *obj = 0);
+    explicit BoxActionWidget(QWidget *parent = 0,QObject *obj = 0, int width = 0, int height = 0);
 
     void setCurrentLanguage(QString &lang);
     void initUI();
@@ -41,10 +41,11 @@ signals:
 private:
     QLabel *logo_myir_label;
     QLabel *title_myir_label;
-
+    QWidget *m_parent;
     SystemButton *m_closeButton;
 
-
+    int                      m_width;
+    int                      m_height;
 };
 
 #endif // BOXACTIONWIDGET_H

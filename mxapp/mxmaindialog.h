@@ -25,6 +25,8 @@
 
 #include <QSettings>
 #include <QPixmap>
+#include <QPainter>
+#include <QPaintEvent>
 #include <QDialog>
 #include <QApplication>
 #include <QStackedWidget>
@@ -35,7 +37,7 @@ class MxMainDialog : public QDialog
     Q_OBJECT
 
 public:
-    MxMainDialog(QApplication *app = 0, QWidget *parent = 0);
+    MxMainDialog(QApplication *app = 0, QWidget *parent = 0, int w = DEFAULT_SCREEN_HEIGHT, int h = DEFAULT_SCREEN_WIDTH);
     ~MxMainDialog();
 
 
@@ -47,6 +49,16 @@ public:
     void initOtherPage();
     void initAnimation();
 
+    int                 m_width;
+    int                 m_height;
+    int                 m_default_action_width;
+    int                 m_default_content_width;
+    int                 m_other_action_width;
+    int                 m_other_content_width;
+    int                 m_default_action_height;
+    int                 m_default_content_height;
+    int                 m_other_action_height;
+    int                 m_other_content_height;
 public slots:
 
     void OnApplicationClosed();
@@ -58,6 +70,9 @@ public slots:
     void onCloseAnimFinished();
     void OnDemoStarted();
     void OnDemoFinished();
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 private:
     QApplication        *m_app;
