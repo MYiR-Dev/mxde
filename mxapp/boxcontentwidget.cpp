@@ -25,9 +25,22 @@
 #include <QPalette>
 #include <QDebug>
 
-BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
+BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj, int width, int height):BaseWidget(parent,obj)
 {
-        this->setFixedSize(800, 420);
+        m_parent = parent;
+
+        m_width = width;
+        if(m_width <=0){
+            m_width = DEFAULT_SCREEN_WIDTH;
+        }
+        m_height = height;
+        if(m_height <= 0){
+            m_height = DEFAULT_SCREEN_HEIGHT;
+        }
+	qDebug() << m_width << m_height << " of BoxContentWidget \n" << endl;
+
+        this->setFixedSize(m_width, m_height);
+
         //set white background color
        this->setAutoFillBackground(true);
         QPalette palette;
@@ -38,16 +51,23 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, QObject *obj):BaseWidget(par
         m_list_view = new QListView(this);
         m_list_view->setFocusPolicy(Qt::NoFocus);
         m_list_view->setAutoFillBackground(true);
-        m_list_view->setIconSize(QSize(120, 120));
+        m_list_view->setIconSize(QSize(DEFAULT_BOX_ICON_SIZE(m_width), DEFAULT_BOX_ICON_SIZE(m_width)));
         m_list_view->setResizeMode(QListView::Adjust);
         m_list_view->setModel(&m_appModel);
         m_list_view->setViewMode(QListView::IconMode);
         m_list_view->setWordWrap(true);
         m_list_view->setFlow(QListView::LeftToRight);
     //    list_view->setMovement(QListView::Static);
-        m_list_view->setSpacing(26);
+//        m_list_view->setSpacing((m_width - DEFAULT_BOX_ICON_SIZE(m_width)*4)/8);
+        int grid_x = DEFAULT_BOX_ICON_GRID_SIZE(m_width);
+        int grid_y = DEFAULT_BOX_ICON_GRID_SIZE(m_width);
+        if(grid_y < 80){
+            grid_y += 14;
+        }
+        m_list_view->setGridSize(QSize(grid_x,grid_y));
     //    list_view->setLineWidth(110);
         m_list_view->setGeometry(rect());
+        m_list_view->setUniformItemSizes(true);
         this->loadApplications();
         this->loadApplicationWidgets();
 
@@ -70,7 +90,7 @@ void BoxContentWidget::initUI()
 
 void BoxContentWidget::initConnection()
 {
-    connect(this, SIGNAL(sigClickSystemInfo()), m_parent_window, SLOT(OnSystemInfoClicked()));
+    connect(this, SIGNAL(sigClickSystemInfo()), m_parent, SLOT(OnSystemInfoClicked()));
 }
 
 void BoxContentWidget::display()
@@ -80,7 +100,7 @@ void BoxContentWidget::display()
 
 void BoxContentWidget::setParentWindow(QWidget *w)
 {
-    m_parent_window = w;
+    m_parent = w;
 }
 
 void BoxContentWidget::setCurrentLanguage(QString &lang)

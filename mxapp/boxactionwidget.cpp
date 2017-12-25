@@ -14,6 +14,7 @@
 *******************************************************************************/
 #include "boxactionwidget.h"
 #include "basewidget.h"
+#include "constant.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -23,9 +24,19 @@
 #include <QVBoxLayout>
 #include <QString>
 
-BoxActionWidget::BoxActionWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
+BoxActionWidget::BoxActionWidget(QWidget *parent, QObject *obj, int width, int height):BaseWidget(parent,obj)
 {
-    this->setFixedSize(800,60);
+    m_width = width;
+    if(m_width <=0){
+        m_width = DEFAULT_SCREEN_WIDTH;
+    }
+    m_height = height;
+    if(m_height <= 0){
+        m_height = DEFAULT_SCREEN_HEIGHT;
+    }
+	
+	qDebug() << m_width << m_height << " of BOXA \n" << endl;
+    this->setFixedSize(m_width, m_height);
     this->setAutoFillBackground(true);
     this->setObjectName("transparentWidget");
 
@@ -43,15 +54,30 @@ void BoxActionWidget::initUI()
     QPixmap label_pixmap(":/res/images/myir/logo_myir.png");
     logo_myir_label->setPixmap(label_pixmap);
 //    img_label->setFixedSize(label_pixmap.size());
-    logo_myir_label->setFixedSize(QSize(150,30));
-    title_myir_label->setObjectName("whiteLabel");
+
+    if(m_height > 60){
+        logo_myir_label->setFixedSize(QSize(150,30));
+        title_myir_label->setObjectName("bigWhiteLabel");
+    }
+    else if(m_height >= 40)
+    {
+        logo_myir_label->setFixedSize(QSize(120,24));
+        title_myir_label->setObjectName("whiteLabel");
+    }
+    else if(m_height < 40)
+    {
+        logo_myir_label->setFixedSize(QSize(80,16));
+        title_myir_label->setObjectName("smallWhiteLabel");
+
+    }
     title_myir_label->setWordWrap(true);//QLabel自动换行
     title_myir_label->setAlignment(Qt::AlignCenter);
 //    title_myir_label->setText(tr("QT5 Demo System"));
 
-    title_myir_label->setMinimumWidth(500);
-    title_myir_label->setMaximumWidth(800);
-    title_myir_label->setContentsMargins(10,10,0,0);
+    title_myir_label->setMinimumWidth(200);
+    title_myir_label->setMaximumWidth(m_width);
+    title_myir_label->setContentsMargins(0,0,0,0);
+
 
     m_closeButton->loadPixmap(":/res/images/sys/close_button.png");
     m_closeButton->setFocusPolicy(Qt::NoFocus);
@@ -63,7 +89,7 @@ void BoxActionWidget::initUI()
     layout1->addWidget(logo_myir_label);
     layout1->addStretch();
     layout1->setSpacing(0);
-    layout1->setContentsMargins(10, 2, 10, 20);
+    layout1->setContentsMargins(0, 0, 0, 0);
 
     QVBoxLayout *layout2 = new QVBoxLayout();
     layout2->addWidget(m_closeButton);
@@ -73,10 +99,12 @@ void BoxActionWidget::initUI()
     QHBoxLayout *layout3 = new QHBoxLayout();
     layout3->addLayout(layout1);
     layout3->addWidget(title_myir_label);
-    layout3->addStretch();
     layout3->addLayout(layout2);
+    layout3->setStretchFactor(layout1, 1);
+    layout3->setStretchFactor(title_myir_label,8);
+    layout3->setStretchFactor(layout2,1);
     layout3->setSpacing(0);
-    layout3->setContentsMargins(10, 2, 2, 20);
+    layout3->setContentsMargins(2, 2, 2, 2);
     setLayout(layout3);
 }
 

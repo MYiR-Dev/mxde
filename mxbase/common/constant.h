@@ -50,4 +50,19 @@ typedef enum{
     SETTINGPAGE,
     ABOUTPAGE,
 }PAGESTATUS;
+
+#define DEFAULT_SCREEN_WIDTH                    800
+#define DEFAULT_SCREEN_HEIGHT                   480
+
+#define DEFAULT_ACTION_HEIGHT(x)            ((x)*5/8)
+#define DEFAULT_CONTENT_HEIGHT(x)            ((x)*3/8)
+
+#define OTHER_ACTION_HEIGHT(x)              ((x)*1/8)
+#define OTHER_CONTENT_HEIGHT(x)              ((x)*7/8)
+
+#define DEFAULT_BOX_ICON_SIZE(x)             ((x)*1/7)
+#define DEFAULT_BOX_ICON_PAD(x)              ((x)*3/80)
+#define DEFAULT_BOX_ICON_GRID_SIZE(x)        ((x-20)/4)
+
+
 #endif // CONSTANT_H

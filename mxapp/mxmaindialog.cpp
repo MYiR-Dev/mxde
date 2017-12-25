@@ -13,7 +13,8 @@
 * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 *******************************************************************************/
 #include "mxmaindialog.h"
-//#include "mxsystemdialog.h"
+#include "constant.h"
+
 #include <QDebug>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -28,13 +29,30 @@
 #include <QCoreApplication>
 
 
-MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
+MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent, int w, int h)
     : QDialog(parent)
 {
 // create a MxDE object and connect its signals to MxMainDialog
     this->setApplication(app);
+    m_width = w;
+    m_height = h;
+    m_default_action_width = m_width;
+    m_default_content_width = m_width;
+    m_default_action_height = DEFAULT_ACTION_HEIGHT(m_height);
+    m_default_content_height = DEFAULT_CONTENT_HEIGHT(m_height);
 
-    this->resize(800,480);
+    m_other_action_width = m_width;
+    m_other_content_width = m_width;
+    m_other_action_height = OTHER_ACTION_HEIGHT(m_height);
+    m_other_content_height = OTHER_CONTENT_HEIGHT(m_height);
+
+    qDebug() << m_default_action_width << m_default_action_height << "m_default_action_height\n" << endl;
+    qDebug() << m_other_action_width << m_other_action_height << "m_other_action_height\n" << endl;
+    qDebug() << m_default_content_width << m_default_content_height << "m_default_content_height\n" << endl;
+    qDebug() << m_other_content_width << m_other_content_height << "m_other_content_height\n" << endl;
+    qDebug() << m_width << m_height << "\n" << endl;
+
+    this->resize(m_width, m_height);
     this->setAutoFillBackground(true);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
     this->setWindowOpacity(1);
@@ -64,35 +82,41 @@ MxMainDialog::MxMainDialog(QApplication *app, QWidget *parent)
     shadow_widget = new ShadowWidget(this);
     shadow_widget->setGeometry(rect());
     shadow_widget->setColor(QColor("#666666"));
+    shadow_widget->setOpacity(0);
 //    shadow_widget->hide();
 
     default_action_widget = new BaseWidget();
-    default_action_widget->setGeometry(QRect(0,0,800,300));
-    default_action_widget->setFixedSize(800,300);
+    default_action_widget->setGeometry(QRect(0,0,m_default_action_width,m_default_action_height));
+    default_action_widget->setFixedSize(m_default_action_width,m_default_action_height);
     default_action_widget->setAutoFillBackground(true);
 
     other_action_widget = new BaseWidget(this);
-    other_action_widget->setGeometry(QRect(0,-60,800,60));
-    other_action_widget->setFixedSize(800,60);
+    other_action_widget->setGeometry(QRect(0,m_other_action_height*(-1),m_other_action_width,m_other_action_height));
+    other_action_widget->setFixedSize(m_other_action_width,m_other_action_height);
     other_action_widget->setAutoFillBackground(true);
+    other_action_widget->setObjectName("transparentWidget");
 
     topStack = new QStackedWidget(other_action_widget);
     topStack->setGeometry(other_action_widget->rect());
-    QPalette palette_back;
-    palette_back.setBrush(QPalette::Background, QBrush(QPixmap(":/res/images/myir/mxde_background1.png")));
-    default_action_widget->setPalette(palette_back);
-    other_action_widget->setPalette(palette_back);
+//    QPalette palette_back;
+//    palette_back.setBrush(QPalette::Background, QBrush(QPixmap(":/res/images/myir/mxde_background1.png")));
+//    default_action_widget->setPalette(palette_back);
+//    other_action_widget->setPalette(palette_back);
+//    default_action_widget->setStyleSheet("border-image: url(:/res/images/myir/mxde_background1.png)");
+//    other_action_widget->setStyleSheet("border-image: url(:/res/images/myir/mxde_background1.png)");
 
     default_content_widget = new BaseWidget(this);
-    default_content_widget->setGeometry(QRect(QRect(0,0,800,48)));
-    default_content_widget->setFixedSize(800,480);
+    default_content_widget->setGeometry(QRect(QRect(0,0,m_width, m_height)));
+    default_content_widget->setFixedSize(m_width, m_height);
     default_content_widget->setAutoFillBackground(true);
-    default_content_widget->setPalette(palette_back);
+//    default_content_widget->setPalette(palette_back);
+//    default_content_widget->setStyleSheet("border-image: url(:/res/images/myir/mxde_background1.png)");
+    default_content_widget->setObjectName("transparentWidget");
 
     other_content_widget = new BaseWidget(this);
-    other_content_widget->setGeometry(QRect(0,480,800,420));
-    other_content_widget->setFixedSize(800,420);
-//    other_content_widget->setAutoFillBackground(true);
+    other_content_widget->setGeometry(QRect(0,m_height,m_width, m_other_content_height));
+    other_content_widget->setFixedSize(m_other_content_width,m_other_content_height);
+    other_content_widget->setAutoFillBackground(true);
 
     bottomStack = new QStackedWidget(other_content_widget);
     bottomStack->setGeometry(other_content_widget->rect());
@@ -143,29 +167,32 @@ void MxMainDialog::setTranslator(QTranslator *tr)
 void MxMainDialog::display()
 {
 
-        int windowWidth, windowHeight = 0;
-            windowWidth = QApplication::desktop()->screenGeometry(0).width();
-            windowHeight = QApplication::desktop()->screenGeometry(0).height();
-            this->move((windowWidth - this->width()) / 2,(windowHeight - this->height()) / 2);
-        this->show();
-        this->raise();
+       int windowWidth, windowHeight = 0;
+       windowWidth = QApplication::desktop()->screenGeometry(0).width();
+       windowHeight = QApplication::desktop()->screenGeometry(0).height();
+       this->move((windowWidth - this->width()) / 2,(windowHeight - this->height()) / 2);
+       this->show();
+       this->raise();
 //        QTimer::singleShot(100, this, SLOT(startDbusDaemon()));
 
 }
 
 void MxMainDialog::initAnimation()
 {
-    QPoint origPoint(0, 180);
-    QPoint needPoint(0, 60);
+    QPoint origPoint(0, m_default_content_height);
+    QPoint needPoint(0, m_other_action_height);
+
     QPoint origPoint1(0, 0);
-    QPoint needPoint1(0, -300);
-    QPoint origPoint2(0, -60);
+    QPoint needPoint1(0, m_default_action_height*(-1));
+
+    QPoint origPoint2(0, m_other_action_height*(-1));
     QPoint needPoint2(0, 0);
 
     QPoint origPoint3(0, 0);
-    QPoint needPoint3(0, 480);
-    QPoint origPoint4(0, 480);
-    QPoint needPoint4(0, 60);
+    QPoint needPoint3(0, m_height);
+
+    QPoint origPoint4(0, m_height);
+    QPoint needPoint4(0, m_other_action_height);
 
     QPropertyAnimation *mainActionAnimation = new QPropertyAnimation(default_action_widget, "pos");
     mainActionAnimation->setDuration(500);
@@ -242,7 +269,7 @@ void MxMainDialog::initHomePage()
     if(home_action_widget == NULL)
     {
         QGridLayout *home_top_grid_layout = new QGridLayout();
-        home_action_widget = new HomeActionWidget(this);
+        home_action_widget = new HomeActionWidget(this, m_app, m_default_action_width, m_default_action_height);
         home_top_grid_layout->addWidget(home_action_widget,0,0);
         default_action_widget->setLayout(home_top_grid_layout);
         home_top_grid_layout->setSpacing(0);
@@ -252,7 +279,7 @@ void MxMainDialog::initHomePage()
     if(home_content_widget == NULL)
     {
         QVBoxLayout *home_bottom_grid_layout = new QVBoxLayout();
-        home_content_widget = new HomeContentWidget(this);
+        home_content_widget = new HomeContentWidget(this, m_app, m_default_content_width, m_default_content_height);
         home_content_widget->initUI();
         home_content_widget->initConnection();
         home_content_widget->setObjectName("transparentWidget");
@@ -269,14 +296,14 @@ void MxMainDialog::initOtherPage()
 {
     if(box_action_widget == NULL)
     {
-        box_action_widget = new BoxActionWidget(this);
+        box_action_widget = new BoxActionWidget(this, m_app , m_other_action_width, m_other_action_height);
     }
 
     topStack->addWidget(box_action_widget);
 
     if(box_content_widget == NULL)
     {
-        box_content_widget = new BoxContentWidget(this);
+        box_content_widget = new BoxContentWidget(this, m_app, m_other_content_width, m_other_content_height);
     }
     box_content_widget->setParentWindow(this);
     bottomStack->addWidget(box_content_widget);
@@ -389,4 +416,12 @@ void MxMainDialog::OnDemoFinished()
     this->display();
     raise();
     activateWindow();
+}
+
+void MxMainDialog::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    main_skin_pixmap = new QPixmap(":/res/images/myir/mxde_background1.png");
+
+    painter.drawPixmap(0,0,this->width(), this->height(), *main_skin_pixmap);
 }
