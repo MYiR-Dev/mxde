@@ -19,11 +19,13 @@
 #include <QWidget>
 #include <QString>
 
+#include "mxapplication.h"
+
 class BaseWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BaseWidget(QWidget *parent = 0,QObject *obj = 0);
+    explicit BaseWidget(QWidget *parent = 0,MxApplication *obj = 0);
     ~BaseWidget();
 
     virtual void setCurrentLanguage(QString &lang){};
@@ -37,7 +39,7 @@ public slots:
 
 
 private:
-    QObject  *m_obj;
+    MxApplication  *m_obj;
 };
 
 #endif // BASEWIDGET_H

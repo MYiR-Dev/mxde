@@ -27,7 +27,7 @@ class HomeActionWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    explicit HomeActionWidget(QWidget *parent = 0,QObject *obj = 0, int width = 0, int height = 0);
+    explicit HomeActionWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
 
     void setCurrentLanguage(QString &lang);
     void initUI();

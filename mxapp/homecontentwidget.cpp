@@ -22,7 +22,7 @@
 
 #include "systembutton.h"
 
-HomeContentWidget::HomeContentWidget(QWidget *parent, QObject *obj, int width, int height):BaseWidget(parent,obj)
+HomeContentWidget::HomeContentWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
     m_width = width;
     if(m_width <=0){

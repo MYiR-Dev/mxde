@@ -5,11 +5,13 @@
 #include <QProcess>
 #include <QStringList>
 
+#include "mxapplication.h"
+
 class MxDesktopFile : public QObject
 {
     Q_OBJECT
 public:
-    explicit MxDesktopFile(const QString &fileName="");
+    explicit MxDesktopFile(const QString &fileName="", MxApplication *app = 0);
 
 	QString getFileName() const;
 	QString getPureFileName() const;
@@ -44,6 +46,8 @@ private:
 	QStringList categories;
 	QStringList mimeType;
     QProcess  process;
+
+    MxApplication *m_app;
 };
 
 #endif // MXDESKTOPFILE_H

@@ -15,6 +15,7 @@
 #include "mxapplication.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QtSingleApplication>
 
 MxApplication::MxApplication(int &argc, char **argv, bool GUIenabled)
@@ -26,4 +27,36 @@ MxApplication::MxApplication(int &argc, char **argv, bool GUIenabled)
 void MxApplication::onLedBrightnessChanged(const QString &message)
 {
 	emit	this->sigLedBrightnessChanged(message);
+}
+
+void MxApplication::setMainWindow(QWidget *w)
+{
+    m_mainWindow = w;
+}
+
+QWidget * MxApplication::getMainWindow()
+{
+    return m_mainWindow;
+}
+
+int MxApplication::getMainWindowWidth()
+{
+    if(m_mainWindow!= NULL){
+        return m_mainWindow->width();
+    }
+    else
+    {
+        return QApplication::desktop()->screenGeometry(0).width();
+    }
+}
+
+int MxApplication::getMainWindowHeight()
+{
+    if(m_mainWindow!= NULL){
+        return m_mainWindow->height();
+    }
+    else
+    {
+        return QApplication::desktop()->screenGeometry(0).height();
+    }
 }

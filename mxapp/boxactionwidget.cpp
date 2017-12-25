@@ -15,6 +15,7 @@
 #include "boxactionwidget.h"
 #include "basewidget.h"
 #include "constant.h"
+#include "mxapplication.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -24,7 +25,7 @@
 #include <QVBoxLayout>
 #include <QString>
 
-BoxActionWidget::BoxActionWidget(QWidget *parent, QObject *obj, int width, int height):BaseWidget(parent,obj)
+BoxActionWidget::BoxActionWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
     m_width = width;
     if(m_width <=0){

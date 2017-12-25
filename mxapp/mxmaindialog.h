@@ -37,11 +37,11 @@ class MxMainDialog : public QDialog
     Q_OBJECT
 
 public:
-    MxMainDialog(QApplication *app = 0, QWidget *parent = 0, int w = DEFAULT_SCREEN_HEIGHT, int h = DEFAULT_SCREEN_WIDTH);
+    MxMainDialog(MxApplication *app = 0, QWidget *parent = 0, int w = DEFAULT_SCREEN_HEIGHT, int h = DEFAULT_SCREEN_WIDTH);
     ~MxMainDialog();
 
 
-    void setApplication(QApplication *app);
+    void setApplication(MxApplication *app);
     void display();
     void setTranslator(QTranslator *tr);
     void initConnect();
@@ -75,7 +75,7 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
-    QApplication        *m_app;
+    MxApplication        *m_app;
     QSettings           *m_Settings;
     QTranslator         *m_translator;
 

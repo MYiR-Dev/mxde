@@ -15,6 +15,7 @@
 #include "homeactionwidget.h"
 #include "basewidget.h"
 #include "mxmaindialog.h"
+#include "mxapplication.h"
 
 #include <QWidget>
 #include <QObject>
@@ -23,7 +24,7 @@
 #include <QVBoxLayout>
 #include <QString>
 
-HomeActionWidget::HomeActionWidget(QWidget *parent, QObject *obj, int width, int height):BaseWidget(parent,obj)
+HomeActionWidget::HomeActionWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
     m_width = width;
     if(m_width <=0){
