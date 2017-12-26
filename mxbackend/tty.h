@@ -85,6 +85,7 @@ int	 tty_write(int fd, char *frame, int len);
 
 int 			tty_mode(const int fd,  int mode);
 void get_serial_list(char * result);
+void get_rs485_list(char *result);
 void parse_tty_param(char *tty_param);
 void delete_tty_read_thread(void);
 #endif	 // __TTY_H__	

@@ -22,6 +22,7 @@
 #include "tty.h"
 
 #define UART_INFO_PATH "/usr/share/myir/board_uart_info"
+#define RS485_INFO_PATH "/usr/share/myir/board_rs485_info"
 pthread_t tty_thread_id = 0;
 int thread_tty_fd = 0;
 
@@ -308,7 +309,25 @@ int 			tty_mode(const int fd,  int mode)
 	
 	return res;
 }
+void get_rs485_list(char * result)
+{
+    char tmp[30]={0};
+    int n = 0;
+    FILE *fp;
 
+    fp = fopen(RS485_INFO_PATH,"r");
+
+    if (NULL == fp)
+      {
+          printf("fopen error!\n");
+          return;
+      }
+    while(fgets(tmp,20,fp) != NULL)
+    {
+        n +=sprintf(result+n,"%s",tmp);
+        memset(tmp, 0, sizeof(tmp));
+    }
+}
 void get_serial_list(char * result)
 {
     char tmp[30]={0};

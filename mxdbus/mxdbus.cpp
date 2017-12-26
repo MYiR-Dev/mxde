@@ -92,3 +92,7 @@ void MxDbus::SerialWrite(int uart_fd, const QString &data, int size)
 {
     mxde_session_iface->SerialWrite(uart_fd,data,size);
 }
+QString MxDbus::getRs485List()
+{
+    return mxde_session_iface->getRs485List();
+}

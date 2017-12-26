@@ -32,6 +32,7 @@ public:
     void callCloseSerialPort(int uart_fd);
     void callSetSerialPort(const QString &parameter);
     QString callGetSerialList();
+    QString callgetRs485List();
     void callSerialWrite(int uart_fd, const QString &data, int size);
     bool    isValid();
 

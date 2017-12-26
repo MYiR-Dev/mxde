@@ -38,7 +38,7 @@ public:
     void setSerialPort(const QString &parameter);
     QString getSerialList();
     void SerialWrite(int uart_fd, const QString &data, int size);
-
+    QString getRs485List();
 signals:
 
 public slots:

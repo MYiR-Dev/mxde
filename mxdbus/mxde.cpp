@@ -76,3 +76,8 @@ void MxDE::callSerialWrite(int uart_fd, const QString &data, int size)
     MxDbus *bus = (MxDbus *)m_dbus;
     bus->SerialWrite(uart_fd,data,size);
 }
+QString MxDE::callgetRs485List()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getRs485List();
+}

@@ -4,6 +4,9 @@
 #include <QString>
 #include "mxde.h"
 
+
+#define RS232_MODE 0
+#define RS485_MODE 1
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -38,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     SerialPortInit();
 
-    label->setText(QString::fromUtf8("     串口状态：　关闭"));
+    label->setText(QString::fromUtf8("     RS485状态：　关闭"));
     ui->statusBar->addWidget(label);
 
     recvLable->setText(QString::fromUtf8("\t接收：") + QString::number(recvNum));
@@ -129,21 +132,21 @@ void MainWindow::SerialPortInitSlots()
 void MainWindow::SerialPortInit()
 {
 
-    QString str = m_mxde->callGetSerialList();
+    QString str = m_mxde->callgetRs485List();
 
     QStringList list = str.split("\n");
-    m_serial_num = list.count()-1;
-    qDebug() << "m_serial_num: " << m_serial_num ;
+    m_rs485_num = list.count()-1;
+    qDebug() << "m_serial_num: " << m_rs485_num ;
 
 
-    for(int i=0;i<m_serial_num;i++)
+    for(int i=0;i<m_rs485_num;i++)
     {
 
 
-       m_serial_name[i] = strdup(list.at(i).toLocal8Bit().data());
+       m_rs485_name[i] = strdup(list.at(i).toLocal8Bit().data());
 
-       qDebug("%s",m_serial_name[i]);
-       ui->serialPortComboBox->addItem(QString(m_serial_name[i]).mid(5));
+       qDebug("rs485:%s",m_rs485_name[i]);
+       ui->serialPortComboBox->addItem(QString(m_rs485_name[i]).mid(5));
     }
 
 }
@@ -167,7 +170,7 @@ void MainWindow::on_openPushButton_clicked()
 
         if(serialPortStr == "")
         {
-            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("未找到串口"));
+            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("未找到RS485"));
             return;
         }
 
@@ -181,13 +184,13 @@ void MainWindow::on_openPushButton_clicked()
         }
         else
         {
-            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("串口异常"));
+            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("RS485异常"));
             exit(0);
         }
         qDebug() << "serialPortStr: " << serialPortStr;
-        m_serial_fd = m_mxde->callOpenSerialPort(serialPortStr);
-        qDebug() << "open ret: " << m_serial_fd;
-        if(-1 == m_serial_fd)
+        m_rs485_fd = m_mxde->callOpenSerialPort(serialPortStr);
+        qDebug() << "open ret: " << m_rs485_fd;
+        if(-1 == m_rs485_fd)
         {
             perror("open error");
             qDebug() << "open error errno: " <<  errno;
@@ -197,24 +200,24 @@ void MainWindow::on_openPushButton_clicked()
             }
             else
             {
-                QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("串口异常"));
+                QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("RS485异常"));
             }
-            m_mxde->callCloseSerialPort(m_serial_fd);
+            m_mxde->callCloseSerialPort(m_rs485_fd);
         }
         else
         {
 
             QString serial_param;
-            int serial_mode = 0;
+            int serial_mode = RS485_MODE;
             int tty_flow = 0;
             QByteArray check = checkBitStr.toLatin1();
 
-            serial_param.sprintf("%d %d %d %d %d %s %d",m_serial_fd,rateStr.toInt(),dataBitStr.toInt(), serial_mode, serial_mode,check.data(),stopBbitStr.toInt());
+            serial_param.sprintf("%d %d %d %d %d %s %d",m_rs485_fd,rateStr.toInt(),dataBitStr.toInt(), serial_mode, serial_mode,check.data(),stopBbitStr.toInt());
             m_mxde->callSetSerialPort(serial_param);
 
-            ui->openPushButton->setText(QString::fromUtf8("关闭串口"));
+            ui->openPushButton->setText(QString::fromUtf8("关闭RS485"));
             openFlag = true;
-            label->setText(QString::fromUtf8("     串口状态：　打开"));
+            label->setText(QString::fromUtf8("     RS485状态：　打开"));
             sendNum = 0;
             recvNum = 0;
 
@@ -222,11 +225,11 @@ void MainWindow::on_openPushButton_clicked()
     }
     else    // 关闭串口
     {
-        m_mxde->callCloseSerialPort(m_serial_fd);
-        m_serial_fd = 0;
-        ui->openPushButton->setText(QString::fromUtf8("打开串口"));
+        m_mxde->callCloseSerialPort(m_rs485_fd);
+        m_rs485_fd = 0;
+        ui->openPushButton->setText(QString::fromUtf8("打开RS485"));
         openFlag = false;
-        label->setText(QString::fromUtf8("     串口状态：　关闭"));
+        label->setText(QString::fromUtf8("     RS485状态：　关闭"));
 
         autosendFlag = false;
         qDebug() << "closed ...";
@@ -253,7 +256,7 @@ void MainWindow::on_sendPushButton1_clicked()
         if(ok)
         {
             sendNum += sendStr.length();
-            m_mxde->callSerialWrite(m_serial_fd,sendStr,sendStr.length());
+            m_mxde->callSerialWrite(m_rs485_fd,sendStr,sendStr.length());
 
         }
         else
@@ -266,7 +269,7 @@ void MainWindow::on_sendPushButton1_clicked()
                 result += tmpStr;
             }
             sendNum += sendStr.length();
-            m_mxde->callSerialWrite(m_serial_fd,sendStr
+            m_mxde->callSerialWrite(m_rs485_fd,sendStr
                                             ,sendStr.length());
 
         }
@@ -275,7 +278,7 @@ void MainWindow::on_sendPushButton1_clicked()
     }
     else
     {
-        QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("请打开串口"));
+        QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("请打开RS485"));
     }
 }
 

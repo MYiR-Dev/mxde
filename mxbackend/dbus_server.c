@@ -124,7 +124,27 @@ void SerialWrite_method_call(DBusMessage * msg, DBusConnection * conn)
 
 void getRs485List_method_call(DBusMessage * msg, DBusConnection * conn)
 {
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char *respone;
+    char data[60];
 
+    get_rs485_list(data);
+    respone = &data[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
 }
 void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
 {
