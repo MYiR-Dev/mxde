@@ -79,11 +79,11 @@ MxMainDialog::MxMainDialog(MxApplication *app, QWidget *parent, int w, int h)
     spreadGroup = NULL;
     gatherGroup = NULL;
 
-    shadow_widget = new ShadowWidget(this);
-    shadow_widget->setGeometry(rect());
-    shadow_widget->setColor(QColor("#666666"));
-    shadow_widget->setOpacity(0);
-//    shadow_widget->hide();
+//    shadow_widget = new ShadowWidget(this);
+//    shadow_widget->setGeometry(rect());
+//    shadow_widget->setColor(QColor("#666666"));
+//    shadow_widget->setOpacity(0);
+////    shadow_widget->hide();
 
     default_action_widget = new BaseWidget();
     default_action_widget->setGeometry(QRect(0,0,m_default_action_width,m_default_action_height));
@@ -215,17 +215,17 @@ void MxMainDialog::initAnimation()
     mainContentAnimation2->setStartValue(origPoint4);
     mainContentAnimation2->setEndValue(needPoint4);
 
-    QPropertyAnimation  *m_toTrans = new QPropertyAnimation(shadow_widget, "opacity");
-    m_toTrans->setDuration(200);
-    m_toTrans->setStartValue(1);
-    m_toTrans->setEndValue(0);
+//    QPropertyAnimation  *m_toTrans = new QPropertyAnimation(shadow_widget, "opacity");
+//    m_toTrans->setDuration(200);
+//    m_toTrans->setStartValue(1);
+//    m_toTrans->setEndValue(0);
 
     spreadGroup = new QParallelAnimationGroup(this);
     spreadGroup->addAnimation(mainActionAnimation);
     spreadGroup->addAnimation(mainActionAnimation2);
     spreadGroup->addAnimation(mainContentAnimation);
     spreadGroup->addAnimation(mainContentAnimation2);
-    spreadGroup->addAnimation(m_toTrans);
+//    spreadGroup->addAnimation(m_toTrans);
 
     QPropertyAnimation *mainActionBackAnimation2 = new QPropertyAnimation(other_action_widget, "pos");
     mainActionBackAnimation2->setDuration(500);
@@ -247,17 +247,17 @@ void MxMainDialog::initAnimation()
     mainContentBackAnimation2->setStartValue(needPoint4);
     mainContentBackAnimation2->setEndValue(origPoint4);
 
-    QPropertyAnimation  *m_toGray = new QPropertyAnimation(shadow_widget, "opacity");
-    m_toGray->setDuration(200);
-    m_toGray->setStartValue(0);
-    m_toGray->setEndValue(1);
+//    QPropertyAnimation  *m_toGray = new QPropertyAnimation(shadow_widget, "opacity");
+//    m_toGray->setDuration(200);
+//    m_toGray->setStartValue(0);
+//    m_toGray->setEndValue(1);
 
     gatherGroup = new QParallelAnimationGroup(this);
     gatherGroup->addAnimation(mainActionBackAnimation);
     gatherGroup->addAnimation(mainActionBackAnimation2);
     gatherGroup->addAnimation(mainContentBackAnimation);
     gatherGroup->addAnimation(mainContentBackAnimation2);
-    gatherGroup->addAnimation(m_toGray);
+//    gatherGroup->addAnimation(m_toGray);
 
     connect(spreadGroup, SIGNAL(finished()), this, SLOT(OnOpenAnimFinished()));
     connect(gatherGroup, SIGNAL(finished()), this, SLOT(onCloseAnimFinished()));
@@ -325,12 +325,12 @@ void MxMainDialog::onCloseAnimFinished()
 
 void MxMainDialog::OnOpenAnimFinished()
 {
-    shadow_widget->hide();
+//    shadow_widget->hide();
 }
 
 void MxMainDialog::OnApplicationClosed()
 {
-    shadow_widget->hide();
+//    shadow_widget->hide();
 }
 
 void MxMainDialog::OnSystemInfoClicked()
