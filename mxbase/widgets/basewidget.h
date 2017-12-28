@@ -28,10 +28,10 @@ public:
     explicit BaseWidget(QWidget *parent = 0,MxApplication *obj = 0);
     ~BaseWidget();
 
-    virtual void setCurrentLanguage(QString &lang){};
-    virtual void initUI(){};
-    virtual void initConnection(){};
-    virtual void display(){};
+    virtual void setCurrentLanguage(QString &lang){}
+    virtual void initUI(){}
+    virtual void initConnection(){}
+    virtual void display(){}
 
 signals:
 
