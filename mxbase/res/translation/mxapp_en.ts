@@ -25,6 +25,10 @@
         <source>Serial Port Test</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>RS485 Port Test</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SystemContentWidget</name>
@@ -81,15 +85,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Do not find any serial port!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not find any rs485 port!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -101,11 +109,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Failed to open rs485 port!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Do not have access permission!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please open serial port first!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please open rs485 port first!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

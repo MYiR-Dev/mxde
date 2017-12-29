@@ -18,6 +18,10 @@
         <source>Serial Port Test</source>
         <translation>串口测试</translation>
     </message>
+    <message>
+        <source>RS485 Port Test</source>
+        <translation>RS485接口测试</translation>
+    </message>
 </context>
 <context>
     <name>SystemContentWidget</name>
@@ -86,6 +90,10 @@
         <translation>没有发现可用串口</translation>
     </message>
     <message>
+        <source>Do not find any rs485 port!</source>
+        <translation>没有发现可用RS485接口</translation>
+    </message>
+    <message>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -94,12 +102,20 @@
         <translation>打开串口失败</translation>
     </message>
     <message>
+        <source>Failed to open rs485 port!</source>
+        <translation>打开RS485接口失败</translation>
+    </message>
+    <message>
         <source>Do not have access permission!</source>
         <translation>没有访问权限</translation>
     </message>
     <message>
         <source>Please open serial port first!</source>
         <translation>请先打开串口</translation>
+    </message>
+    <message>
+        <source>Please open rs485 port first!</source>
+        <translation>请先打开RS485接口</translation>
     </message>
 </context>
 </TS>
