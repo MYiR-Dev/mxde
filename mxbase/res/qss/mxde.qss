@@ -61,6 +61,18 @@ QLabel#middleblackLabel{
     text-align: center;
 }
 
+QLabel#smallblackLabel{
+    color:#000000;
+    font-family: "????_GBK";
+    font-size: 14px;
+}
+
+QLabel#microblackLabel{
+    color:#000000;
+    font-family: "????_GBK";
+    font-size: 12px;
+}
+
 QLabel#smallgrayLabel{
     color:#b2b2b2;
     font-family: "????_GBK";
@@ -143,6 +155,12 @@ QPushButton#ledButton:pressed{
     /*color:rgb(50, 150, 255);*/
     background:#ffff00;
     color:#3f96e4;
+}
+
+QPushButton#microButton{
+    max-width: 50px;
+    max-height: 20px;
+    font-size:12px;
 }
 
 QPushButton#transparentButton{
@@ -342,85 +360,15 @@ QToolButton#transparentToolButton::pressed{
 /*-------------------QComboBox-------------------*/
 QComboBox{
     border:1px solid #32435E;
+    background-color: #00609a;
     width: 150px;
     height: 24px;
 }
 
-QComboBox::hover{
-    background-color:#a6d7ff;
-    border-color:#5D8B9E;
-}
-
-QComboBox QAbstractItemView::item{
-    height:24px;
-}
-
 QComboBox::down-arrow{
-    image:url(://res/arrow-normal.png);
+    image:url(://res/images/sys/arrow-normal.png);
 }
 
-QComboBox::drop-down{
-    border:0px;
-    background-color:#64b5f6;
-}
-
-/*QComboBox {
-     border: 1px solid #32435E;
-     border-radius: 1px;
-     padding: 1px 18px 1px 3px;
-     min-width: 150px;
-}*/
-/*??????????????????????*/
-/*QComboBox::hover{
-    background-color:#a6d7ff;
-    border-color:#5D8B9E;
-}*/
-/*QComboBox:editable {
-    background: #14ACF5;
-}*/
-
-/*???????????????????????????*/
-/*QComboBox:!editable, QComboBox::drop-down:editable {
-    background: #14ACF5;
-}*/
-
-/* QComboBox gets the "on" state when the popup is open */
-/*?????????????????*/
-/*QComboBox:!editable:on, QComboBox::drop-down:editable:on {
-    background:gray;
-}*/
-/* shift the text when the popup opens */
-/*QComboBox:on {
-     padding-top: 3px;
-     padding-left: 4px;
-}*/
-
-/*?????????*/
-/*QComboBox::drop-down {
-     subcontrol-origin: padding;
-     subcontrol-position: top right;
-     width: 15px;
-     border-left-width: 1px;*/
-     /*border-left-color: #64b5f6;*//*?????????*/
-     /*border-left-style: solid; *//* just a single line */
-     /*border-top-right-radius: 1px; *//* same radius as the QComboBox */
-     /*border-bottom-right-radius: 1px;
-}*/
-
-/*QComboBox::down-arrow {
-     image: url(://res/arrow-normal.png);
-}*/
-/* shift the arrow when popup is open */
-/*QComboBox::down-arrow:on {
-     top: 1px;
-     left: 1px;
-}*/
-
-/*QComboBox QAbstractItemView {
-     border: 1px solid #ffffff;
-     selection-background-color: #9B9B9B;
-     background: #e9eef0;
-}*/
 
 /*-------------------QScrollBar-------------------*/
 QScrollBar:vertical{
@@ -610,20 +558,26 @@ QTabBar::tab:only-one {
 }
 
 /*-------------------QGroupBox-------------------*/
-/*QGroupBox {
+QGroupBox {
      border: 1px solid #e0e0e0;
      border-radius: 2px;
      margin-top: 15px;
- }
+}
 
- QGroupBox::title {
+QGroupBox#microGroupBox{
+     border: 1px solid #e0e0e0;
+     border-radius: 2px;
+     margin-top: 15px;
+     font-size:12px;
+}
+
+QGroupBox::title {
      subcontrol-origin: margin;
      subcontrol-position: top left;
      padding: 6px 3px;
      color: #00609a;
      font-weight:bold;
- }*/
-
+ }
 /*-------------------QMenu-------------------*/
 QMenu {
     background-color: white;

@@ -21,5 +21,92 @@
         <source>LED Test</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Serial Port Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SystemContentWidget</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Baud:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NONE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EVENT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ODD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not find any serial port!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to open serial port!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not have access permission!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please open serial port first!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -10,5 +10,6 @@
         <file>res/images/sys/close_button.png</file>
         <file>res/images/myir/mxde_background1.png</file>
         <file>res/images/myir/logo_myir.png</file>
+        <file>res/images/sys/arrow-normal.png</file>
     </qresource>
 </RCC>

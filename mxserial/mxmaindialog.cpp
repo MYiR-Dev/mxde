@@ -53,6 +53,11 @@ MxMainDialog::~MxMainDialog()
         m_contentwidget = NULL;
     }
 
+    if(main_skin_pixmap != NULL){
+        delete main_skin_pixmap;
+        main_skin_pixmap = NULL;
+    }
+
     if(m_mxde != NULL){
         delete m_mxde;
         m_mxde = NULL;

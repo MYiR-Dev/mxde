@@ -95,9 +95,9 @@ void SystemContentWidget::createSettingGroupBox()
     mSerialBaudRate->setText(tr("Baud:"));
     mSerialBaudRateComboBox =  new QComboBox(m_SettingGroup);
     mSerialBaudRateComboBox->insertItems(0,QStringList() \
-          <<tr("300")<<tr("600")<<tr("1200")<<tr("2400") \
-          <<tr("4800")<<tr("9600")<<tr("19200")<<tr("38400") \
-          <<tr("57600")<<tr("115200")) ;
+          <<"300"<<"600"<<"1200"<< "2400" \
+          <<"4800"<<"9600"<<"19200"<<"38400" \
+          <<"57600"<<"115200") ;
     QHBoxLayout *hLayout2 = new QHBoxLayout(m_SettingGroup);
     hLayout2->addWidget(mSerialBaudRate);
     hLayout2->addWidget(mSerialBaudRateComboBox);
@@ -113,7 +113,7 @@ void SystemContentWidget::createSettingGroupBox()
     mSerialDataBit = new QLabel(m_SettingGroup);
     mSerialDataBit->setText(tr("Data:"));
     mSerialDataBitComboBox =  new QComboBox(m_SettingGroup);
-    mSerialDataBitComboBox->insertItems(0,QStringList()<<tr("8")<<tr("7")<<tr("6"));
+    mSerialDataBitComboBox->insertItems(0,QStringList()<<"8"<<"7"<<"6");
     QHBoxLayout *hLayout4 = new QHBoxLayout(m_SettingGroup);
     hLayout4->addWidget(mSerialDataBit);
     hLayout4->addWidget(mSerialDataBitComboBox);
@@ -121,7 +121,7 @@ void SystemContentWidget::createSettingGroupBox()
     mSerialStopBit = new QLabel(m_SettingGroup);
     mSerialStopBit->setText(tr("Stop:"));
     mSerialStopBitComboBox =  new QComboBox(m_SettingGroup);
-    mSerialStopBitComboBox->insertItems(0,QStringList()<<tr("1")<<tr("2"));
+    mSerialStopBitComboBox->insertItems(0,QStringList()<<"1"<<"2");
     QHBoxLayout *hLayout5 = new QHBoxLayout(m_SettingGroup);
     hLayout5->addWidget(mSerialStopBit);
     hLayout5->addWidget(mSerialStopBitComboBox);
@@ -130,13 +130,23 @@ void SystemContentWidget::createSettingGroupBox()
     mSerialOpenButton = new QPushButton;
     mSerialOpenButton->setText(tr("Open"));
     hLayout6->addWidget(mSerialOpenButton);
-
+    if(m_width < DEFAULT_SCREEN_WIDTH){
+        m_SettingLayout->addLayout(hLayout1,0,0,1,1);
+        m_SettingLayout->addLayout(hLayout2,1,0,1,1);
+        m_SettingLayout->addLayout(hLayout3,2,0,1,1);
+        m_SettingLayout->addLayout(hLayout4,3,0,1,1);
+        m_SettingLayout->addLayout(hLayout5,4,0,1,1);
+        m_SettingLayout->addLayout(hLayout6,5,0,1,1);
+    }
+    else
+    {
     m_SettingLayout->addLayout(hLayout1,0,0,1,1);
     m_SettingLayout->addLayout(hLayout2,0,1,1,1);
     m_SettingLayout->addLayout(hLayout3,0,2,1,1);
     m_SettingLayout->addLayout(hLayout4,0,3,1,1);
     m_SettingLayout->addLayout(hLayout5,0,4,1,1);
     m_SettingLayout->addLayout(hLayout6,1,0,1,1);
+    }
 
     m_SettingGroup->setLayout(m_SettingLayout);
 }
@@ -155,7 +165,7 @@ void SystemContentWidget::createSendGroupBox()
 
     m_SendLayout->addWidget(m_SendTextEdit1,0,0,2,99);
     m_SendLayout->addLayout(vLayout,1,100,1,1,Qt::AlignBottom);
-    m_SendLayout->setColumnMinimumWidth(100,100);
+    m_SendLayout->setColumnMinimumWidth(100,80);
 
     m_SendGroup->setLayout(m_SendLayout);
 }
@@ -173,7 +183,7 @@ void SystemContentWidget::createRecvGroupBox()
 
     m_RecvLayout->addWidget(m_RecvTextEdit1,0,0,2,99);
     m_RecvLayout->addLayout(vLayout,1,100,1,1,Qt::AlignBottom);
-    m_RecvLayout->setColumnMinimumWidth(100,100);
+    m_RecvLayout->setColumnMinimumWidth(100,80);
     m_RecvGroup->setLayout(m_RecvLayout);
 
 }
@@ -185,9 +195,35 @@ void SystemContentWidget::initUI()
     createRecvGroupBox();
 
     mainLayout = new QGridLayout;
-    mainLayout->addWidget(m_SettingGroup, 0,0);
-    mainLayout->addWidget(m_SendGroup,1,0);
-    mainLayout->addWidget(m_RecvGroup, 2,0);
+    if(m_width < DEFAULT_SCREEN_WIDTH){
+        m_SettingGroup->setObjectName("microGroupBox");
+        m_SendGroup->setObjectName("microGroupBox");
+        m_RecvGroup->setObjectName("microGroupBox");
+        m_SendPushButton->setObjectName("microButton");
+        m_ClearPushButton->setObjectName("microButton");
+        mSerialPort->setObjectName("microblackLabel");
+        mSerialBaudRate->setObjectName("microblackLabel");
+        mSerialCheckBit->setObjectName("microblackLabel");
+        mSerialDataBit->setObjectName("microblackLabel");
+        mSerialStopBit->setObjectName("microblackLabel");
+        mSerialPortComboBox->setObjectName("microComboBox");
+        mSerialBaudRateComboBox->setObjectName("microComboBox");
+        mSerialCheckBitComboBox->setObjectName("microComboBox");
+        mSerialDataBitComboBox->setObjectName("microComboBox");
+        mSerialStopBitComboBox->setObjectName("microComboBox");
+        m_SendLayout->setColumnMinimumWidth(100,50);
+        m_RecvLayout->setColumnMinimumWidth(100,50);
+        m_SettingGroup->setMaximumWidth(150);
+        mainLayout->addWidget(m_SettingGroup, 0,0,2,1);
+        mainLayout->addWidget(m_SendGroup,0,1,1,4);
+        mainLayout->addWidget(m_RecvGroup,1,1,1,4);
+    }
+    else
+    {
+        mainLayout->addWidget(m_SettingGroup, 0,0);
+        mainLayout->addWidget(m_SendGroup,1,0);
+        mainLayout->addWidget(m_RecvGroup, 2,0);
+    }
 
     SerialPortInit();
     this->setLayout(mainLayout);
@@ -293,7 +329,7 @@ void SystemContentWidget::on_openPushButton_clicked()
 
         if(serialPortStr == "")
         {
-            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("未找到串口"));
+            QMessageBox::information(this, tr("Warning"), tr("Do not find any serial port!"));
             return;
         }
 
@@ -307,7 +343,7 @@ void SystemContentWidget::on_openPushButton_clicked()
         }
         else
         {
-            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("串口异常"));
+            QMessageBox::information(this, tr("Error"), tr("Failed to open serial port!"));
             exit(0);
         }
         qDebug() << "serialPortStr: " << serialPortStr;
@@ -319,11 +355,11 @@ void SystemContentWidget::on_openPushButton_clicked()
             qDebug() << "open error errno: " <<  errno;
             if(errno == 13)
             {
-                QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("请使用root权限"));
+                QMessageBox::information(this, tr("Error"), tr("Do not have access permission!"));
             }
             else
             {
-                QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("串口异常"));
+                QMessageBox::information(this, tr("Error"), tr("Failed to open serial port!"));
             }
             m_mxde->callCloseSerialPort(m_serial_fd);
         }
@@ -338,7 +374,7 @@ void SystemContentWidget::on_openPushButton_clicked()
             serial_param.sprintf("%d %d %d %d %d %s %d",m_serial_fd,rateStr.toInt(),dataBitStr.toInt(), serial_mode, serial_mode,check.data(),stopBbitStr.toInt());
             m_mxde->callSetSerialPort(serial_param);
 
-            mSerialOpenButton->setText(QString::fromUtf8("关闭串口"));
+            mSerialOpenButton->setText(tr("Close"));
             openFlag = true;
 //            label->setText(QString::fromUtf8("     串口状态：　打开"));
             sendNum = 0;
@@ -350,7 +386,7 @@ void SystemContentWidget::on_openPushButton_clicked()
     {
         m_mxde->callCloseSerialPort(m_serial_fd);
         m_serial_fd = 0;
-        mSerialOpenButton->setText(QString::fromUtf8("打开串口"));
+        mSerialOpenButton->setText(tr("Open"));
         openFlag = false;
        // label->setText(QString::fromUtf8("     串口状态：　关闭"));
 
@@ -399,7 +435,7 @@ void SystemContentWidget::on_sendPushButton_clicked()
     }
     else
     {
-        QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("请打开串口"));
+        QMessageBox::information(this, tr("Warning"), tr("Please open serial port first!"));
     }
 }
 

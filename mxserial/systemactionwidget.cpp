@@ -76,7 +76,6 @@ void SystemActionWidget::initUI()
     }
     title_myir_label->setWordWrap(true);//QLabel自动换行
     title_myir_label->setAlignment(Qt::AlignCenter);
-//    title_myir_label->setText(tr("QT5 Demo System"));
 
     title_myir_label->setMinimumWidth(200);
     title_myir_label->setMaximumWidth(m_width);
