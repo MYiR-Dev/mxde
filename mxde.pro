@@ -5,7 +5,8 @@ SUBDIRS += \
     mxdbus \
     mxapp \
     mxled \
-    mxserial
+    mxserial \
+    mxrs485
 
 
 
