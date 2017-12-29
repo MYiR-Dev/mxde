@@ -88,6 +88,43 @@
                 <method name="getRs485List">
                     <arg name="rs485_list" type="s" direction="out"/>
                 </method>
+<!--
+    CAN
+-->
+                <method name="getCanList">
+                    <arg name="can_list" type="s" direction="out"/>
+                </method>
+                <method name="openCanPort">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="can_fd" type="i" direction="out"/>
+                </method>
+                <method name="closeCanPort">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="can_fd" type="i" direction="in"/>
+                </method>
+                <method name="closeCanLoop">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="can_fd" type="i" direction="in"/>
+                </method>
+                <method name="setCanPort">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="bitrate" type="i" direction="in"/>
+                    <arg name="status" type="i" direction="in"/>
+                    <arg name="loop" type="s" direction="in"/>
+                    <arg name="ret" type="i" direction="out"/>
+
+                </method>
+                <method name="CanWrite">
+                    <arg name="can_fd" type="i" direction="in"/>
+                    <arg name="data" type="s" direction="in"/>
+                    <arg name="size" type="i" direction="in"/>
+                </method>
+                <signal name="sigCanRecv">
+                    <arg name="can_fd" type="i" direction="out"/>
+                    <arg name="can_id" type="i" direction="out"/>
+                    <arg name="can_dlc" type="i" direction="out"/>
+                    <arg name="can_data" type="s" direction="out"/>
+                </signal>
         </interface>
 		
 		
