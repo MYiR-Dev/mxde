@@ -40,6 +40,7 @@ bool MxDE::isValid(){
         return false;
     }
 }
+//led
 QString MxDE::callGetLedList()
 {
     MxDbus *bus = (MxDbus *)m_dbus;
@@ -51,6 +52,7 @@ void MxDE::callSetLedBrightness(QString &led, int brightness)
     MxDbus *bus = (MxDbus *)m_dbus;
     bus->setLedBrightness(led, brightness);
 }
+//serial
 int MxDE::callOpenSerialPort(const QString &dev_name)
 {
     MxDbus *bus = (MxDbus *)m_dbus;
@@ -76,8 +78,35 @@ void MxDE::callSerialWrite(int uart_fd, const QString &data, int size)
     MxDbus *bus = (MxDbus *)m_dbus;
     bus->SerialWrite(uart_fd,data,size);
 }
+//rs485
 QString MxDE::callgetRs485List()
 {
     MxDbus *bus = (MxDbus *)m_dbus;
     return bus->getRs485List();
+}
+//can
+QString MxDE::callgetCanList()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getCanList();
+}
+int MxDE::callopenCanPort(const QString &can_name)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->openCanPort(can_name);
+}
+void MxDE::callcloseCanPort(const QString &can_name,int can_fd)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    bus->closeCanPort(can_name,can_fd);
+}
+int MxDE::callsetCanPort(const QString &can_name,int bitrate,int status,const QString &loop)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->setCanPort(can_name,bitrate,status,loop);
+}
+void MxDE::callCanWrite(int can_fd,const QString &data,int len)
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    bus->CanWrite(can_fd,data,len);
 }

@@ -417,12 +417,12 @@ int * tty_read_thread(void *arg)
                         fprintf(stderr, "Out Of Memory!\n");
                         return;
                     }
-                    if (!dbus_connection_send(tty_send_conn, msg, NULL)) {
+                    if (!dbus_connection_send(dbus_server_conn, msg, NULL)) {
                         fprintf(stderr, "Out Of Memory!\n");
                         return;
                     }
 
-                    dbus_connection_flush(tty_send_conn);
+                    dbus_connection_flush(dbus_server_conn);
                     dbus_message_unref(msg);
                 }
             }

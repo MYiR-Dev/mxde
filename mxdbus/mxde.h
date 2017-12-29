@@ -25,15 +25,22 @@ class MxDE : public QObject
 public:
     explicit MxDE(QObject *parent = 0);
     ~MxDE();
-
+//led
     QString callGetLedList();
     void    callSetLedBrightness(QString &led, int brightness);
+//serial
     int callOpenSerialPort(const QString &dev_name);
     void callCloseSerialPort(int uart_fd);
     void callSetSerialPort(const QString &parameter);
     QString callGetSerialList();
     QString callgetRs485List();
     void callSerialWrite(int uart_fd, const QString &data, int size);
+//can
+    QString callgetCanList();
+    int callopenCanPort(const QString &can_name);
+    void callcloseCanPort(const QString &can_name,int can_fd);
+    int callsetCanPort(const QString &can_name,int bitrate,int status,const QString &loop);
+    void callCanWrite(int can_fd,const QString &data,int len);
     bool    isValid();
 
 signals:

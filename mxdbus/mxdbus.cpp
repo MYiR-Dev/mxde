@@ -50,13 +50,15 @@ void MxDbus::startService()
             m_object, SLOT(onLedBrightnessChanged(const QString)));
         connect(mxde_session_iface,SIGNAL(sigSerialRecv(int , const QString , int )),\
                 m_object,SLOT(onSerialRecvData(int , const QString , int )));
+        connect(mxde_session_iface,SIGNAL(sigCanRecv(int , int  , int, const QString)),\
+                m_object,SLOT(onCanRecvData(int , int  , int ,const QString)));
     }
 }
 
 bool MxDbus::isValid(){
     return mxde_session_iface->isValid();
 }
-
+//led
 void MxDbus::stopService()
 {
     delete mxde_session_iface;
@@ -72,6 +74,7 @@ void    MxDbus::setLedBrightness(QString &led, int brightness)
     qDebug() << "setLedBrightness\n" << led << brightness <<  endl;
     mxde_session_iface->setLedBrightress(led,brightness);
 }
+//serial
 int    MxDbus::openSerialPort(const QString &dev_name){
 
     return mxde_session_iface->openSerialPort(dev_name);
@@ -92,7 +95,29 @@ void MxDbus::SerialWrite(int uart_fd, const QString &data, int size)
 {
     mxde_session_iface->SerialWrite(uart_fd,data,size);
 }
+//rs485
 QString MxDbus::getRs485List()
 {
     return mxde_session_iface->getRs485List();
+}
+//can
+QString MxDbus::getCanList()
+{
+    return mxde_session_iface->getCanList();
+}
+int MxDbus::openCanPort(const QString &can_name)
+{
+    return mxde_session_iface->openCanPort(can_name);
+}
+void MxDbus::closeCanPort(const QString &can_name,int can_fd)
+{
+    mxde_session_iface->closeCanPort(can_name,can_fd);
+}
+int MxDbus::setCanPort(const QString &can_name,int bitrate,int status,const QString &loop)
+{
+    return mxde_session_iface->setCanPort(can_name,bitrate,status,loop);
+}
+void MxDbus::CanWrite(int can_fd,const QString &data,int len)
+{
+    mxde_session_iface->CanWrite(can_fd,data,len);
 }

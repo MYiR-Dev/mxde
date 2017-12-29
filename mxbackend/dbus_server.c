@@ -8,7 +8,7 @@
 #include "led.h"
 #include "dbus_server.h"
 #include "tty.h"
-
+#include "can.h"
 //serial start
 void getSerialList_method_call(DBusMessage * msg, DBusConnection * conn)
 {
@@ -41,7 +41,7 @@ void setSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
     DBusMessageIter arg;
     char *tty_param;
 
-    tty_send_conn = conn;
+    dbus_server_conn = conn;
     dbus_message_iter_init(msg, &arg);
     dbus_message_iter_get_basic (&arg, &tty_param);
 
@@ -121,7 +121,7 @@ void SerialWrite_method_call(DBusMessage * msg, DBusConnection * conn)
 
 }
 //serial end
-
+//rs485 start
 void getRs485List_method_call(DBusMessage * msg, DBusConnection * conn)
 {
     DBusMessage * reply;
@@ -146,6 +146,141 @@ void getRs485List_method_call(DBusMessage * msg, DBusConnection * conn)
     dbus_connection_flush (conn);
     dbus_message_unref (reply);
 }
+//rs485 end
+//can start
+void getCanList_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char *respone;
+    char data[60];
+
+    get_can_list(data);
+    respone = &data[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+void openCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char *can_name;
+    int can_fd = 0;
+
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &can_name);
+
+    can_fd = can_init(can_name);
+
+    dbus_server_conn = conn;
+
+    create_can_read_thread();
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_INT32,&can_fd)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+void closeCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char *can_name;
+    int can_fd;
+
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &can_name);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &can_fd);
+
+    delete_can_read_thread();
+    dbg_printf("close:%s,%d\n",can_name,can_fd);
+    close_can_port(can_name,can_fd);
+
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (msg);
+}
+void setCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessageIter arg;
+    DBusMessage * reply;
+    char *can_name,*loop;
+    int bitrate, status,ret ;
+
+
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &can_name);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &bitrate);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &status);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &loop);
+
+    dbg_printf("setting:%s,%d,%d\n",can_name,bitrate,status);
+    ret  = can_setting(can_name , bitrate, status,loop);
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_INT32,&ret)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+
+void CanWrite_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessageIter arg;
+    int can_fd,len;
+    char *data;
+    dbus_message_iter_init(msg, &arg);
+    dbus_message_iter_get_basic (&arg, &can_fd);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &data);
+
+    dbus_message_iter_next(&arg);
+    dbus_message_iter_get_basic (&arg, &len);
+
+    can_data_write(can_fd, data);
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (msg);
+}
+//can end
 void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
 {
     DBusMessage * reply;
@@ -331,7 +466,35 @@ void listen_dbus()
 
                 getRs485List_method_call(msg,connection);
 
-            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxx")){
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"getCanList")){
+
+                getCanList_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"openCanPort")){
+
+                openCanPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"closeCanPort")){
+
+                closeCanPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"setCanPort")){
+
+                setCanPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"CanWrite")){
+
+                CanWrite_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
+
+                //closeSerialPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
+
+                //closeSerialPort_method_call(msg,connection);
+
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
 
                 //closeSerialPort_method_call(msg,connection);
 
