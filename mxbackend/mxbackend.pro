@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
     dbus_server.c \
-    led.c
+    led.c \
+    tty.c
 
 include(./config.pri)
 
@@ -39,5 +40,7 @@ HEADERS += \
     dbus/dbus-threads.h \
     dbus/dbus-types.h \
     dbus/dbus.h \
-    dbus_server.h
+    dbus_server.h \
+    tty.h \
+    common.h
 

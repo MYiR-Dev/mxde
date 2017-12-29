@@ -33,7 +33,12 @@ public:
 
     QString getLedList();
     void    setLedBrightness(QString &led, int brightness);
-
+    int openSerialPort(const QString &dev_name);
+    void closeSerialPort(int uart_fd);
+    void setSerialPort(const QString &parameter);
+    QString getSerialList();
+    void SerialWrite(int uart_fd, const QString &data, int size);
+    QString getRs485List();
 signals:
 
 public slots:
