@@ -574,7 +574,7 @@ QGroupBox#microGroupBox{
 QGroupBox::title {
      subcontrol-origin: margin;
      subcontrol-position: top left;
-     padding: 6px 3px;
+     padding: 3px 3px;
      color: #00609a;
      font-weight:bold;
  }

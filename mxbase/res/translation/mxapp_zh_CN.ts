@@ -22,6 +22,10 @@
         <source>RS485 Port Test</source>
         <translation>RS485接口测试</translation>
     </message>
+    <message>
+        <source>CAN BUS Test</source>
+        <translation>CAN总线测试</translation>
+    </message>
 </context>
 <context>
     <name>SystemContentWidget</name>
@@ -116,6 +120,38 @@
     <message>
         <source>Please open rs485 port first!</source>
         <translation>请先打开RS485接口</translation>
+    </message>
+    <message>
+        <source>CAN:</source>
+        <translation>CAN:</translation>
+    </message>
+    <message>
+        <source>Loop:</source>
+        <translation>回环模式：</translation>
+    </message>
+    <message>
+        <source>can id(hex):</source>
+        <translation>can id(十六进制):</translation>
+    </message>
+    <message>
+        <source>can data(hex):</source>
+        <translation>can数据(十六进制):</translation>
+    </message>
+    <message>
+        <source>Do not find any CAN!</source>
+        <translation>没有找到CAN接口!</translation>
+    </message>
+    <message>
+        <source>CAN setting error!</source>
+        <translation>CAN设置错误!</translation>
+    </message>
+    <message>
+        <source>Failed to open CAN port!</source>
+        <translation>打开CAN接口失败!</translation>
+    </message>
+    <message>
+        <source>Please open CAN first!</source>
+        <translation>请先打开CAN接口！</translation>
     </message>
 </context>
 </TS>

@@ -29,6 +29,10 @@
         <source>RS485 Port Test</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>CAN BUS Test</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SystemContentWidget</name>
@@ -122,6 +126,38 @@
     </message>
     <message>
         <source>Please open rs485 port first!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CAN:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loop:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>can id(hex):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>can data(hex):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not find any CAN!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CAN setting error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to open CAN port!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please open CAN first!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

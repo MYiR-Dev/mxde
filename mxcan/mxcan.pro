@@ -12,18 +12,35 @@ TARGET = mxcan
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp \
+    mxmaindialog.cpp \
+    systemactionwidget.cpp \
+    systemcontentwidget.cpp
 
-HEADERS  += mainwindow.h
-
-FORMS    += mainwindow.ui
+HEADERS  += mxmaindialog.h \
+    systemactionwidget.h \
+    systemcontentwidget.h
 
 target.path = /home/sunny
-INSTALLS += target
-unix:!macx: LIBS += -L$$OUT_PWD/../mxdbus/ -lmxdbus
+
+inst1.files = ./06_can.desktop
+inst1.path = /usr/share/applications
+inst2.files = ./res/images/can192.png
+inst2.path = /usr/share/pixmaps
+
+INSTALLS += target inst1 inst2
+
+include(../mxbase/mxbase.pri)
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mxdbus/release/ -lmxdbus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mxdbus/debug/ -lmxdbus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../mxdbus/ -lmxdbus
 
 INCLUDEPATH += $$PWD/../mxdbus
 DEPENDPATH += $$PWD/../mxdbus
 
-unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/libmxdbus.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/release/libmxdbus.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/debug/libmxdbus.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/release/mxdbus.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/debug/mxdbus.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/libmxdbus.a
