@@ -132,8 +132,8 @@ void SystemContentWidget::createSettingGroupBox()
     m_SettingLayout->addLayout(hLayout1,0,0,1,9);
     m_SettingLayout->addLayout(hLayout2,0,9,1,9);
     m_SettingLayout->addLayout(hLayout3,0,18,1,9);
-    m_SettingLayout->addLayout(hLayout4,0,28,1,1);
-    m_SettingLayout->setColumnMinimumWidth(28,80);
+    m_SettingLayout->addLayout(hLayout4,0,27,1,1);
+    m_SettingLayout->setColumnMinimumWidth(27,80);
     }
 
     m_SettingGroup->setLayout(m_SettingLayout);
@@ -249,6 +249,7 @@ void SystemContentWidget::initConnection()
     connect(mCanBaudRateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
     connect(m_SendPushButton,SIGNAL(clicked()),this, SLOT(on_sendPushButton_clicked()));
     connect(m_ClearPushButton,SIGNAL(clicked()),this, SLOT(on_clearPushButton_clicked()));
+    connect(mCanOpenButton, SIGNAL(clicked()), this, SLOT(on_openPushButton_clicked()));
 }
 
 void SystemContentWidget::display()
@@ -326,7 +327,7 @@ void SystemContentWidget::on_openPushButton_clicked()
         int ret = m_mxde->callsetCanPort(canPortStr, rateStr.toInt(), CAN_ENABLE, loopStr);
         if(ret < 0){
 
-            QMessageBox::information(this, QString::fromUtf8("提示"), QString::fromUtf8("CAN setting error!"));
+            QMessageBox::information(this, tr("Warning"), tr("CAN setting error!"));
             return;
         }
         m_can_fd = m_mxde->callopenCanPort(canPortStr);
@@ -341,7 +342,7 @@ void SystemContentWidget::on_openPushButton_clicked()
             }
             else
             {
-                QMessageBox::information(this, tr("Error"), tr("Failed to open rs485 port!"));
+                QMessageBox::information(this, tr("Error"), tr("Failed to open CAN port!"));
             }
             m_mxde->callcloseCanPort(canPortStr,m_can_fd);
         }
