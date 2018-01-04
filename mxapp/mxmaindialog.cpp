@@ -402,7 +402,7 @@ void MxMainDialog::OnDemoStarted()
 {
     qDebug() << "hide main \n" << endl;
     QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(1000);
+    animation->setDuration(100);
     animation->setStartValue(this->pos());
     animation->setEndValue(this->pos()-QPoint(0,QApplication::desktop()->screenGeometry(0).height()));
     animation->start();
