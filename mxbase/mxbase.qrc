@@ -11,5 +11,10 @@
         <file>res/images/myir/mxde_background1.png</file>
         <file>res/images/myir/logo_myir.png</file>
         <file>res/images/sys/arrow-normal.png</file>
+        <file>res/images/keyboard/backspace.png</file>
+        <file>res/images/keyboard/clear.png</file>
+        <file>res/images/keyboard/enter.png</file>
+        <file>res/images/keyboard/lower.png</file>
+        <file>res/images/keyboard/upper.png</file>
     </qresource>
 </RCC>
