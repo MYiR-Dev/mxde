@@ -178,6 +178,8 @@ void SystemContentWidget::createRecvGroupBox()
     m_ClearPushButton = new QPushButton(m_RecvGroup);
     m_ClearPushButton->setText(tr("Clear"));
     m_RecvTextEdit1 = new QTextEdit(m_RecvGroup);
+    m_RecvTextEdit1->setReadOnly(true);
+    m_RecvTextEdit1->setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *vLayout = new QVBoxLayout(m_RecvGroup);
     vLayout->addWidget(m_ClearPushButton);
 
