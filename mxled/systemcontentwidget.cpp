@@ -62,6 +62,7 @@ void SystemContentWidget::initUI()
 
         bigEditor = new QTextEdit;
         bigEditor->setReadOnly(true);
+        bigEditor->setFocusPolicy(Qt::NoFocus);
         bigEditor->setStyleSheet("border:none");
 
         getBoardLedInfo();

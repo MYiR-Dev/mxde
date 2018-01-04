@@ -17,6 +17,7 @@
 
 #include "mxmaindialog.h"
 #include "mxapplication.h"
+#include "frminput.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -36,9 +37,9 @@ int main(int argc, char *argv[])
 {
     static int windowWidth = 0;
     static int windowHeight = 0;
-    if(argc == 7){
-        qDebug("%s %s %s %s %s %s %s ", argv[0], argv[1], argv[2],argv[3],argv[4]),argv[5],argv[6];
-    }
+//    if(argc == 7){
+//        qDebug("%s %s %s %s %s %s %s ", argv[0], argv[1], argv[2],argv[3],argv[4]),argv[5],argv[6];
+//    }
 
     for(;;){
         int opt_nxt;
@@ -109,6 +110,7 @@ int main(int argc, char *argv[])
     }
 
     qDebug("=MXLED:== w= %d h=%d\n",windowWidth, windowHeight);
+    frmInput::Instance()->Init("bottom", "silvery", 10, 10);
     MxMainDialog w(&app, 0, windowWidth, windowHeight);
     w.setApplication(&app);
 //    w.setDbusProxy(mxde);
