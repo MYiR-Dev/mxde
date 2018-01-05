@@ -22,6 +22,8 @@
 #include <QList>
 #include <QListView>
 #include <QModelIndex>
+#include <QPoint>
+#include <QMouseEvent>
 
 #include "basewidget.h"
 #include "mxdesktopfile.h"
@@ -51,6 +53,12 @@ signals:
 public slots:
     void OnClickListView(const QModelIndex &index);
 
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
+
 private:
     QWidget                 *m_parent;
     MxApplication           *m_mxapp;
@@ -61,6 +69,11 @@ private:
 
     int                      m_width;
     int                      m_height;
+
+    QPoint mousePoint;
+    bool mousePressed;              //鼠标是否按下
+
+
 };
 
 #endif // BOXCONTENTWIDGET_H

@@ -96,6 +96,7 @@ void BoxActionWidget::initUI()
     layout2->addWidget(m_closeButton);
     layout2->addStretch();
     layout2->setSpacing(0);
+    layout2->setContentsMargins(0, 5, 5, 0);
 
     QHBoxLayout *layout3 = new QHBoxLayout();
     layout3->addLayout(layout1);

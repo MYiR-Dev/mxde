@@ -24,12 +24,14 @@
 #include <QDirIterator>
 #include <QStringList>
 #include <QPalette>
+#include <QScrollBar>
 #include <QDebug>
 
 BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
         m_parent = parent;
         m_mxapp = obj;
+        mousePressed = false;
 
         m_width = width;
         if(m_width <=0){
@@ -60,7 +62,7 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int widt
         m_list_view->setViewMode(QListView::IconMode);
         m_list_view->setWordWrap(true);
         m_list_view->setFlow(QListView::LeftToRight);
-    //    list_view->setMovement(QListView::Static);
+//        m_list_view->setMovement(QListView::Static);
 //        m_list_view->setSpacing((m_width - DEFAULT_BOX_ICON_SIZE(m_width)*4)/8);
         int grid_x = DEFAULT_BOX_ICON_GRID_SIZE(m_width);
         int grid_y = DEFAULT_BOX_ICON_GRID_SIZE(m_width);
@@ -71,6 +73,8 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int widt
     //    list_view->setLineWidth(110);
         m_list_view->setGeometry(rect());
         m_list_view->setUniformItemSizes(true);
+//        m_list_view->installEventFilter(this);
+        m_list_view->viewport()->installEventFilter(this);
         this->loadApplicationWidgets();
 
         connect(m_list_view,SIGNAL(clicked(const QModelIndex&)),this,SLOT(OnClickListView(const QModelIndex &)));
@@ -83,6 +87,7 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int widt
 //        setLayout(layout);
 
         this->initUI();
+        this->setMouseTracking(true);
 }
 
 void BoxContentWidget::initUI()
@@ -175,4 +180,70 @@ void BoxContentWidget::OnClickListView(const QModelIndex & index)
 
     app->launch();
 
+}
+
+void BoxContentWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    disconnect(m_list_view,SIGNAL(clicked(const QModelIndex&)),0,0);
+
+    if (mousePressed && (event->buttons() && Qt::LeftButton)) {
+        QPoint  end_pos = event->pos();
+        if((qAbs(end_pos.y() - mousePoint.y()))> 10){
+//            qDebug() << "scroll " << end_pos.y() - mousePoint.y() << "\n" << endl;
+            QScrollBar *sBar = m_list_view->verticalScrollBar();
+            int value = sBar->value();
+//            qDebug() << "value " << value << "\n" << endl;
+            sBar->setValue(value - end_pos.y() + mousePoint.y());
+            this->update();
+        }
+
+        event->accept();
+    }
+}
+
+void BoxContentWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        mousePressed = true;
+        mousePoint = event->pos();
+        event->accept();
+    }
+}
+
+void BoxContentWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    mousePressed = false;
+    connect(m_list_view,SIGNAL(clicked(const QModelIndex&)),this,SLOT(OnClickListView(const QModelIndex &)));
+}
+
+bool BoxContentWidget::eventFilter(QObject *watched, QEvent *event)
+{
+//    if(watched == m_list_view){
+//        qDebug() << " m_list_view event" << event->type() << "\n" << endl;
+//    }
+
+//    if(watched == m_list_view->viewport())
+//    {
+//        qDebug() << "m_list_view viewport" << event->type() << "\n" << endl;
+//    }
+
+    if((watched == m_list_view->viewport())&&(event->type() == QEvent::MouseButtonPress))
+    {
+//        qDebug() << "mouse pressed! \n" << endl;
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        mousePressEvent(ev);
+    }
+    if((watched == m_list_view->viewport()) &&(event->type() == QEvent::MouseMove))
+    {
+//        qDebug() << "mouse move.. \n" << endl;
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        mouseMoveEvent(ev);
+    }
+    if((watched == m_list_view->viewport()) && (event->type() == QEvent::MouseButtonRelease))
+    {
+//        qDebug() << "mouse release \n" << endl;
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        mouseReleaseEvent(ev);
+    }
+    return watched->eventFilter(watched, event);
 }
