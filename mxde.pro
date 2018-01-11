@@ -7,7 +7,9 @@ SUBDIRS += \
     mxled \
     mxserial \
     mxrs485 \
-    mxcan
+    mxcan \
+    mxnet
+
 
 
 
