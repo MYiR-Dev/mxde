@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /******************************************************************************
 * Copyright (C), 2016-2017, Sunny.Guo
 * FileName:
@@ -123,16 +123,4 @@ int main(int argc, char *argv[])
     app.setMainWindow(&w);
 
     return app.exec();
-=======
-#include "mainwindow.h"
-#include <QApplication>
-
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
->>>>>>> f7d3506311d9966063c7a89614d05f6d29e775d8
 }
