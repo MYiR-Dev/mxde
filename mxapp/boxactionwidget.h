@@ -22,22 +22,32 @@
 #include <QDebug>
 
 #include "basewidget.h"
+#include "systembutton.h"
+#include "mxapplication.h"
 
 class BoxActionWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    explicit BoxActionWidget(QWidget *parent = 0,QObject *obj = 0);
+    explicit BoxActionWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
 
     void setCurrentLanguage(QString &lang);
     void initUI();
     void initConnection();
     void display();
 
+signals:
+    void CloseBox();
+
 private:
     QLabel *logo_myir_label;
     QLabel *title_myir_label;
+    QWidget *m_parent;
+    SystemButton *m_closeButton;
 
+    int                      m_width;
+    int                      m_height;
+    MxApplication           *m_mxapp;
 };
 
 #endif // BOXACTIONWIDGET_H

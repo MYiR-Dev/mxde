@@ -3,10 +3,10 @@
 # Project created by QtCreator 2017-12-09T00:40:21
 #
 #-------------------------------------------------
-DBUS_INTERFACES += mxde.xml
+
 
 QT       += widgets network testlib dbus
-
+DBUS_INTERFACES += mxde.xml
 TARGET = mxdbus
 TEMPLATE = lib
 CONFIG += staticlib

@@ -15,7 +15,7 @@
 #ifndef MXMAINDIALOG_H
 #define MXMAINDIALOG_H
 
-#include "mxde.h"
+#include "constant.h"
 #include "mxapplication.h"
 #include "shadowwidget.h"
 #include "homeactionwidget.h"
@@ -25,6 +25,8 @@
 
 #include <QSettings>
 #include <QPixmap>
+#include <QPainter>
+#include <QPaintEvent>
 #include <QDialog>
 #include <QApplication>
 #include <QStackedWidget>
@@ -35,10 +37,11 @@ class MxMainDialog : public QDialog
     Q_OBJECT
 
 public:
-    MxMainDialog(QApplication *app, QWidget *parent = 0);
+    MxMainDialog(MxApplication *app = 0, QWidget *parent = 0, int w = DEFAULT_SCREEN_HEIGHT, int h = DEFAULT_SCREEN_WIDTH);
     ~MxMainDialog();
 
-    void setApplication(QApplication *app);
+
+    void setApplication(MxApplication *app);
     void display();
     void setTranslator(QTranslator *tr);
     void initConnect();
@@ -46,9 +49,20 @@ public:
     void initOtherPage();
     void initAnimation();
 
+    int                 m_width;
+    int                 m_height;
+    int                 m_default_action_width;
+    int                 m_default_content_width;
+    int                 m_other_action_width;
+    int                 m_other_content_width;
+    int                 m_default_action_height;
+    int                 m_default_content_height;
+    int                 m_other_action_height;
+    int                 m_other_content_height;
 public slots:
 
     void OnApplicationClosed();
+    void OnCloseBox();
     void OnCurrentPageChanged(int index);
     void OnSystemInfoClicked();
     void OnLanguageChanged(QString language);
@@ -57,9 +71,11 @@ public slots:
     void OnDemoStarted();
     void OnDemoFinished();
 
+protected:
+    void paintEvent(QPaintEvent *event);
+
 private:
-    QApplication        *m_app;
-    MxDE                *m_mxde;
+    MxApplication        *m_app;
     QSettings           *m_Settings;
     QTranslator         *m_translator;
 

@@ -11,6 +11,7 @@
                 <method name="setLedBrightress">
                     <arg name="led" type="s" direction="in"/>
                     <arg name="brightness" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <method name="setLedTrigger">
                     <arg name="led" type="s" direction="in"/>
@@ -56,6 +57,88 @@
                 <signal name="sigGpioLevelChanged">
                     <arg name="message" type="s" direction="out"/>
                 </signal>
+<!--
+    UART
+-->
+                <method name="openSerialPort">
+                    <arg name= "dev_name" type="s" direction="in"/>
+                    <arg name="uart_fd" type="i" direction="out"/>
+                </method>
+                <method name="closeSerialPort">
+                    <arg name="uart_fd" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
+                </method>
+                <method name="setSerialPort">
+                    <arg name="parameter" type="s" direction="in"/> <!-- int fd, int bitrate, int datasize, int mode, int flow, char* par, int stop -->
+                    <arg name="result" type="i" direction="out"/>
+                </method>
+                <method name="getSerialList">
+                    <arg name="serial_list" type="s" direction="out"/>
+                </method>
+                <method name="SerialWrite">
+                    <arg name="uart_fd" type="i" direction="in"/>
+                    <arg name="data" type="s" direction="in"/>
+                    <arg name="size" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
+                </method>
+                <signal name="sigSerialRecv">
+                    <arg name="uart_fd" type="i" direction="out"/>
+                    <arg name="data" type="s" direction="out"/>
+                    <arg name="size" type="i" direction="out"/>
+                </signal>
+<!--
+    RS485
+-->
+                <method name="getRs485List">
+                    <arg name="rs485_list" type="s" direction="out"/>
+                </method>
+<!--
+    CAN
+-->
+                <method name="getCanList">
+                    <arg name="can_list" type="s" direction="out"/>
+                </method>
+                <method name="openCanPort">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="can_fd" type="i" direction="out"/>
+                </method>
+                <method name="closeCanPort">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="can_fd" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
+                </method>
+                <method name="closeCanLoop">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="can_fd" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
+                </method>
+                <method name="setCanPort">
+                    <arg name="can_name" type="s" direction="in"/>
+                    <arg name="bitrate" type="i" direction="in"/>
+                    <arg name="status" type="i" direction="in"/>
+                    <arg name="loop" type="s" direction="in"/>
+                    <arg name="ret" type="i" direction="out"/>
+
+                </method>
+                <method name="CanWrite">
+                    <arg name="can_fd" type="i" direction="in"/>
+                    <arg name="data" type="s" direction="in"/>
+                    <arg name="size" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
+                </method>
+                <signal name="sigCanRecv">
+                    <arg name="can_fd" type="i" direction="out"/>
+                    <arg name="can_id" type="i" direction="out"/>
+                    <arg name="can_dlc" type="i" direction="out"/>
+                    <arg name="can_data" type="s" direction="out"/>
+                </signal>
+        </interface>
+		
+		
+        <interface name="org.freedesktop.DBus.Introspectable">
+            <method name="Introspect">
+                <arg name="xml_data" type="s" direction="out"/>
+            </method>
         </interface>
 </node>
 

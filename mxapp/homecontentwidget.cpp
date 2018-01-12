@@ -13,15 +13,28 @@
 * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 *******************************************************************************/
 #include "homecontentwidget.h"
+#include "mxmaindialog.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSignalMapper>
 #include <QDebug>
 
-HomeContentWidget::HomeContentWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
+#include "systembutton.h"
+
+HomeContentWidget::HomeContentWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
-        this->setFixedSize(800, 180);
+    m_width = width;
+    if(m_width <=0){
+        m_width = DEFAULT_SCREEN_WIDTH;
+    }
+    m_height = height;
+    if(m_height <= 0){
+        m_height = DEFAULT_SCREEN_HEIGHT;
+    }
+	
+	qDebug() << m_width << m_height << " of HomeContentWidget \n" << endl;
+        this->setFixedSize(m_width, m_height);
 
         //set white background color
         this->setAutoFillBackground(true);
@@ -36,21 +49,23 @@ HomeContentWidget::HomeContentWidget(QWidget *parent, QObject *obj):BaseWidget(p
 void HomeContentWidget::initUI()
 {
     QStringList icon_list;
-    icon_list<<":/myir/res/myir/sz48.png"<<":/myir/res/myir/bj48.png";
+    icon_list<<":/res/images/myir/chinese_wvga.png"<<":/res/images/myir/english_wvga.png";
     QStringList text_list;
     text_list << QString("[简体中文]") << QString("[English]") ;
     QHBoxLayout *button_layout = new QHBoxLayout();
     QSignalMapper *signal_mapper = new QSignalMapper(this);
     for(int i=0; i<icon_list.size(); i++)
     {
-        QPushButton *tool_button = new QPushButton();
+        SystemButton *tool_button = new SystemButton();
         tool_button->setFocusPolicy(Qt::NoFocus);
        // tool_button->setIcon(icon_list.at(i));
-        tool_button->setFixedWidth(150);
-        tool_button->setText(text_list.at(i));
+//        tool_button->setFixedWidth(150);
+//        tool_button->setText(text_list.at(i));
+        tool_button->loadPixmap(icon_list.at(i));
         connect(tool_button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
         signal_mapper->setMapping(tool_button, QString::number(i, 10));
         button_layout->addWidget(tool_button);
+        button_layout->setSpacing(100);
 //        item_list.append(tool_button);
 
     }
@@ -63,7 +78,7 @@ void HomeContentWidget::initUI()
 //        layout5->addStretch();
 //    layout5->setMargin(10);
 //    layout5->setSpacing(50);
-    layout5->setContentsMargins(0,0,50,20);
+    layout5->setContentsMargins(0,0,0,20);
 
 
 

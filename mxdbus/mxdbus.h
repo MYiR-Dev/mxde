@@ -30,10 +30,23 @@ class MxDbus : public QObject
 public:
     static MxDbus *getMxDubs(QObject *object);
     bool    isValid();
-
+//led
     QString getLedList();
-    void    setLedBrightness(QString &led, int brightness);
-
+    int   setLedBrightness(QString &led, int brightness);
+//serial
+    int openSerialPort(const QString &dev_name);
+    int closeSerialPort(int uart_fd);
+    int setSerialPort(const QString &parameter);
+    QString getSerialList();
+    int SerialWrite(int uart_fd, const QString &data, int size);
+//485
+    QString getRs485List();
+//can
+    QString getCanList();
+    int openCanPort(const QString &can_name);
+    int closeCanPort(const QString &can_name,int can_fd);
+    int setCanPort(const QString &can_name,int bitrate,int status,const QString &loop);
+    int CanWrite(int can_fd,const QString &data,int len);
 signals:
 
 public slots:

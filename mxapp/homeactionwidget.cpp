@@ -14,6 +14,8 @@
 *******************************************************************************/
 #include "homeactionwidget.h"
 #include "basewidget.h"
+#include "mxmaindialog.h"
+#include "mxapplication.h"
 
 #include <QWidget>
 #include <QObject>
@@ -22,9 +24,21 @@
 #include <QVBoxLayout>
 #include <QString>
 
-HomeActionWidget::HomeActionWidget(QWidget *parent, QObject *obj):BaseWidget(parent,obj)
+HomeActionWidget::HomeActionWidget(QWidget *parent, MxApplication *obj, int width, int height):BaseWidget(parent,obj)
 {
-    this->setFixedSize(800,300);
+    m_width = width;
+    if(m_width <=0){
+        m_width = DEFAULT_SCREEN_WIDTH;
+    }
+    m_height = height;
+    if(m_height <= 0){
+        m_height = DEFAULT_SCREEN_HEIGHT;
+    }
+	
+	qDebug() << m_width << m_height << " of HomeActionWidget \n" << endl;
+
+
+    this->setFixedSize(m_width, m_height);
     this->setAutoFillBackground(true);
     this->setObjectName("transparentWidget");
     logo_myir_label = new QLabel();
