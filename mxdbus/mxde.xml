@@ -11,6 +11,7 @@
                 <method name="setLedBrightress">
                     <arg name="led" type="s" direction="in"/>
                     <arg name="brightness" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <method name="setLedTrigger">
                     <arg name="led" type="s" direction="in"/>
@@ -65,9 +66,11 @@
                 </method>
                 <method name="closeSerialPort">
                     <arg name="uart_fd" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <method name="setSerialPort">
                     <arg name="parameter" type="s" direction="in"/> <!-- int fd, int bitrate, int datasize, int mode, int flow, char* par, int stop -->
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <method name="getSerialList">
                     <arg name="serial_list" type="s" direction="out"/>
@@ -76,6 +79,7 @@
                     <arg name="uart_fd" type="i" direction="in"/>
                     <arg name="data" type="s" direction="in"/>
                     <arg name="size" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <signal name="sigSerialRecv">
                     <arg name="uart_fd" type="i" direction="out"/>
@@ -101,10 +105,12 @@
                 <method name="closeCanPort">
                     <arg name="can_name" type="s" direction="in"/>
                     <arg name="can_fd" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <method name="closeCanLoop">
                     <arg name="can_name" type="s" direction="in"/>
                     <arg name="can_fd" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <method name="setCanPort">
                     <arg name="can_name" type="s" direction="in"/>
@@ -118,6 +124,7 @@
                     <arg name="can_fd" type="i" direction="in"/>
                     <arg name="data" type="s" direction="in"/>
                     <arg name="size" type="i" direction="in"/>
+                    <arg name="result" type="i" direction="out"/>
                 </method>
                 <signal name="sigCanRecv">
                     <arg name="can_fd" type="i" direction="out"/>

@@ -32,21 +32,21 @@ public:
     bool    isValid();
 //led
     QString getLedList();
-    void    setLedBrightness(QString &led, int brightness);
+    int   setLedBrightness(QString &led, int brightness);
 //serial
     int openSerialPort(const QString &dev_name);
-    void closeSerialPort(int uart_fd);
-    void setSerialPort(const QString &parameter);
+    int closeSerialPort(int uart_fd);
+    int setSerialPort(const QString &parameter);
     QString getSerialList();
-    void SerialWrite(int uart_fd, const QString &data, int size);
+    int SerialWrite(int uart_fd, const QString &data, int size);
 //485
     QString getRs485List();
 //can
     QString getCanList();
     int openCanPort(const QString &can_name);
-    void closeCanPort(const QString &can_name,int can_fd);
+    int closeCanPort(const QString &can_name,int can_fd);
     int setCanPort(const QString &can_name,int bitrate,int status,const QString &loop);
-    void CanWrite(int can_fd,const QString &data,int len);
+    int CanWrite(int can_fd,const QString &data,int len);
 signals:
 
 public slots:
