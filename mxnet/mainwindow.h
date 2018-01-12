@@ -52,6 +52,7 @@ private slots:
     void updateConfiguration();
     void ipv4Method(int idx);
     void netPortMethod(int idx);
+    void pingTest();
 private:
     Ui::MainWindow *ui;
 };

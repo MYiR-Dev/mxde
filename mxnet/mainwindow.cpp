@@ -37,9 +37,9 @@
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QDebug>
-#include <QtNetwork/QHostAddress>
 
-#include "arpa/inet.h"
+#include<QProcess>
+#include <QMessageBox>
 
 
 # define DBUS_PATH "/"
@@ -101,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->methodComBox, SIGNAL(currentIndexChanged(int)), this, SLOT(ipv4Method(int)));
     connect(ui->netPortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(netPortMethod(int)));
     connect(ui->pushButton_ok, SIGNAL(clicked()), this, SLOT(updateConfiguration()));
+    connect(ui->pushButton_ping, SIGNAL(clicked()), this, SLOT(pingTest()));
     // connect some dbus signals to our slots
     QDBusConnection::systemBus().connect(DBUS_CON_SERVICE, DBUS_PATH, DBUS_CON_MANAGER, "ServicesChanged", this, SLOT(dbsServicesChanged(QList<QVariant>, QList<QDBusObjectPath>, QDBusMessage)));
 
@@ -488,4 +489,28 @@ void MainWindow::getServiceDetails(int index)
     //ui.pushButton_configuration->setEnabled(b_editable);
 
     return;
+}
+
+void MainWindow::pingTest()
+{
+    QString remoteIP = ui->pingLineEdit->text();
+    QProcess cmd(this);
+    cmd.start("ping -s 1 -c 1 -w 2 " + remoteIP);
+    cmd.waitForFinished();
+    cmd.waitForReadyRead();
+    QString retStr = cmd.readAll();
+
+    if (retStr.indexOf("ttl") != -1)
+    {
+
+
+        QMessageBox::information(NULL,"",tr("ping %1 is online").arg(remoteIP));
+    }
+    else
+    {
+        QMessageBox::information(NULL,"",tr("ping %1 is offline").arg(remoteIP));
+    }
+    retStr.clear();
+
+
 }
