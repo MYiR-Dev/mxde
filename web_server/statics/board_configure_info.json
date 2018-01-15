@@ -1,0 +1,19 @@
+
+{
+  "board_info":
+    { "rs232_port": "/dev/ttymxc1",
+      "rs485_port": "/dev/ttymxc3",
+      "can_port"  : "can0",
+      "eth0_port" : "eth0",
+      "eth1_port" : "eth1",
+      "eth2_port" : " "
+    },
+
+  "dbus_info":
+    {
+      "dbus_name" : "com.myirtech.mxde",
+      "dbu_path"  : "/com/myirtech/mxde",
+      "dbus_interface" : "com.myirtech.mxde.MxdeInterface"
+    }
+}
+
