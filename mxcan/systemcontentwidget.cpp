@@ -101,8 +101,8 @@ void SystemContentWidget::createSettingGroupBox()
     mCanBaudRate->setAlignment(Qt::AlignCenter);
     mCanBaudRateComboBox =  new QComboBox(m_SettingGroup);
     mCanBaudRateComboBox->insertItems(0,QStringList() \
-          <<"1000"<<"500"<<"1000"<< "2000" \
-          <<"5000"<<"100000"<<"200000"<<"500000") ;
+          <<"20000"<<"50000"<<"125000"<< "250000" \
+          <<"500000"<<"800000"<<"1000000") ;
     QHBoxLayout *hLayout2 = new QHBoxLayout(m_SettingGroup);
     hLayout2->addWidget(mCanBaudRate);
     hLayout2->addWidget(mCanBaudRateComboBox);
@@ -398,7 +398,7 @@ void SystemContentWidget::on_sendPushButton_clicked()
             n+=sprintf(buf+n,"%s", strdup(list.at(i).toLocal8Bit().data()));
         }
 
-        sendStr.sprintf("%s#%s", id.data(), buf);
+        sendStr.sprintf("%s+%s", id.data(), buf);
         qDebug() << sendStr;
 
         m_mxde->callCanWrite(m_can_fd, sendStr, sendStr.length());

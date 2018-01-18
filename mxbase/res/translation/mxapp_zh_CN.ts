@@ -50,7 +50,7 @@
         <translation>无</translation>
     </message>
     <message>
-        <source>EVENT</source>
+        <source>EVEN</source>
         <translation>偶</translation>
     </message>
     <message>

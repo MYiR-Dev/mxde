@@ -31,7 +31,7 @@
 #define CAN_READ_TIMEOUT_USEC	5000
 
 #define DATA_SEPERATOR 			'.'
-#define CANID_DELIM 			'#'
+#define CANID_DELIM 			'+'
 
 struct can_dev
 {

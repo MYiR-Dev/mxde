@@ -79,7 +79,8 @@ int				can_init(const char * can)
 	bind(canfd, (struct sockaddr *)&can_addr, sizeof(can_addr));
 	
 	/* Set the lookback rules */
-	setsockopt(canfd, SOL_CAN_RAW, CAN_RAW_LOOPBACK,
+    /*CAN_RAW_FILTER CAN_RAW_LOOPBACK*/
+    setsockopt(canfd, SOL_CAN_RAW, CAN_RAW_FILTER,
 			   &loopback, sizeof(loopback));
     thread_can_fd = canfd;
 	return canfd;
