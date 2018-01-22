@@ -122,3 +122,20 @@ int MxDbus::CanWrite(int can_fd,const QString &data,int len)
 {
     return mxde_session_iface->CanWrite(can_fd,data,len);
 }
+//info
+QString MxDbus::getSystemInfo()
+{
+    return mxde_session_iface->getSystemInfo();
+}
+QString MxDbus::getCpuInfo()
+{
+    return mxde_session_iface->getCpuInfo();
+}
+QString MxDbus::getMemoryInfo()
+{
+    return mxde_session_iface->getMemoryInfo();
+}
+QString MxDbus::getStorageInfo()
+{
+    return mxde_session_iface->getStorageInfo();
+}

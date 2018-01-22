@@ -57,7 +57,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>EVENT</source>
+        <source>EVEN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -158,6 +158,22 @@
     </message>
     <message>
         <source>Please open CAN first!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CPU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

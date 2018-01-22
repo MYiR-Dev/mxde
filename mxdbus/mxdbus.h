@@ -47,6 +47,11 @@ public:
     int closeCanPort(const QString &can_name,int can_fd);
     int setCanPort(const QString &can_name,int bitrate,int status,const QString &loop);
     int CanWrite(int can_fd,const QString &data,int len);
+//info
+    QString getSystemInfo();
+    QString getCpuInfo();
+    QString getMemoryInfo();
+    QString getStorageInfo();
 signals:
 
 public slots:

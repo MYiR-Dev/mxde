@@ -7,7 +7,8 @@ SOURCES += \
     dbus_server.c \
     led.c \
     tty.c \
-    can.c
+    can.c \
+    info.c
 
 include(./config.pri)
 
@@ -44,5 +45,6 @@ HEADERS += \
     dbus_server.h \
     tty.h \
     common.h \
-    can.h
+    can.h \
+    info.h
 

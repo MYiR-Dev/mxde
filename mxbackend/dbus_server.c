@@ -9,6 +9,7 @@
 #include "dbus_server.h"
 #include "tty.h"
 #include "can.h"
+#include "info.h"
 //serial start
 void getSerialList_method_call(DBusMessage * msg, DBusConnection * conn)
 {
@@ -373,7 +374,7 @@ void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
 	dbus_connection_flush (conn);
 	dbus_message_unref (reply);		
 }
-
+//led start
 void send_led_set_signal(char *name, int brightness,DBusConnection * conn)
 {
 	dbus_uint32_t serial = 0; 
@@ -466,7 +467,105 @@ void getLedList_method_call(DBusMessage * msg, DBusConnection * conn)
 	dbus_connection_flush (conn);
 	dbus_message_unref (reply);	
 }
+//led end
+//info start
+void getSystemInfo_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char buf[100] = {0};
+    char *respone;
 
+    get_system_info(buf);
+    respone = &buf[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+void getCpuInfo_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char buf[500] = {0};
+    char *respone;
+
+    get_cpu_info(buf);
+    respone = &buf[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+void getMemoryInfo_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char buf[500] = {0};
+    char *respone;
+
+    get_mem_info(buf);
+    respone = &buf[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+void getStorageInfo_method_call(DBusMessage * msg, DBusConnection * conn)
+{
+    DBusMessage * reply;
+    DBusMessageIter arg;
+    char buf[1500] = {0};
+    char *respone;
+
+    get_storage_info(buf);
+    respone = &buf[0];
+
+    reply = dbus_message_new_method_return(msg);
+    dbus_message_iter_init_append(reply,&arg);
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if( !dbus_connection_send (conn, reply, NULL)){
+        printf("Out of Memory/n");
+        return;
+    }
+
+    dbus_connection_flush (conn);
+    dbus_message_unref (reply);
+}
+//info end
 void listen_dbus()
 {
     DBusMessage * msg;
@@ -567,21 +666,21 @@ void listen_dbus()
 
                 CanWrite_method_call(msg,connection);
 
-            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"getSystemInfo")){
 
-                //closeSerialPort_method_call(msg,connection);
+                getSystemInfo_method_call(msg,connection);
 
-            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"getCpuInfo")){
 
-                //closeSerialPort_method_call(msg,connection);
+                getCpuInfo_method_call(msg,connection);
 
-            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"getMemoryInfo")){
 
-                //closeSerialPort_method_call(msg,connection);
+                getMemoryInfo_method_call(msg,connection);
 
-            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"xxxxx")){
+            }else if(dbus_message_is_method_call(msg,DBUS_SERVER_INTERFACE,"getStorageInfo")){
 
-                //closeSerialPort_method_call(msg,connection);
+                getStorageInfo_method_call(msg,connection);
 
             }else if(dbus_message_is_method_call(msg,DBUS_INTROSSPECTABLE_INTERFACE,"Introspect")){
 				Introspect_method_call(msg,connection);

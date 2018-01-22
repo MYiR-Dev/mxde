@@ -26,6 +26,10 @@
         <source>CAN BUS Test</source>
         <translation>CAN总线测试</translation>
     </message>
+    <message>
+        <source>System info</source>
+        <translation>系统信息</translation>
+    </message>
 </context>
 <context>
     <name>SystemContentWidget</name>
@@ -152,6 +156,22 @@
     <message>
         <source>Please open CAN first!</source>
         <translation>请先打开CAN接口！</translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation>系统</translation>
+    </message>
+    <message>
+        <source>CPU</source>
+        <translation>处理器</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>内存</translation>
+    </message>
+    <message>
+        <source>Storage</source>
+        <translation>储存空间</translation>
     </message>
 </context>
 </TS>

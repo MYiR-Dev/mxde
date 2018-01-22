@@ -274,7 +274,7 @@ void set_imx6ul_rs485(int fd,int len,int statu)
     char buf[100] ={0};
 
     f_fd = open(DEVICE_TREE_CAMPATIABLE,O_RDONLY);
-    if(fd < 0)
+    if(f_fd < 0)
     {
         printf("open %s error!\n",DEVICE_TREE_CAMPATIABLE);
     }
@@ -284,6 +284,8 @@ void set_imx6ul_rs485(int fd,int len,int statu)
     {
         struct serial_rs485 rs485conf;
         int res,rs485_wait_time=0;
+
+        usleep(100000);
         printf("imx6ull rs485\n");
         /* Get configure from device */
         res = ioctl(fd, TIOCGRS485, &rs485conf);
@@ -296,15 +298,15 @@ void set_imx6ul_rs485(int fd,int len,int statu)
         if(statu == 1)
         {
             rs485conf.flags |= SER_RS485_RTS_AFTER_SEND;
+
         }
-        else
+        else if(statu == 0)
         {
             rs485conf.flags &= ~SER_RS485_RTS_AFTER_SEND;
             rs485_wait_time = 10*len/current_birate*1000;
             rs485conf.delay_rts_after_send = rs485_wait_time;
         }
-
-
+        else;
         /* Set configure to device */
         res = ioctl(fd, TIOCSRS485, &rs485conf);
         if (res < 0) {

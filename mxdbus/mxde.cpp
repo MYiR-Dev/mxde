@@ -110,3 +110,24 @@ int MxDE::callCanWrite(int can_fd,const QString &data,int len)
     MxDbus *bus = (MxDbus *)m_dbus;
     return bus->CanWrite(can_fd,data,len);
 }
+//info
+QString MxDE::callgetSystemInfo()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getSystemInfo();
+}
+QString MxDE::callgetCpuInfo()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getCpuInfo();
+}
+QString MxDE::callgetMemoryInfo()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getMemoryInfo();
+}
+QString MxDE::callgetStorageInfo()
+{
+    MxDbus *bus = (MxDbus *)m_dbus;
+    return bus->getStorageInfo();
+}

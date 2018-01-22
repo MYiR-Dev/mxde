@@ -431,8 +431,11 @@ void SystemContentWidget::on_sendPushButton_clicked()
 
         if(ok)
         {
-            sendNum += sendStr.length();
-            m_mxde->callSerialWrite(m_serial_fd,sendStr,sendStr.length());
+            if(sendStr.length() > 0)
+            {
+                sendNum += sendStr.length();
+                m_mxde->callSerialWrite(m_serial_fd,sendStr,sendStr.length());
+            }
 
         }
         else
