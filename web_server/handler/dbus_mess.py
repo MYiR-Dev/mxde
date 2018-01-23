@@ -44,7 +44,6 @@ def send_message_to_html(message,item_list):
             logging.error('Error sending message', exc_info=True)
 
 
-
 class mainloop_class():
 
     def __init__(self):
@@ -113,19 +112,29 @@ def str_operate(fd,str_input,fun):
     temp_fd = dbus.Int16(fd)
     str_len = len(str_input)
     integer_str_num = str_len / MAX_LEN
+    print "--------------------------------------------",integer_str_num
     remainder_str_num = str_len % MAX_LEN
+    print "--------------------------------------------",remainder_str_num
+
     for i in range(0, integer_str_num, 1):
         start_pos = i * MAX_LEN
         end_pos = i * MAX_LEN + MAX_LEN
         temp_str = str_input[start_pos:end_pos]
         # temp_fd=dbus.Int16(fd)
         temp_data_buf = dbus.String(temp_str)
+
         temp_buff_size=dbus.Int16(MAX_LEN)
+        print "----",temp_data_buf
+        print "----",temp_buff_size
         fun(temp_fd,temp_data_buf,temp_buff_size)
-    temp_str = str_input[integer_str_num * MAX_LEN:integer_str_num * MAX_LEN + remainder_str_num]
-    temp_data_buf = dbus.String(temp_str)
-    temp_buff_size = dbus.Int16(remainder_str_num)
-    fun(temp_fd, temp_data_buf, temp_buff_size)
+        print "+++++++++++++++123"
+    if remainder_str_num>0:
+        print "---------------------------------------------- send data---"
+        temp_str = str_input[integer_str_num * MAX_LEN:integer_str_num * MAX_LEN + remainder_str_num]
+        temp_data_buf = dbus.String(temp_str)
+        temp_buff_size = dbus.Int16(remainder_str_num)
+        fun(temp_fd, temp_data_buf, temp_buff_size)
+        print "+++++++++++++++124";
 
 class str_intercept():
     MAX_LEN=30
@@ -257,11 +266,19 @@ class dbus_can(BaseMessage_DBus):
 
     def can_recv_data(self, fd, can_id, len,can_data):
         from handler.index import WebSocketHandler_myir
-        print ("can_rev = "),dbus.Int16(fd)
-        print ("can_rev = "),dbus.Int16(can_id)
-        print ("can_rev = "),dbus.Int16(len)
-        print ("can_rev DAT= "),dbus.String(can_data)
-        pass
+        # print ("can_rev = "),dbus.Int16(fd)
+        # print ("can_rev = "),dbus.Int32(can_id)
+        # print ("can_rev = "),dbus.Int16(len)
+        # print ("can_rev DAT= "),dbus.String(can_data)
+
+        configure_data = MyClass_json()
+        from handler.index import GL
+        configure_data.name_cmd = "can_recv_data"
+        configure_data.data_buff = can_data
+        configure_data.data_id = can_id
+        configure_data_json = configure_data.__dict__
+        json_data = json.dumps(configure_data_json)
+        send_message_to_html(json_data, WebSocketHandler_myir)
 
 ## can
     def can_open(self,can_name):

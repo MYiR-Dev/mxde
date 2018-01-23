@@ -158,21 +158,29 @@ class Parse_command():
 
     def can_handler(self,python_object,dbus_call_t):
         can_name = python_object["name"]
+        can_id = python_object["can_id"]
         can_control = python_object["control"]
-        if can_control == 0:  # close
+        baudrate = python_object["baud_rate"]
+        can_loop = python_object["can_loop"]
+        # print "can_loop=",can_loop
+        if can_control == 0:    # close
+            dbus_call_t.can_set_parameter(can_name, baudrate, 0, can_loop)
             dbus_call_t.can_close(can_name, GL.fd_can)
             GL.fd_can = 0
         elif can_control == 1:  # open
-            GL.fd_can = dbus_call_t.can_open(can_name)
+            dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
+            GL.fd_can = dbus_call_t.can_open(can_name)  # get can id
+            print "uuu=",GL.fd_can
         elif can_control == 2:  # set
             baudrate = python_object["baud_rate"]
-            # baudrate_int=int(baudrate)
-            sendbuff_len = python_object["can_len_sendbuff"]
-            # dbus_call_t.set_serial_parameter(fd_can, baudrate, databit, 0, 1, captbit, stopbit)
-            dbus_call_t.can_set_parameter(can_name, baudrate, 1, "ON")
+            # sendbuff_len = python_object["can_len_sendbuff"]
+            dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
         elif can_control == 3:  # send
             buf_data = python_object["buf_data"]
-            self.can_dbus_call.can_send_data(GL.fd_can, buf_data, len(buf_data))
+            buf_send=str(can_id)+"+"+buf_data
+            print "can test=",buf_send
+            print "uuu1=", GL.fd_can
+            self.can_dbus_call.can_send_data(GL.fd_can, buf_send, len(buf_data))
         else:
             pass
 
