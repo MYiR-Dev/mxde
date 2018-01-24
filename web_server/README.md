@@ -49,7 +49,6 @@ Now that you're more familiar with your Bitbucket repository, go ahead and add a
 
 * 基于tornado框架开的web服务demo.
 * 后台与前端html间使用websocket 通讯
-
 * 后台程序现在暂时要与dbus通讯.
 
 - 2017年11月15日
