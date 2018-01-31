@@ -233,7 +233,7 @@ void SystemContentWidget::dbsServicePropertyChanged(QString property, QDBusVaria
     QVariant value = dbvalue.variant();
     QString s_state;
 
-    qDebug() << "dbsServicePropertyChanged";
+    //qDebug() << "dbsServicePropertyChanged";
     // replace the old values with the changed ones.
     for (int i = 0; i < services_list.count(); ++i) {
         if (s_path == services_list.at(i).objpath.path() ) {
@@ -257,7 +257,7 @@ void SystemContentWidget::dbsServicePropertyChanged(QString property, QDBusVaria
 void SystemContentWidget::dbsServicesChanged(QList<QVariant> vlist, QList<QDBusObjectPath> removed, QDBusMessage msg)
 {
 
-     qDebug() << "dbsServicesChanged";
+     //qDebug() << "dbsServicesChanged";
     // process removed services
     if (! removed.isEmpty() ) {
     for (int i = 0; i < services_list.count(); ++i) {

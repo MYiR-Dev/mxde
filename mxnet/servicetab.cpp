@@ -120,7 +120,7 @@ void ServiceTab::updateContentsPage(arrayElement ael)
 {
     if(ael.objpath.path() == services_item.objpath.path())
     {
-        qDebug() <<"updateContentsPage";
+
         m_detail_page->updateData(ael);
         m_config_page->updateData(ael);
     }
