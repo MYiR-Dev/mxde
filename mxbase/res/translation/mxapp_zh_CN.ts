@@ -27,6 +27,10 @@
         <translation>CAN总线测试</translation>
     </message>
     <message>
+        <source>Ethernet Test</source>
+        <translation>以太网测试</translation>
+    </message>
+    <message>
         <source>System info</source>
         <translation>系统信息</translation>
     </message>
@@ -172,6 +176,45 @@
     <message>
         <source>Storage</source>
         <translation>储存空间</translation>
+    </message>
+</context>
+<context>
+    <name>ServiceTab</name>
+    <message>
+        <source>IPv4 Info</source>
+        <translation>IPv4信息</translation>
+    </message>
+    <message>
+        <source>Setting</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Ping Test</source>
+        <translation>Ping测试</translation>
+    </message>
+
+</context>
+<context>
+    <name>ServiceConfigPage</name>
+    <message>
+        <source>Method</source>
+        <translation>IP获取方式</translation>
+    </message>
+    <message>
+        <source>IP Address</source>
+        <translation>IP地址</translation>
+    </message>
+    <message>
+        <source>Netmask</source>
+        <translation>子网掩码</translation>
+    </message>
+    <message>
+        <source>Gateway</source>
+        <translation>网关</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
     </message>
 </context>
 </TS>

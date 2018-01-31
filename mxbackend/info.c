@@ -8,7 +8,7 @@
 #define CPU_INFO_CMD "cat /proc/cpuinfo"
 #define MEM_INFO_PATH "/proc/meminfo"
 #define MEM_INFO_LINE 28
-#define STORAGE_MMC_INFO_CMD "fdisk -l /dev/mmcblk0"
+#define STORAGE_MMC_INFO_CMD "fdisk -l | grep mmcblk*"
 #define STORAGE_NAND_INFO_CMD " fdisk -l | grep /dev/mtd*"
 
 #define DEVICE_TREE_CAMPATIABLE "cat /sys/firmware/devicetree/base/compatible | grep am43"
@@ -68,7 +68,7 @@ void get_cpu_info(char * res)
 {
 
     int fd = 0;
-    char buf[12*MEM_INFO_LINE] = {0};
+    char buf[3*MEM_INFO_LINE] = {0};
 
     fd = open(MEM_INFO_PATH,O_RDONLY);
     if(fd < 0)
