@@ -24,6 +24,10 @@
 ServiceConfigPage::ServiceConfigPage(arrayElement ael, QWidget *parent) : QWidget(parent)
 {
 
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(Qt::white));
+    this->setPalette(palette);
     m_settingGroup = new QGroupBox(this);
     m_settingGroup->setObjectName(QStringLiteral("groupBox"));
     m_settingGroup->setGeometry(QRect(0, 0, 800, 200));

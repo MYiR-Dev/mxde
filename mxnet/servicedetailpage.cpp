@@ -18,30 +18,34 @@
 #include <QDebug>
 ServiceDetailPage::ServiceDetailPage(arrayElement ael,QWidget *parent) : QWidget(parent)
 {
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(Qt::white));
+    this->setPalette(palette);
 
-      info_group_box = new QGroupBox(this);
-      info_group_box->setObjectName(QStringLiteral("groupBox_2"));
-      info_group_box->setGeometry(QRect(0, 0, 761, 161));
+    info_group_box = new QGroupBox(this);
+    info_group_box->setObjectName(QStringLiteral("groupBox_2"));
+    info_group_box->setGeometry(QRect(0, 0, 761, 161));
 
-      horizontalLayout = new QHBoxLayout(info_group_box);
-      horizontalLayout->setSpacing(6);
-      horizontalLayout->setContentsMargins(1, 1, 1, 1);
-      horizontalLayout->setObjectName(QStringLiteral("horizontalLayout_2"));
-      label_details_right = new QLabel(info_group_box);
-      label_details_right->setObjectName(QStringLiteral("label_details_right"));
+    horizontalLayout = new QHBoxLayout(info_group_box);
+    horizontalLayout->setSpacing(6);
+    horizontalLayout->setContentsMargins(1, 1, 1, 1);
+    horizontalLayout->setObjectName(QStringLiteral("horizontalLayout_2"));
+    label_details_right = new QLabel(info_group_box);
+    label_details_right->setObjectName(QStringLiteral("label_details_right"));
 
-      horizontalLayout->addWidget(label_details_right);
+    horizontalLayout->addWidget(label_details_right);
 
-      label_details_left = new QLabel(info_group_box);
-      label_details_left->setObjectName(QStringLiteral("label_details_left"));
+    label_details_left = new QLabel(info_group_box);
+    label_details_left->setObjectName(QStringLiteral("label_details_left"));
 
-      horizontalLayout->addWidget(label_details_left);
+    horizontalLayout->addWidget(label_details_left);
 
-      label_details_left->raise();
-      label_details_right->raise();
+    label_details_left->raise();
+    label_details_right->raise();
 
-      services_item = ael;
-      initUI();
+    services_item = ael;
+    initUI();
 }
 void ServiceDetailPage::initUI()
 {

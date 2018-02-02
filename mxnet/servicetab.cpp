@@ -72,7 +72,7 @@ void ServiceTab::initUI()
     stackedWidget->setCurrentIndex(0);
 
     contentsWidget->setCurrentRow(0);
-    current_tip = contentsWidget->currentItem()->statusTip();
+
 
     QVBoxLayout *center_layout = new QVBoxLayout();
     center_layout->addWidget(stackedWidget);

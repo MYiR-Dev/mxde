@@ -19,7 +19,10 @@
 #include <QDebug>
 ServiceTestPage::ServiceTestPage(arrayElement  ale,QWidget *parent) : QWidget(parent)
 {
-
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(Qt::white));
+    this->setPalette(palette);
     m_pingGrouBox = new QGroupBox(this);
     m_pingWidget = new QWidget(m_pingGrouBox);
     m_pingWidget->setObjectName(QStringLiteral("layoutWidget2"));
