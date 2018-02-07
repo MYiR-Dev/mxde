@@ -112,9 +112,7 @@ def str_operate(fd,str_input,fun):
     temp_fd = dbus.Int16(fd)
     str_len = len(str_input)
     integer_str_num = str_len / MAX_LEN
-    print "--------------------------------------------",integer_str_num
     remainder_str_num = str_len % MAX_LEN
-    print "--------------------------------------------",remainder_str_num
 
     for i in range(0, integer_str_num, 1):
         start_pos = i * MAX_LEN
@@ -124,17 +122,12 @@ def str_operate(fd,str_input,fun):
         temp_data_buf = dbus.String(temp_str)
 
         temp_buff_size=dbus.Int16(MAX_LEN)
-        print "----",temp_data_buf
-        print "----",temp_buff_size
         fun(temp_fd,temp_data_buf,temp_buff_size)
-        print "+++++++++++++++123"
     if remainder_str_num>0:
-        print "---------------------------------------------- send data---"
         temp_str = str_input[integer_str_num * MAX_LEN:integer_str_num * MAX_LEN + remainder_str_num]
         temp_data_buf = dbus.String(temp_str)
         temp_buff_size = dbus.Int16(remainder_str_num)
         fun(temp_fd, temp_data_buf, temp_buff_size)
-        print "+++++++++++++++124";
 
 class str_intercept():
     MAX_LEN=30
@@ -144,7 +137,6 @@ class str_intercept():
         pass
     def ret_str(self,str_input):
         str_len=len(str_input)
-
         self.integer_str_num=str_len/self.MAX_LEN
         self.remainder_str_num=str_len%self.MAX_LEN
         for i in range(0,self.integer_str_num,1):
@@ -154,7 +146,6 @@ class str_intercept():
             # print temp_str
             #handker data
             # return temp_str
-
 ## led
 class dbus_led(BaseMessage_DBus):
 
@@ -257,7 +248,6 @@ class dbus_can(BaseMessage_DBus):
 
     def __init__(self):
         pass
-
     def add_signal_call(self):
         # pass
         BaseMessage_DBus.bus.add_signal_receiver(self.can_recv_data,dbus_interface=BaseMessage_DBus.dbus_interface, \
@@ -270,7 +260,6 @@ class dbus_can(BaseMessage_DBus):
         # print ("can_rev = "),dbus.Int32(can_id)
         # print ("can_rev = "),dbus.Int16(len)
         # print ("can_rev DAT= "),dbus.String(can_data)
-
         configure_data = MyClass_json()
         from handler.index import GL
         configure_data.name_cmd = "can_recv_data"
@@ -279,7 +268,6 @@ class dbus_can(BaseMessage_DBus):
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
-
 ## can
     def can_open(self,can_name):
         temp = dbus.String(can_name)

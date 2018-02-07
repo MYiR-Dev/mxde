@@ -12,8 +12,8 @@ import tornado.options
 import tornado.httpserver
 
 from tornado.options import define,options
-from tornado.websocket import WebSocketHandler
 
+from tornado.websocket import WebSocketHandler
 from application import application
 
 # from traceback import print_exc
@@ -24,6 +24,7 @@ from application import application
 
 from handler.dbus_mess import mainloop_class
 from handler.index import get_ip_address
+from handler.index import class_eth
 
 define("port",default=8090,help="run on th given port",type=int)
 
