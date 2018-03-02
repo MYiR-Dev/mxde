@@ -26,6 +26,7 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QPaintEvent>
+#include <QShowEvent>
 #include <QPainter>
 
 class MxMainDialog : public QDialog
@@ -51,9 +52,11 @@ public:
 
 public slots:
     void OnSystemDialogClosed();
+    void MainDialogShown();
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void showEvent(QShowEvent *event);
 
 private:
     MxApplication       *m_app;
