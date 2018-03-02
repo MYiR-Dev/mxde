@@ -142,7 +142,7 @@ void MxDesktopFile::processError(QProcess::ProcessError err)
 void MxDesktopFile::processStarted()
 {
     //emit demoStarted();
-//    QTimer::singleShot(200, this, SIGNAL(demoStarted()));
+    QTimer::singleShot(3000, this, SIGNAL(demoStarted()));
 }
 
 void MxDesktopFile::processData()

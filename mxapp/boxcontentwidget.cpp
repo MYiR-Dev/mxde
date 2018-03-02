@@ -214,6 +214,7 @@ void BoxContentWidget::mousePressEvent(QMouseEvent *event)
 void BoxContentWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     mousePressed = false;
+    disconnect(m_list_view, 0,0,0);
     connect(m_list_view,SIGNAL(clicked(const QModelIndex&)),this,SLOT(OnClickListView(const QModelIndex &)));
 }
 
