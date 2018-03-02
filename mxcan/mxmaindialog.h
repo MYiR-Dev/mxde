@@ -27,6 +27,7 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QPaintEvent>
+#include <QShowEvent>
 #include <QPainter>
 
 class MxMainDialog : public QDialog
@@ -56,9 +57,11 @@ signals:
 public slots:
     void OnSystemDialogClosed();
 //    void onSerialRecvData(int uart_fd, const QString &data, int size);
+    void MainDialogShown();
 	void onCanRecvData(int can_fd,int can_id,int can_dlc,const QString &data);
 protected:
     void paintEvent(QPaintEvent *event);
+    void showEvent(QShowEvent *event);
 
 private:
     MxApplication       *m_app;

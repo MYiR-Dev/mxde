@@ -37,7 +37,8 @@
 #ifndef TIOCGRS485
     #define TIOCGRS485     0x542E
 #endif
-
+#define DEVICE_TREE_CAMPATIABLE "/sys/firmware/devicetree/base/compatible"
+#define DEVICE_IMX6 "imx6"
 struct tty_dev
 {
 	char tty_dev[MAX_INPUT];

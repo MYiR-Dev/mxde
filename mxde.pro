@@ -8,7 +8,9 @@ SUBDIRS += \
     mxserial \
     mxrs485 \
     mxcan \
-    mxnet
+    mxnet \
+    mxinfo \
+    mxsupport
 
 
 TRANSLATIONS += \

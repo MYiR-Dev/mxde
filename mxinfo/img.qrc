@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>res/hardware/system.png</file>
+     <file>res/hardware/cpu.png</file>
+     <file>res/hardware/memory.png</file>
+     <file>res/hardware/storage.png</file>
+ </qresource>
+ </RCC>

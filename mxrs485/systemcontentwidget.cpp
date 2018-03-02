@@ -26,7 +26,8 @@
 #include <QDirIterator>
 #include <QStringList>
 #include <QPalette>
-
+#define TTY_RS485_MODE			1
+#define TTY_RS232_MODE			0
 SystemContentWidget::SystemContentWidget(QWidget *parent, MxApplication *obj, int width , int height )
             :BaseWidget(parent,obj)
 {
@@ -105,7 +106,7 @@ void SystemContentWidget::createSettingGroupBox()
     mSerialCheckBit = new QLabel(m_SettingGroup);
     mSerialCheckBit->setText(tr("Check:"));
     mSerialCheckBitComboBox =  new QComboBox(m_SettingGroup);
-    mSerialCheckBitComboBox->insertItems(0,QStringList()<<tr("NONE")<<tr("EVENT")<<tr("ODD"));
+    mSerialCheckBitComboBox->insertItems(0,QStringList()<<tr("NONE")<<tr("EVEN")<<tr("ODD"));
     QHBoxLayout *hLayout3 = new QHBoxLayout(m_SettingGroup);
     hLayout3->addWidget(mSerialCheckBit);
     hLayout3->addWidget(mSerialCheckBitComboBox);
@@ -369,8 +370,24 @@ void SystemContentWidget::on_openPushButton_clicked()
         {
 
             QString serial_param;
-            int serial_mode = 0;
+            int serial_mode = TTY_RS485_MODE;
             int tty_flow = 0;
+
+            switch( mSerialCheckBitComboBox->currentIndex())
+            {
+                case 0:
+                    checkBitStr = "NONE";
+                    break;
+                case 1:
+                    checkBitStr = "EVEN";
+                    break;
+                case 2:
+                    checkBitStr = "ODD";
+                    break;
+                default:
+                    break;
+            }
+
             QByteArray check = checkBitStr.toLatin1();
 
             serial_param.sprintf("%d %d %d %d %d %s %d",m_serial_fd,rateStr.toInt(),dataBitStr.toInt(), serial_mode, serial_mode,check.data(),stopBbitStr.toInt());
@@ -414,8 +431,11 @@ void SystemContentWidget::on_sendPushButton_clicked()
 
         if(ok)
         {
-            sendNum += sendStr.length();
-            m_mxde->callSerialWrite(m_serial_fd,sendStr,sendStr.length());
+            if(sendStr.length() > 0)
+            {
+                sendNum += sendStr.length();
+                m_mxde->callSerialWrite(m_serial_fd,sendStr,sendStr.length());
+            }
 
         }
         else

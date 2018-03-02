@@ -132,9 +132,23 @@
                     <arg name="can_dlc" type="i" direction="out"/>
                     <arg name="can_data" type="s" direction="out"/>
                 </signal>
+<!--
+    info
+-->
+                <method name="getSystemInfo">
+                    <arg name="sys_info" type="s" direction="out"/>
+                </method>
+                <method name="getCpuInfo">
+                    <arg name="cpu_info" type="s" direction="out"/>
+                </method>
+                <method name="getMemoryInfo">
+                    <arg name="memory_info" type="s" direction="out"/>
+                </method>
+                <method name="getStorageInfo">
+                    <arg name="storage_info" type="s" direction="out"/>
+                </method>
         </interface>
-		
-		
+
         <interface name="org.freedesktop.DBus.Introspectable">
             <method name="Introspect">
                 <arg name="xml_data" type="s" direction="out"/>

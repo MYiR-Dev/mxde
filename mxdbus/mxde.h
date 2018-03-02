@@ -42,7 +42,11 @@ public:
     int callsetCanPort(const QString &can_name,int bitrate,int status,const QString &loop);
     int callCanWrite(int can_fd,const QString &data,int len);
     bool    isValid();
-
+//info
+    QString callgetSystemInfo();
+    QString callgetCpuInfo();
+    QString callgetMemoryInfo();
+    QString callgetStorageInfo();
 signals:
 
 public slots:

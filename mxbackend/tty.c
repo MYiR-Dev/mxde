@@ -25,7 +25,7 @@
 #define RS485_INFO_PATH "/usr/share/myir/board_rs485_info"
 pthread_t tty_thread_id = 0;
 int thread_tty_fd = 0;
-
+int current_birate =0;
 /******************************************************************************
   Function:       tty_init
   Description:    initialize tty device
@@ -48,6 +48,7 @@ void tty_close(int fd)
 {
     close(fd);
     thread_tty_fd = 0;
+    current_birate = 0;
 }
 /******************************************************************************
   Function:       tty_setting
@@ -67,6 +68,8 @@ int 			tty_setting(int fd, int bitrate, int datasize, int mode, int flow, int pa
 {
 	struct termios newtio;
     dbg_printf("%d %d %d %d %d %d %d\n",fd,bitrate,datasize,mode,flow,par,stop);
+
+    current_birate = bitrate;
 	/* ignore modem control lines and enable receiver */
 	memset(&newtio, 0, sizeof(newtio));
 	newtio.c_cflag = newtio.c_cflag |= CLOCAL | CREAD;
@@ -265,40 +268,96 @@ int				tty_read(int fd, char *frame)
 	return ret;
 	
 }
-	
+void set_imx6ul_rs485(int fd,int len,int statu)
+{
+    int f_fd = 0;
+    char buf[100] ={0};
+
+    f_fd = open(DEVICE_TREE_CAMPATIABLE,O_RDONLY);
+    if(f_fd < 0)
+    {
+        printf("open %s error!\n",DEVICE_TREE_CAMPATIABLE);
+    }
+
+    read(f_fd, buf ,sizeof(buf));
+    if(strstr(buf, DEVICE_IMX6))
+    {
+        struct serial_rs485 rs485conf;
+        int res,rs485_wait_time=0;
+
+        usleep(100000);
+        printf("imx6ull rs485\n");
+        /* Get configure from device */
+        res = ioctl(fd, TIOCGRS485, &rs485conf);
+        if (res < 0) {
+                perror("Ioctl error on getting 485 configure:");
+                close(fd);
+                return res;
+        }
+
+        if(statu == 1)
+        {
+            rs485conf.flags |= SER_RS485_RTS_AFTER_SEND;
+
+        }
+        else if(statu == 0)
+        {
+            rs485conf.flags &= ~SER_RS485_RTS_AFTER_SEND;
+            rs485_wait_time = 10*len/current_birate*1000;
+            rs485conf.delay_rts_after_send = rs485_wait_time;
+        }
+        else;
+        /* Set configure to device */
+        res = ioctl(fd, TIOCSRS485, &rs485conf);
+        if (res < 0) {
+                perror("Ioctl error on setting 485 configure:");
+                close(fd);
+        }
+
+    }
+    close(f_fd);
+
+}
 int				tty_write(int fd, char *frame, int len)
 {
-	int ret = -1;
+    int ret = -1;
+
+    set_imx6ul_rs485(fd,len,0);
+
 	ret = write(fd, frame, len);
 	if(ret < 0){
 		dbg_perror("tty write!");
-		}
+    }
+
+    set_imx6ul_rs485(fd,len,1);
+
 	return ret;
 }
 
 int 			tty_mode(const int fd,  int mode)
 {
 	struct serial_rs485 rs485conf;
-	int res;
+    int res;
 	/* Get configure from device */
+
 	res = ioctl(fd, TIOCGRS485, &rs485conf);
-	if (res < 0) {
+    if (res < 0)
+    {
 		perror("Ioctl error on getting 485 configure:");
 		close(fd);
 		return res;
 	}
 
-	/* Set enable/disable to configure */
-	if(mode == TTY_RS485_MODE){
-		// Enable rs485 mode
-		rs485conf.flags |= SER_RS485_ENABLED;
-		} 
-	else{
-		// Disable rs485 mode
-		rs485conf.flags &= ~(SER_RS485_ENABLED);
-		}
+    /* Set enable/disable to configure */
+    if(mode == TTY_RS485_MODE)
+        // Enable rs485 mode
+        rs485conf.flags |= SER_RS485_ENABLED;
+    else
+        // Disable rs485 mode
+        rs485conf.flags &= ~(SER_RS485_ENABLED);
 
-	rs485conf.delay_rts_before_send = 0x00000004;
+
+    rs485conf.delay_rts_before_send = 0x00000004;
 
 	/* Set configure to device */
 	res = ioctl(fd, TIOCSRS485, &rs485conf);
@@ -306,7 +365,7 @@ int 			tty_mode(const int fd,  int mode)
 		perror("Ioctl error on setting 485 configure:");
 		close(fd);
 	}
-	
+
 	return res;
 }
 void get_rs485_list(char * result)
@@ -365,6 +424,7 @@ void parse_tty_param(char *tty_param)
     if(i == 7)
     {
         tty_setting(atoi(param[0]),atoi(param[1]),atoi(param[2]),atoi(param[3]),atoi(param[4]),param[5][0],atoi(param[6]));
+
         thread_tty_fd = atoi(param[0]);
         create_tty_read_thread();
     }

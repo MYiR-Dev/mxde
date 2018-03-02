@@ -21,6 +21,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QDialog>
+#include <QTimer>
+#include <iostream>
 
 MxMainDialog::MxMainDialog(MxApplication *app, QWidget *parent, int w, int h)
     : QDialog(parent)
@@ -129,6 +131,19 @@ void MxMainDialog::OnSystemDialogClosed()
         m_parent->raise();
     }
     this->close();
+}
+
+void MxMainDialog::showEvent(QShowEvent *ev)
+{
+    QDialog::showEvent(ev);
+//    QTimer::singleShot(50, this, SLOT(MainDialogShown()));
+	this->MainDialogShown();
+}
+
+void MxMainDialog::MainDialogShown()
+{
+    std::cout << "MainDialogShown" << std::endl;
+    std::cerr << "MainDialogShown" << std::endl;
 }
 
 void MxMainDialog::paintEvent(QPaintEvent *event)

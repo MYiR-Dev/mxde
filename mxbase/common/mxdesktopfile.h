@@ -12,6 +12,7 @@ class MxDesktopFile : public QObject
     Q_OBJECT
 public:
     explicit MxDesktopFile(const QString &fileName="", MxApplication *app = 0);
+    ~MxDesktopFile();
 
 	QString getFileName() const;
 	QString getPureFileName() const;
@@ -29,6 +30,7 @@ public slots:
     void processStarted();
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError err);
+    void processData();
 
 signals:
     void demoStarted();
@@ -45,7 +47,7 @@ private:
 	
 	QStringList categories;
 	QStringList mimeType;
-    QProcess  process;
+    QProcess  *process;
 
     MxApplication *m_app;
 };

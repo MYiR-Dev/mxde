@@ -442,19 +442,19 @@ QListView::item:alternate {
 QListView::item:selected:!active {
     /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                 stop: 0 #ABAFE5, stop: 1 #8588B2);*/
-    background:#e9eef1;
+    background:#ADD8E6;
 }
 
 QListView::item:selected:active {
     /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                 stop: 0 #6a6ea9, stop: 1 #888dd9);*/
-    background:#3f96e4;
+    background:#ADD8E6;
 }
 
 QListView::item:hover {
     /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                 stop: 0 #FAFBFE, stop: 1 #DCDEF1);*/
-    background:#e9eef0;
+    background:#ADD8E6;
 }
 
 /*QListView::item:hover {
@@ -521,27 +521,29 @@ QListWidget#infoList::item:selected:active {
 
 /*-------------------QTabWidget-------------------*/
 QTabWidget::tab-bar{
-        alignment:center;
+        alignment:left;
 }
 QTabBar::tab{
         left: 0px;
         top: 0px;
-        background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+        ackground:#1E90FF
+//        background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
         border: 1px solid #C4C4C3;
         border-bottom-color: #C2C7CB;
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
-        min-width: 137px;
+        min-width: 150px;
         min-height: 4ex;
         padding: 1px;
 }
 
 QTabBar::tab:selected, QTabBar::tab:hover{
-        background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #fafafa, stop: 0.4 #f4f4f4,stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+        background:#4169E1;
+//       background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #fafafa, stop: 0.4 #f4f4f4,stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
 }
 
 QTabBar::tab:selected{
-        border-color: #9B9B9B;
+        border-color: #1E90FF;
         border-bottom-color: white;
 }
 

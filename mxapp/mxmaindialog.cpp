@@ -401,13 +401,16 @@ void MxMainDialog::OnLanguageChanged(QString language)
 void MxMainDialog::OnDemoStarted()
 {
     qDebug() << "hide main \n" << endl;
+    if(this->isHidden()){
+        return;
+    }
+    lower();
     QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(100);
+    animation->setDuration(20);
     animation->setStartValue(this->pos());
     animation->setEndValue(this->pos()-QPoint(0,QApplication::desktop()->screenGeometry(0).height()));
     animation->start();
     connect(animation, SIGNAL(finished()), this, SLOT(hide()));
-//    lower();
 }
 
 void MxMainDialog::OnDemoFinished()
