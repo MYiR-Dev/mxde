@@ -27,6 +27,7 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QPaintEvent>
+#include <QShowEvent>
 #include <QPainter>
 
 
@@ -59,9 +60,11 @@ signals:
 public slots:
     void OnSystemDialogClosed();
 //    void onLedBrightnessChanged(const QString &message);
+    void MainDialogShown();
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void showEvent(QShowEvent *event);
 
 private:
     MxApplication       *m_app;

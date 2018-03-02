@@ -1,5 +1,5 @@
 #include "systemcontentwidget.h"
-#include "ui_mainwindow.h"
+
 #include <QDebug>
 #include <QWidget>
 #include <QListWidget>
