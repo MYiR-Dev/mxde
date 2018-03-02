@@ -24,17 +24,30 @@
 ServiceConfigPage::ServiceConfigPage(arrayElement ael, QWidget *parent) : QWidget(parent)
 {
 
+    m_width = parent->width()-120;
+    m_height = parent->height();
+
+    this->setFixedSize(m_width, m_height);
     this->setAutoFillBackground(true);
     QPalette palette;
     palette.setBrush(QPalette::Window, QBrush(Qt::white));
     this->setPalette(palette);
+
+    services_item = ael;
+    initUI();
+
+}
+
+void ServiceConfigPage::create_config_page()
+{
     m_settingGroup = new QGroupBox(this);
+    m_settingGroup->setTitle(tr("Setting"));
     m_settingGroup->setObjectName(QStringLiteral("groupBox"));
-    m_settingGroup->setGeometry(QRect(0, 0, 800, 200));
+    m_settingGroup->setGeometry(QRect(0, 0, m_width, m_height/2-20));
 
     m_okButton = new QPushButton(m_settingGroup);
     m_okButton->setObjectName(QStringLiteral("pushButton_ok"));
-    m_okButton->setGeometry(QRect(530, 130, 80, 22));
+    m_okButton->setGeometry(QRect(530, 128, 80, 22));
     m_okButton->setText(tr("OK"));
 
     m_methodlayoutWidget = new QWidget(m_settingGroup);
@@ -100,14 +113,38 @@ ServiceConfigPage::ServiceConfigPage(arrayElement ael, QWidget *parent) : QWidge
     m_gatewayLineEdit->setFocus(Qt::OtherFocusReason);
     m_infoformLayout->setWidget(2, QFormLayout::FieldRole, m_gatewayLineEdit);
 
-    services_item = ael;
-    initUI();
     connect(m_methodComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(ipv4Method(int)));
     connect(m_okButton, SIGNAL(clicked()), this, SLOT(updateConfiguration()));
 }
+void ServiceConfigPage::create_detail_page()
+{
+    info_group_box = new QGroupBox(this);
+    info_group_box->setTitle(tr("Info"));
+    info_group_box->setObjectName(QStringLiteral("groupBox"));
+    info_group_box->setGeometry(QRect(0, m_height/2-20, m_width, m_height/2-20));
+
+    label_details_right = new QLabel(info_group_box);
+    label_details_right->setObjectName(QStringLiteral("label_details_right"));
+
+    label_details_left = new QLabel(info_group_box);
+    label_details_left->setObjectName(QStringLiteral("label_details_left"));
+
+    showServiceDetails();
+
+    horizontalLayout = new QHBoxLayout(info_group_box);
+    horizontalLayout->setSpacing(1);
+    horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+
+    horizontalLayout->addWidget(label_details_right,0,Qt::AlignTop);
+    horizontalLayout->addWidget(label_details_left,0,Qt::AlignTop);
+    label_details_left->raise();
+    label_details_right->raise();
+
+}
 void ServiceConfigPage::initUI()
 {
-
+    create_config_page();
+    create_detail_page();
     objpath = services_item.objpath;
     objmap = services_item.objmap;
     shared::extractMapData(ipv4map, objmap.value("IPv4.Configuration") );
@@ -217,4 +254,55 @@ void ServiceConfigPage::updateConfiguration()
     // cleanup
     iface_serv->deleteLater();
 
+}
+void ServiceConfigPage::showServiceDetails()
+{
+    //  Make sure we were sent a valid index, can happen if the comboBox is
+    //  cleared and for whatever reason could not be reseeded with entries.
+
+
+    //  Get the QMap associated with the index stored in an arrayElement
+    QMap<QString,QVariant> map = services_item.objmap;
+
+    //  Some of the QVariants in the map are QMaps themselves, create a data structure for them
+    QMap<QString,QVariant> submap;
+
+
+    QString rs =tr("IPv4<br>");
+    shared::extractMapData(submap, services_item.objmap.value("IPv4") );
+    rs.append(tr("IP Address Acquisition: %1<br>").arg(submap.value("Method").toString()) );
+    if(submap.value("Method").toString() == "dhcp")
+    {
+
+        rs.append(tr("IP Address: %1<br>").arg(submap.value("Address").toString()));
+        rs.append(tr("IP Netmask: %1<br>").arg(submap.value("Netmask").toString()));
+        rs.append(tr("IP Gateway: %1<br>").arg(submap.value("Gateway").toString()));
+    }
+    if(submap.value("Method").toString() == "manual")
+    {
+
+        shared::extractMapData(submap, services_item.objmap.value("IPv4.Configuration") );
+        rs.append(tr("IP Address: %1<br>").arg(submap.value("Address").toString()));
+        rs.append(tr("IP Netmask: %1<br>").arg(submap.value("Netmask").toString()));
+        rs.append(tr("IP Gateway: %1<br>").arg(submap.value("Gateway").toString()));
+    }
+
+    //  write the text to the right display label
+    label_details_left->setText(rs);
+
+
+    rs = tr("Ethernet<br>");
+    shared::extractMapData(submap, services_item.objmap.value("Ethernet") );
+    rs.append(tr("Connection Method: %1<br>").arg(submap.value("Method").toString()));
+    rs.append(tr("Interface: %1<br>").arg(submap.value("Interface").toString()) );
+    rs.append(tr("Device Address: %1<br>").arg(submap.value("Address").toString()) );
+    rs.append(tr("MTU: %1<br>").arg(submap.value("MTU").value<quint16>()) );
+
+
+    //  write the text to the left display label
+
+    label_details_right->setText(rs);
+
+
+    return;
 }

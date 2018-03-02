@@ -7,6 +7,7 @@
 #include <QList>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QStandardItemModel>
 #include "mxde.h"
 #include "systemcontentwidget.h"
 #include "mxde.h"
@@ -42,15 +43,15 @@ void SystemContentWidget::initUI()
 {
 
     //this->setFixedSize(800, 480);
-
+   // OTHER_CONTENT_HEIGHT();
     m_info_label = new QLabel(this);
     m_info_label->adjustSize();
-    m_info_label->setGeometry(150,0,650,480);
+    m_info_label->setGeometry(130,0,m_width-130,m_height);
     m_info_label->setWordWrap(true);
     m_info_label->setAlignment(Qt::AlignTop);
 
     m_category_widget = new QListWidget(this);
-    m_category_widget->setFixedSize(150, 480);
+    m_category_widget->setFixedSize(130, m_height);
     m_category_widget->setFocusPolicy(Qt::NoFocus);
     m_category_widget->setObjectName("infoList");
 
@@ -75,6 +76,8 @@ void SystemContentWidget::initUI()
     connect(m_category_widget,SIGNAL(currentRowChanged(int)),this,SLOT(changeInfoPage(int)));
 
     m_category_widget->setCurrentRow(0);
+
+
 }
 
 void SystemContentWidget::initConnection()

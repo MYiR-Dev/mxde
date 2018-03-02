@@ -9,30 +9,28 @@
 #include <QSplitter>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QTableView>
-#include "mxde.h"
+
 #include "mxapplication.h"
 #include "basewidget.h"
 class SystemContentWidget : public BaseWidget
 {
     Q_OBJECT
 public:
-    MxDE    *m_mxde;
+
     SystemContentWidget(QWidget *parent = 0,MxApplication *obj = 0, int width = 0, int height = 0);
     ~SystemContentWidget();
     void setApplication(MxApplication *app);
-    void setDbusProxy(MxDE *mxde);
+
     void setParentWindow(QWidget *parent);
     void initUI();
     void initConnection();
     void display();
 
 signals:
-    void clickSerialPortCombobox();
+
 
 public slots:
 
-    void changeInfoPage(int);
 
 private:
     QWidget                 *m_parent;
@@ -40,10 +38,7 @@ private:
     int                      m_width;
     int                      m_height;
     QGridLayout     *mainLayout;
-    QLabel* m_info_label;
-    QListWidget *m_category_widget;
-    QTableView *m_info_tableview;
-
+    QLabel* m_support_info_label;
 };
 
 #endif // SYSTEMCONTENTWIDGET_H

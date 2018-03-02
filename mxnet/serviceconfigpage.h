@@ -41,6 +41,11 @@ public:
     explicit ServiceConfigPage(arrayElement ael, QWidget *parent = 0);
     void initUI();
     void updateData(arrayElement ael);
+    void create_config_page();
+    void create_detail_page();
+    void showServiceDetails();
+    int                 m_width;
+    int                 m_height;
 signals:
 
 public slots:
@@ -52,6 +57,7 @@ private:
 
     QWidget *m_methodlayoutWidget;
     QGridLayout *m_methodgridLayout;
+    QGridLayout *m_mainlayout;
     QLabel *m_methodLable;
     QComboBox *m_methodComboBox;
 
@@ -72,6 +78,12 @@ private:
     QMap<QString,QVariant> ipv4map;
     QDBusObjectPath objpath;
     QStringList sl_ipv4_method;
+
+    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout;
+    QGroupBox *info_group_box;
+    QLabel *label_details_right;
+    QLabel *label_details_left;
 };
 
 #endif // SERVICECONFIGPAGE_H

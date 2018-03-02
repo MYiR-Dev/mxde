@@ -40,6 +40,8 @@ class ServiceTestPage : public QWidget
     Q_OBJECT
 public:
     explicit ServiceTestPage(arrayElement  ale, QWidget *parent = 0);
+    int                 m_width;
+    int                 m_height;
 
 signals:
 

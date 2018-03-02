@@ -72,6 +72,7 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int widt
         m_list_view->setGridSize(QSize(grid_x,grid_y));
     //    list_view->setLineWidth(110);
         m_list_view->setGeometry(rect());
+
         m_list_view->setUniformItemSizes(true);
 //        m_list_view->installEventFilter(this);
         m_list_view->viewport()->installEventFilter(this);

@@ -19,14 +19,24 @@
 #include <QDebug>
 ServiceTestPage::ServiceTestPage(arrayElement  ale,QWidget *parent) : QWidget(parent)
 {
+
+    m_width = parent->width()-120;
+    m_height = parent->height();
+    this->setFixedSize(m_width,m_height);
+
     this->setAutoFillBackground(true);
     QPalette palette;
     palette.setBrush(QPalette::Window, QBrush(Qt::white));
     this->setPalette(palette);
+
     m_pingGrouBox = new QGroupBox(this);
+    m_pingGrouBox->setTitle(tr("Ping Test"));
+    m_pingGrouBox->setGeometry(QRect(0, 0, m_width, m_height/2-20));
+
     m_pingWidget = new QWidget(m_pingGrouBox);
     m_pingWidget->setObjectName(QStringLiteral("layoutWidget2"));
-    m_pingWidget->setGeometry(QRect(0, 30, 530, 24));
+    m_pingWidget->setGeometry(QRect(10, 30, 530, 24));
+
     m_pingHBoxLayout = new QHBoxLayout(m_pingWidget);
     m_pingHBoxLayout->setSpacing(6);
     m_pingHBoxLayout->setContentsMargins(11, 11, 11, 11);
@@ -40,7 +50,7 @@ ServiceTestPage::ServiceTestPage(arrayElement  ale,QWidget *parent) : QWidget(pa
 
     m_pingLineEdit = new QLineEdit(m_pingWidget);
     m_pingLineEdit->setObjectName(QStringLiteral("pingLineEdit"));
-    m_pingLineEdit->setFocus(Qt::OtherFocusReason);
+    m_pingLineEdit->setFocusPolicy(Qt::ClickFocus);
     m_pingHBoxLayout->addWidget(m_pingLineEdit);
 
     m_pingPushButton = new QPushButton(m_pingWidget);

@@ -41,12 +41,16 @@ public:
     void initUI();
     void showServiceDetails();
     void updateData(arrayElement ael);
+
+    int                 m_width;
+    int                 m_height;
 signals:
 
 public slots:
 
 private:
     QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout;
     QGroupBox *info_group_box;
     QLabel *label_details_right;
     QLabel *label_details_left;

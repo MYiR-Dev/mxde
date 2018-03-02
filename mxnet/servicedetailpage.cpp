@@ -15,6 +15,7 @@
 #include "servicedetailpage.h"
 #include "systemcontentwidget.h"
 #include "serviceitem.h"
+#include "constant.h"
 #include <QDebug>
 ServiceDetailPage::ServiceDetailPage(arrayElement ael,QWidget *parent) : QWidget(parent)
 {
@@ -23,26 +24,14 @@ ServiceDetailPage::ServiceDetailPage(arrayElement ael,QWidget *parent) : QWidget
     palette.setBrush(QPalette::Window, QBrush(Qt::white));
     this->setPalette(palette);
 
-    info_group_box = new QGroupBox(this);
-    info_group_box->setObjectName(QStringLiteral("groupBox_2"));
-    info_group_box->setGeometry(QRect(0, 0, 761, 161));
+    m_width = parent->width();
+    m_height = parent->height();
 
-    horizontalLayout = new QHBoxLayout(info_group_box);
-    horizontalLayout->setSpacing(6);
-    horizontalLayout->setContentsMargins(1, 1, 1, 1);
-    horizontalLayout->setObjectName(QStringLiteral("horizontalLayout_2"));
-    label_details_right = new QLabel(info_group_box);
+    label_details_right = new QLabel(this);
     label_details_right->setObjectName(QStringLiteral("label_details_right"));
 
-    horizontalLayout->addWidget(label_details_right);
-
-    label_details_left = new QLabel(info_group_box);
+    label_details_left = new QLabel(this);
     label_details_left->setObjectName(QStringLiteral("label_details_left"));
-
-    horizontalLayout->addWidget(label_details_left);
-
-    label_details_left->raise();
-    label_details_right->raise();
 
     services_item = ael;
     initUI();
@@ -51,6 +40,31 @@ void ServiceDetailPage::initUI()
 {
 
     showServiceDetails();
+
+    if( m_width < DEFAULT_SCREEN_WIDTH)
+    {
+
+        verticalLayout = new QVBoxLayout(this);
+        verticalLayout->setSpacing(1);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+
+        verticalLayout->addWidget(label_details_right,0,Qt::AlignTop);
+        verticalLayout->addWidget(label_details_left,0,Qt::AlignTop);
+
+    }
+    else
+    {
+        horizontalLayout = new QHBoxLayout(this);
+        horizontalLayout->setSpacing(1);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+
+        horizontalLayout->addWidget(label_details_right,0,Qt::AlignTop);
+        horizontalLayout->addWidget(label_details_left,0,Qt::AlignTop);
+
+    }
+    label_details_left->raise();
+    label_details_right->raise();
+
 
 }
 

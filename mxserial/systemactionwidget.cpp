@@ -60,17 +60,17 @@ void SystemActionWidget::initUI()
 //    img_label->setFixedSize(label_pixmap.size());
 
     if(m_height > 60){
-        logo_myir_label->setFixedSize(QSize(150,30));
+        logo_myir_label->setFixedSize(QSize(200,60));
         title_myir_label->setObjectName("bigWhiteLabel");
     }
     else if(m_height >= 40)
     {
-        logo_myir_label->setFixedSize(QSize(120,24));
+        logo_myir_label->setFixedSize(QSize(150,40));
         title_myir_label->setObjectName("whiteLabel");
     }
     else if(m_height < 40)
     {
-        logo_myir_label->setFixedSize(QSize(80,16));
+        logo_myir_label->setFixedSize(QSize(100,20));
         title_myir_label->setObjectName("smallWhiteLabel");
 
     }

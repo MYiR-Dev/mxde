@@ -31,8 +31,12 @@
         <translation>以太网测试</translation>
     </message>
     <message>
-        <source>System info</source>
+        <source>System Info</source>
         <translation>系统信息</translation>
+    </message>
+    <message>
+        <source>MYIR Support</source>
+        <translation>米尔支持</translation>
     </message>
 </context>
 <context>
@@ -177,16 +181,40 @@
         <source>Storage</source>
         <translation>储存空间</translation>
     </message>
+    <message>
+        <source>Website</source>
+        <translation>网址</translation>
+    </message>
+    <message>
+        <source>Sales Email</source>
+        <translation>销售邮箱</translation>
+    </message>
+    <message>
+        <source>Support Email</source>
+        <translation>技术支持邮箱</translation>
+    </message>
+    <message>
+        <source>Support Phone</source>
+        <translation>技术支持电话</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation>总部电话</translation>
+    </message>
+    <message>
+        <source>Fax</source>
+        <translation>传真</translation>
+    </message>
+    <message>
+        <source>Address: zh</source>
+        <translation>地址: 深圳市龙岗区坂田街道发达路云里智能园2栋6楼04室</translation>
+    </message>
 </context>
 <context>
     <name>ServiceTab</name>
     <message>
-        <source>IPv4 Info</source>
-        <translation>IPv4信息</translation>
-    </message>
-    <message>
-        <source>Setting</source>
-        <translation>设置</translation>
+        <source>IP Info</source>
+        <translation>IP信息</translation>
     </message>
     <message>
         <source>Ping Test</source>
@@ -216,5 +244,22 @@
         <source>OK</source>
         <translation>确定</translation>
     </message>
+    <message>
+        <source>Setting</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>信息</translation>
+    </message>
+
+</context>
+<context>
+    <name>ServiceTestPage</name>
+    <message>
+        <source>Ping Test</source>
+        <translation>Ping测试</translation>
+    </message>
+
 </context>
 </TS>
