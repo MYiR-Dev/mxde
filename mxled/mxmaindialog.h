@@ -27,9 +27,8 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QPaintEvent>
+#include <QShowEvent>
 #include <QPainter>
-
-
 
 class MxMainDialog : public QDialog
 {
@@ -59,12 +58,14 @@ signals:
 public slots:
     void OnSystemDialogClosed();
     void onLedBrightnessChanged(const QString &message);
+    void MainDialogShown();
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void showEvent(QShowEvent *event);
 
 private:
-    MxApplication        *m_app;
+    MxApplication       *m_app;
     QPixmap             *main_skin_pixmap;
 
 
