@@ -748,6 +748,7 @@ void frmInput::ChangeStyle()
         changeStyle("#667481", "#566373", "#C2CCD8", "#E7ECF0");
     } else if (currentStyle == "silvery") {
         changeStyle("#E1E4E6", "#CCD3D9", "#B2B6B9", "#000000");
+
     }
 }
 
@@ -774,7 +775,7 @@ void frmInput::changeStyle(QString topColor, QString bottomColor, QString border
 {
     QStringList qss;
     qss.append(QString("QWidget#widget_title{background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 %1,stop:1 %2);}")
-               .arg(topColor).arg(bottomColor));
+               .arg(bottomColor).arg(bottomColor));
     qss.append("QPushButton{padding:5px;border-radius:3px;}");
     qss.append(QString("QPushButton:hover{background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 %1,stop:1 %2);}")
                .arg(topColor).arg(bottomColor));

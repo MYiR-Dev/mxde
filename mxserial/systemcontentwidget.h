@@ -39,6 +39,7 @@ public:
     void setApplication(MxApplication *app);
     void setDbusProxy(MxDE *mxde);
     void setParentWindow(QWidget *parent);
+    void setCurrentConfigure(QStringList list);
     void initUI();
     void initConnection();
     void display();

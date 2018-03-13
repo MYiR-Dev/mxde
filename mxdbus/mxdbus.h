@@ -34,7 +34,7 @@ public:
     QString getLedList();
     int   setLedBrightness(QString &led, int brightness);
 //serial
-    int openSerialPort(const QString &dev_name);
+    int openSerialPort(const QString &dev_name,QString &tty_configure);
     int closeSerialPort(int uart_fd);
     int setSerialPort(const QString &parameter);
     QString getSerialList();
@@ -45,7 +45,7 @@ public:
     QString getCanList();
     int openCanPort(const QString &can_name);
     int closeCanPort(const QString &can_name,int can_fd);
-    int setCanPort(const QString &can_name,int bitrate,int status,const QString &loop);
+    int setCanPort(const QString &can_name,int bitrate,int status,const QString &loop,QString &can_configure);
     int CanWrite(int can_fd,const QString &data,int len);
 //info
     QString getSystemInfo();

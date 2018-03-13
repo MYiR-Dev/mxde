@@ -25,6 +25,10 @@
 static int can_baudrate = CAN_DEFAULT_BAUDRATE;
 pthread_t can_thread_id = 0;
 int thread_can_fd = 0;
+
+
+#define MAX_CAN_OPENED 5
+struct opened_can_t opened_can[MAX_CAN_OPENED];
 static unsigned char asc2nibble(char c) {
 
 	if ((c >= '0') && (c <= '9'))
@@ -55,7 +59,7 @@ int				can_init(const char * can)
 	struct ifreq ifr;
 	struct sockaddr_can can_addr;
 	int loopback = 0;
-	int flags;
+    int flags,i;
 
 	memset(&ifr, 0, sizeof(ifr));
 	
@@ -83,7 +87,39 @@ int				can_init(const char * can)
     setsockopt(canfd, SOL_CAN_RAW, CAN_RAW_FILTER,
 			   &loopback, sizeof(loopback));
     thread_can_fd = canfd;
+
+    for(i = 0 ;i < MAX_CAN_OPENED;i++ )
+    {
+        if(opened_can[i].device_name != NULL)
+        {
+            if(strcmp(opened_can[i].device_name,can) == 0)
+            {
+                opened_can[i].fd = canfd;
+            }
+        }
+    }
 	return canfd;
+}
+void close_can_port(char *can_name,int can_fd)
+{
+    int i;
+    struct opened_can_t can_ret;
+    for(i = 0 ;i < MAX_CAN_OPENED;i++ )
+    {
+        if((opened_can[i].fd == can_fd) && (opened_can[i].fd != 0))
+        {
+            opened_can[i].open_cnt--;
+            printf("opened_can[%d].open_cnt %d\n",i,opened_can[i].open_cnt);
+            if(opened_can[i].open_cnt <= 0)
+            {
+                memset(&opened_can[i], 0, sizeof(struct opened_can_t));
+                close(can_fd);
+                thread_can_fd = 0;
+                can_setting(can_name,can_baudrate,CAN_DISABLE,"off",&can_ret);
+            }
+        }
+    }
+
 }
 
 /******************************************************************************
@@ -97,13 +133,49 @@ int				can_init(const char * can)
   Return:         int 	   --  can setting status 0:success 
   Others:         NONE
 *******************************************************************************/
-int 			can_setting(const char* can, const int bitrate, int enable,const char* loop)
+int 			can_setting(const char* can, const int bitrate, int enable,const char* loop,struct opened_can_t *can_configure)
 {
 	int ret = 0;
 	char cmdline[128] = { '\0' };
     can_baudrate = bitrate;
-	if(enable == 1){
 
+    int i = 0,j= 0;
+
+
+	if(enable == 1){
+        for(i = 0 ;i < MAX_CAN_OPENED;i++ )
+        {
+            if(opened_can[i].device_name != NULL)
+            {
+                if(strcmp(opened_can[i].device_name,can) == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        if(i == MAX_CAN_OPENED)
+        {
+            for(j = 0; j < MAX_CAN_OPENED ; j++)
+            {
+                if(opened_can[j].device_name == NULL)
+                    break;
+            }
+            opened_can[j].device_name = can;
+            opened_can[j].bitrate = bitrate;
+            opened_can[j].loop = loop;
+            opened_can[j].open_cnt++;
+
+        }
+
+        if(i != MAX_CAN_OPENED)
+        {
+            printf("can opened!\n");
+            opened_can[i].open_cnt++;
+            memcpy(can_configure,&opened_can[i],sizeof(struct opened_can_t));
+
+            return 100;
+        }
         if(strcmp(loop,"ON") == 0)
         {
             sprintf(cmdline,
@@ -259,13 +331,6 @@ void get_can_list(char * result)
 }
 
 
-void close_can_port(char *can_name,int can_fd)
-{
-    //delete can recv thread
-    close(can_fd);
-    thread_can_fd = 0;
-    can_setting(can_name,can_baudrate,CAN_DISABLE,"off");
-}
 
 int * can_read_thread(void *arg)
 {

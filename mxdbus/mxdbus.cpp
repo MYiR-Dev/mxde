@@ -76,9 +76,9 @@ int    MxDbus::setLedBrightness(QString &led, int brightness)
     return mxde_session_iface->setLedBrightress(led,brightness);
 }
 //serial
-int    MxDbus::openSerialPort(const QString &dev_name){
+int    MxDbus::openSerialPort(const QString &dev_name,QString &tty_configure){
 
-    return mxde_session_iface->openSerialPort(dev_name);
+    return mxde_session_iface->openSerialPort(dev_name,tty_configure);
 }
 int    MxDbus::closeSerialPort(int uart_fd)
 {
@@ -114,9 +114,9 @@ int MxDbus::closeCanPort(const QString &can_name,int can_fd)
 {
     return mxde_session_iface->closeCanPort(can_name,can_fd);
 }
-int MxDbus::setCanPort(const QString &can_name,int bitrate,int status,const QString &loop)
+int MxDbus::setCanPort(const QString &can_name,int bitrate,int status,const QString &loop,QString &can_configure)
 {
-    return mxde_session_iface->setCanPort(can_name,bitrate,status,loop);
+    return mxde_session_iface->setCanPort(can_name,bitrate,status,loop,can_configure);
 }
 int MxDbus::CanWrite(int can_fd,const QString &data,int len)
 {

@@ -53,10 +53,10 @@ int MxDE::callSetLedBrightness(QString &led, int brightness)
     return bus->setLedBrightness(led, brightness);
 }
 //serial
-int MxDE::callOpenSerialPort(const QString &dev_name)
+int MxDE::callOpenSerialPort(const QString &dev_name,QString &tty_configure)
 {
     MxDbus *bus = (MxDbus *)m_dbus;
-    return bus->openSerialPort(dev_name);
+    return bus->openSerialPort(dev_name,tty_configure);
 }
 int MxDE::callCloseSerialPort(int uart_fd)
 {
@@ -100,10 +100,10 @@ int MxDE::callcloseCanPort(const QString &can_name,int can_fd)
     MxDbus *bus = (MxDbus *)m_dbus;
     return bus->closeCanPort(can_name,can_fd);
 }
-int MxDE::callsetCanPort(const QString &can_name,int bitrate,int status,const QString &loop)
+int MxDE::callsetCanPort(const QString &can_name,int bitrate,int status,const QString &loop,QString &can_configure)
 {
     MxDbus *bus = (MxDbus *)m_dbus;
-    return bus->setCanPort(can_name,bitrate,status,loop);
+    return bus->setCanPort(can_name,bitrate,status,loop,can_configure);
 }
 int MxDE::callCanWrite(int can_fd,const QString &data,int len)
 {

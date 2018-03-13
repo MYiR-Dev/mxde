@@ -102,17 +102,55 @@ void openSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
     DBusMessageIter arg;
     DBusMessage * reply;
     char *dev_name = NULL;
+    char *respone = NULL;
+    char tty_setting[100] ={0};
+
     int fd;
+    struct g_opened_tty tty_data;
 
     dbus_message_iter_init(msg, &arg);
     dbus_message_iter_get_basic (&arg, &dev_name);
 
     dbg_printf("serial_name:%s\n",dev_name);
-    fd = tty_open(dev_name);
+
+    fd = tty_open(dev_name,&tty_data);
+    if( fd == 0)
+    {
+        char *par;
+        switch(tty_data.par)
+        {
+            case 'N':
+                par = "NONE";
+                break;
+            case 'E':
+                par = "EVEN";
+                break;
+            case 'O':
+                par = "ODD";
+                break;
+            default:
+                par = "NONE";
+                break;
+        }
+
+        sprintf(tty_setting,"%s %d %d %d %d %d %s %d",tty_data.device_name,tty_data.fd,tty_data.bitrate, \
+                                         tty_data.datasize,tty_data.mode,tty_data.flow,par,tty_data.stop);
+        printf("tty_setting:%s\n",tty_setting);
+        respone  = &tty_setting[0];
+
+    }
+    else
+    {
+        respone = &tty_setting[0];
+    }
 
     reply = dbus_message_new_method_return(msg);
     dbus_message_iter_init_append(reply,&arg);
     if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_INT32,&fd)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
         printf("Out of Memory!/n");
         return;
     }
@@ -123,6 +161,7 @@ void openSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
 
     dbus_connection_flush (conn);
     dbus_message_unref (reply);
+
 
 }
 void SerialWrite_method_call(DBusMessage * msg, DBusConnection * conn)
@@ -279,9 +318,10 @@ void setCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
 {
     DBusMessageIter arg;
     DBusMessage * reply;
-    char *can_name,*loop;
+    char *can_name,*loop,*respone;
+    char can_cfg[100]={0};
     int bitrate, status,ret ;
-
+    struct opened_can_t can_configure;
 
     dbus_message_iter_init(msg, &arg);
     dbus_message_iter_get_basic (&arg, &can_name);
@@ -296,11 +336,26 @@ void setCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
     dbus_message_iter_get_basic (&arg, &loop);
 
     dbg_printf("setting:%s,%d,%d\n",can_name,bitrate,status);
-    ret  = can_setting(can_name , bitrate, status,loop);
+    ret  = can_setting(can_name , bitrate, status,loop,&can_configure);
 
+    if( ret == 100)
+    {
+        sprintf(can_cfg,"%s %d %d %s",can_configure.device_name,can_configure.fd, \
+                                can_configure.bitrate,can_configure.loop);
+        printf("can_cfg:%s \n",can_cfg);
+        respone = &can_cfg[0];
+    }
+    else
+    {
+        respone = &can_cfg[0];
+    }
     reply = dbus_message_new_method_return(msg);
     dbus_message_iter_init_append(reply,&arg);
     if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_INT32,&ret)){
+        printf("Out of Memory!/n");
+        return;
+    }
+    if(!dbus_message_iter_append_basic (&arg,DBUS_TYPE_STRING,&respone)){
         printf("Out of Memory!/n");
         return;
     }
@@ -694,7 +749,7 @@ void listen_dbus()
 int main( int argc , char ** argv){
 	
 	led_init();
-
+    tty_init();
     listen_dbus(); 
     return 0;
 }

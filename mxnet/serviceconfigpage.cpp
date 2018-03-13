@@ -46,7 +46,7 @@ void ServiceConfigPage::create_config_page()
     m_settingGroup->setGeometry(QRect(0, 0, m_width, m_height/2-20));
 
     m_okButton = new QPushButton(m_settingGroup);
-    m_okButton->setObjectName(QStringLiteral("pushButton_ok"));
+    m_okButton->setObjectName("netButton");
     m_okButton->setGeometry(QRect(530, 128, 80, 22));
     m_okButton->setText(tr("OK"));
 

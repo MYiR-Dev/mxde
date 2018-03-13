@@ -50,7 +50,18 @@ struct tty_dev
 	int rs485_mode;
 };
 typedef struct tty_dev tty_dev_t;
+struct g_opened_tty{
+    char *device_name;
+    int fd;
+    int bitrate;
+    int datasize;
+    int mode;
+    int flow;
+    int par;
+    int stop;
 
+    int open_cnt;
+};
 DBusConnection * tty_send_conn;
 /******************************************************************************
   Function:       tty_init
@@ -61,7 +72,7 @@ DBusConnection * tty_send_conn;
   Return:         int		-- return the tty fd
   Others:         NONE
 *******************************************************************************/
-int	tty_open(char * tty);
+int	tty_open(char * tty,struct g_opened_tty *opeded_tty_data);
 
 void	tty_close(int fd);
 /******************************************************************************

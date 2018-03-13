@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
     }
 
     qDebug("=MXLED:== w= %d h=%d\n",windowWidth, windowHeight);
-    frmInput::Instance()->Init("bottom", "silvery", 10, 10);
+    frmInput::Instance()->Init("bottom", "silvery", 12, 10);
     MxMainDialog w(&app, 0, windowWidth, windowHeight);
     w.setApplication(&app);
 //    w.setDbusProxy(mxde);

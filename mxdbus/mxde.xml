@@ -63,6 +63,7 @@
                 <method name="openSerialPort">
                     <arg name= "dev_name" type="s" direction="in"/>
                     <arg name="uart_fd" type="i" direction="out"/>
+                    <arg name="tty_configure" type="s" direction="out"/> <!-- char device_name,int fd, int bitrate, int datasize, int mode, int flow, char* par, int stop -->
                 </method>
                 <method name="closeSerialPort">
                     <arg name="uart_fd" type="i" direction="in"/>
@@ -118,7 +119,7 @@
                     <arg name="status" type="i" direction="in"/>
                     <arg name="loop" type="s" direction="in"/>
                     <arg name="ret" type="i" direction="out"/>
-
+                    <arg name="can_configure" type="s" direction="out"/>
                 </method>
                 <method name="CanWrite">
                     <arg name="can_fd" type="i" direction="in"/>

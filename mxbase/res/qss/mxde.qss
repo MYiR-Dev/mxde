@@ -150,7 +150,19 @@ QPushButton#ledButton{
     min-height: 12px;
     margin: 5px;
 }
+QPushButton#serialButton{
+    background-color: #AFEEEE;
+}
 
+QPushButton#rs485Button{
+    background-color: #AFEEEE;
+}
+QPushButton#canButton{
+    background-color: #AFEEEE;
+}
+QPushButton#netButton{
+    background-color: #AFEEEE;
+}
 QPushButton#ledButton:pressed{
     /*color:rgb(50, 150, 255);*/
     background:#ffff00;
@@ -360,9 +372,9 @@ QToolButton#transparentToolButton::pressed{
 /*-------------------QComboBox-------------------*/
 QComboBox{
     border:1px solid #32435E;
-    background-color: #00609a;
+    background-color: #87CEFA;
     width: 150px;
-    height: 24px;
+    height: 30px;
 }
 
 QComboBox::down-arrow{

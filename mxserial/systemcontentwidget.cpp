@@ -129,6 +129,7 @@ void SystemContentWidget::createSettingGroupBox()
 
     QHBoxLayout *hLayout6 = new QHBoxLayout(m_SettingGroup);
     mSerialOpenButton = new QPushButton;
+    mSerialOpenButton->setObjectName("serialButton");
     mSerialOpenButton->setText(tr("Open"));
     hLayout6->addWidget(mSerialOpenButton);
     if(m_width < DEFAULT_SCREEN_WIDTH){
@@ -159,6 +160,7 @@ void SystemContentWidget::createSendGroupBox()
 
     m_SendTextEdit1 = new QTextEdit(m_SendGroup);
     m_SendPushButton = new QPushButton(m_SendGroup);
+    m_SendPushButton->setObjectName("serialButton");
     m_SendPushButton->setText(tr("Send"));
 
     QVBoxLayout *vLayout = new QVBoxLayout(m_SendGroup);
@@ -177,6 +179,7 @@ void SystemContentWidget::createRecvGroupBox()
     m_RecvLayout = new QGridLayout(m_RecvGroup);
 
     m_ClearPushButton = new QPushButton(m_RecvGroup);
+    m_ClearPushButton->setObjectName("serialButton");
     m_ClearPushButton->setText(tr("Clear"));
     m_RecvTextEdit1 = new QTextEdit(m_RecvGroup);
     m_RecvTextEdit1->setReadOnly(true);
@@ -313,7 +316,21 @@ void SystemContentWidget::reLoadSerialPort()
         on_openPushButton_clicked();
     }
 }
+void SystemContentWidget::setCurrentConfigure(QStringList list)
+{
+    QString rateStr= strdup(list.at(2).toLocal8Bit().data());
+    QString checkBitStr = strdup(list.at(6).toLocal8Bit().data());
+    QString dataBitStr = strdup(list.at(3).toLocal8Bit().data());
+    QString stopBbitStr = strdup(list.at(7).toLocal8Bit().data());
 
+    mSerialBaudRateComboBox->setCurrentText(rateStr);
+    mSerialCheckBitComboBox->setCurrentText(checkBitStr);
+    mSerialDataBitComboBox->setCurrentText(dataBitStr);
+    mSerialStopBitComboBox->setCurrentText(stopBbitStr);
+
+    QMessageBox::information(this, tr("Warning"), tr("Serial had opened!Now use the opened configuration!"));
+
+}
 void SystemContentWidget::on_openPushButton_clicked()
 {
     if(!openFlag)
@@ -323,7 +340,7 @@ void SystemContentWidget::on_openPushButton_clicked()
         QString checkBitStr = mSerialCheckBitComboBox->currentText().isEmpty() ? "" : mSerialCheckBitComboBox->currentText();
         QString dataBitStr = mSerialDataBitComboBox->currentText().isEmpty() ? "" : mSerialDataBitComboBox->currentText();
         QString stopBbitStr = mSerialStopBitComboBox->currentText().isEmpty() ? "" : mSerialStopBitComboBox->currentText();
-
+        qDebug() << "serialPortStr: " << serialPortStr;
         qDebug() << "port: " << serialPortStr;
         qDebug() << "rate: " << rateStr;
         qDebug() << "check: " << checkBitStr;
@@ -349,22 +366,21 @@ void SystemContentWidget::on_openPushButton_clicked()
             QMessageBox::information(this, tr("Error"), tr("Failed to open serial port!"));
             exit(0);
         }
-        qDebug() << "serialPortStr: " << serialPortStr;
-        m_serial_fd = m_mxde->callOpenSerialPort(serialPortStr);
-        qDebug() << "open ret: " << m_serial_fd;
-        if(-1 == m_serial_fd)
+
+        QString tty_configure;
+        int fd;
+        fd = m_mxde->callOpenSerialPort(serialPortStr,tty_configure);
+        qDebug() << "open ret: " << fd;
+        if(0 == fd)
         {
-            perror("open error");
-            qDebug() << "open error errno: " <<  errno;
-            if(errno == 13)
-            {
-                QMessageBox::information(this, tr("Error"), tr("Do not have access permission!"));
-            }
-            else
-            {
-                QMessageBox::information(this, tr("Error"), tr("Failed to open serial port!"));
-            }
-            m_mxde->callCloseSerialPort(m_serial_fd);
+            QStringList list = tty_configure.split(" ");
+            m_serial_fd = list.at(1).toInt();
+            qDebug() << "m_serial_fd: " << m_serial_fd;
+            qDebug() << "tty_configure: " <<  tty_configure;
+            setCurrentConfigure(list);
+            mSerialOpenButton->setText(tr("Close"));
+            openFlag = true;
+
         }
         else
         {
@@ -373,7 +389,7 @@ void SystemContentWidget::on_openPushButton_clicked()
             int serial_mode = TTY_RS232_MODE;
             int tty_flow = 0;
 
-
+            m_serial_fd = fd;
             switch( mSerialCheckBitComboBox->currentIndex())
             {
                 case 0:
@@ -389,7 +405,7 @@ void SystemContentWidget::on_openPushButton_clicked()
                     break;
             }
             QByteArray check = checkBitStr.toLatin1();
-            serial_param.sprintf("%d %d %d %d %d %s %d",m_serial_fd,rateStr.toInt(),dataBitStr.toInt(), serial_mode, serial_mode,check.data(),stopBbitStr.toInt());
+            serial_param.sprintf("%d %d %d %d %d %s %d",m_serial_fd,rateStr.toInt(),dataBitStr.toInt(), serial_mode, tty_flow,check.data(),stopBbitStr.toInt());
             m_mxde->callSetSerialPort(serial_param);
 
             mSerialOpenButton->setText(tr("Close"));

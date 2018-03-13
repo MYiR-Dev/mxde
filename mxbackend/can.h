@@ -41,7 +41,14 @@ struct can_dev
 };
 typedef struct can_dev can_dev_t;
 
+struct opened_can_t{
+    char *device_name;
+    int fd;
+    int bitrate;
+    char *loop;
+    int open_cnt;
 
+};
 
 /******************************************************************************
   Function:       can_init
@@ -65,7 +72,7 @@ int				can_init(const char * can);
   Return:         int 	   --  can setting status 0:success 
   Others:         NONE
 *******************************************************************************/
-int 			can_setting(const char* can, const int bitrate, int enable,const char* loop);
+int 			can_setting(const char* can, const int bitrate, int enable,const char* loop,struct opened_can_t *can_configure);
 
 int				can_read(int fd, struct can_frame *frame);
 int				can_write(int fd, struct can_frame *frame, int len);

@@ -118,6 +118,7 @@ void SystemContentWidget::createSettingGroupBox()
 
     QHBoxLayout *hLayout4 = new QHBoxLayout(m_SettingGroup);
     mCanOpenButton = new QPushButton;
+    mCanOpenButton->setObjectName("canButton");
     mCanOpenButton->setText(tr("Open"));
     hLayout4->addWidget(mCanOpenButton);
     if(m_width < DEFAULT_SCREEN_WIDTH){
@@ -154,6 +155,7 @@ void SystemContentWidget::createSendGroupBox()
     m_SendTextEdit1 = new QLineEdit(m_SendGroup);
     m_SendTextEdit1->setPlaceholderText("01 11 22 EF FF");
     m_SendPushButton = new QPushButton(m_SendGroup);
+    m_SendPushButton->setObjectName("canButton");
     m_SendPushButton->setText(tr("Send"));
 
     QVBoxLayout *vLayout = new QVBoxLayout(m_SendGroup);
@@ -176,6 +178,7 @@ void SystemContentWidget::createRecvGroupBox()
     m_RecvLayout = new QGridLayout(m_RecvGroup);
 
     m_ClearPushButton = new QPushButton(m_RecvGroup);
+    m_ClearPushButton->setObjectName("canButton");
     m_ClearPushButton->setText(tr("Clear"));
     m_RecvTextEdit1 = new QTextEdit(m_RecvGroup);
     m_RecvTextEdit1->setReadOnly(true);
@@ -305,7 +308,19 @@ void SystemContentWidget::reLoadSerialPort()
         on_openPushButton_clicked();
     }
 }
+void SystemContentWidget::setCurrentConfigure(QStringList list)
+{
+    QString rateStr = strdup(list.at(2).toLocal8Bit().data());
+    QString loopStr = strdup(list.at(3).toLocal8Bit().data());
+    qDebug() << "setCurrentConfigure";
+    qDebug() << "rate: " << rateStr;
+    qDebug() << "loop: " << loopStr;
 
+    mCanBaudRateComboBox->setCurrentText(rateStr);
+    mCanLoopComboBox->setCurrentText(loopStr);
+    QMessageBox::information(this, tr("Warning"), tr("Can had opened!Now use the opened configuration!"));
+
+}
 void SystemContentWidget::on_openPushButton_clicked()
 {
     if(!openFlag)
@@ -325,39 +340,48 @@ void SystemContentWidget::on_openPushButton_clicked()
             QMessageBox::information(this, tr("Warning"), tr("Do not find any CAN!"));
             return;
         }
-
-        int ret = m_mxde->callsetCanPort(canPortStr, rateStr.toInt(), CAN_ENABLE, loopStr);
-        if(ret < 0){
-
-            QMessageBox::information(this, tr("Warning"), tr("CAN setting error!"));
-            return;
+        QString can_configure;
+        int ret = m_mxde->callsetCanPort(canPortStr, rateStr.toInt(), CAN_ENABLE, loopStr,can_configure);
+        if(ret == 100){
+            QStringList list = can_configure.split(" ");
+            m_can_fd = list.at(1).toInt();
+            qDebug() << "callsetCanPort ret: " << can_configure;
+            qDebug() << "open ret: " << m_can_fd;
+            setCurrentConfigure(list);
+            mCanOpenButton->setText(tr("Close"));
+            openFlag = true;
         }
-        m_can_fd = m_mxde->callopenCanPort(canPortStr);
-        qDebug() << "open ret: " << m_can_fd;
-        if(-1 == m_can_fd)
-        {
-            perror("open error");
-            qDebug() << "open error errno: " <<  errno;
-            if(errno == 13)
+        else{
+
+            m_can_fd = m_mxde->callopenCanPort(canPortStr);
+            qDebug() << "open ret: " << m_can_fd;
+            if(-1 == m_can_fd)
             {
-                QMessageBox::information(this, tr("Error"), tr("Do not have access permission!"));
+                perror("open error");
+                qDebug() << "open error errno: " <<  errno;
+                if(errno == 13)
+                {
+                    QMessageBox::information(this, tr("Error"), tr("Do not have access permission!"));
+                }
+                else
+                {
+                    QMessageBox::information(this, tr("Error"), tr("Failed to open CAN port!"));
+                }
+                m_mxde->callcloseCanPort(canPortStr,m_can_fd);
             }
             else
             {
-                QMessageBox::information(this, tr("Error"), tr("Failed to open CAN port!"));
+
+                mCanOpenButton->setText(tr("Close"));
+                openFlag = true;
+    //            label->setText(QString::fromUtf8("     串口状态：　打开"));
+                sendNum = 0;
+                recvNum = 0;
+
             }
-            m_mxde->callcloseCanPort(canPortStr,m_can_fd);
-        }
-        else
-        {
-
-            mCanOpenButton->setText(tr("Close"));
-            openFlag = true;
-//            label->setText(QString::fromUtf8("     串口状态：　打开"));
-            sendNum = 0;
-            recvNum = 0;
 
         }
+
     }
     else    // 关闭串口
     {

@@ -26,6 +26,12 @@
 pthread_t tty_thread_id = 0;
 int thread_tty_fd = 0;
 int current_birate =0;
+
+#define MAX_OPENED_TTY 5
+struct g_opened_tty opened_tty[MAX_OPENED_TTY];
+int opened_num = 0;
+
+
 /******************************************************************************
   Function:       tty_init
   Description:    initialize tty device
@@ -35,20 +41,77 @@ int current_birate =0;
   Return:         int		-- return the tty fd
   Others:         NONE
 *******************************************************************************/
-int	tty_open( char * tty)
+
+void tty_init()
 {
-	int fd;
-	fd = open(tty, O_RDWR);
-	if(fd < 0){
-		dbg_perror("open tty");
-		}
-	return fd;
+    int i = 0;
+    for(i = 0; i< MAX_OPENED_TTY;i++)
+    {
+        memset(&opened_tty[i], 0, sizeof(struct g_opened_tty));
+    }
+}
+int	tty_open( char * tty,struct g_opened_tty *opeded_tty_data)
+{
+    int fd = 0;
+    int i = 0,j= 0;
+
+    for(i = 0 ;i < MAX_OPENED_TTY;i++ )
+    {
+        if(opened_tty[i].device_name != NULL)
+        {
+            if(strcmp(opened_tty[i].device_name,tty) == 0)
+            {
+                break;
+            }
+        }
+    }
+
+    if(i == MAX_OPENED_TTY)
+    {
+        for(j = 0; j < MAX_OPENED_TTY ; j++)
+        {
+            if(opened_tty[j].device_name == NULL)
+                break;
+        }
+        opened_tty[j].device_name = tty;
+        fd = open(tty, O_RDWR);
+        if(fd < 0){
+            dbg_perror("open tty");
+            }
+        opened_tty[j].fd = fd;
+        opened_tty[j].open_cnt++;
+        return fd;
+    }
+
+    if(i != MAX_OPENED_TTY)
+    {
+        printf("tty opened!\n");
+        opened_tty[i].open_cnt++;
+        memcpy(opeded_tty_data,&opened_tty[i],sizeof(struct g_opened_tty));
+
+        return fd;
+    }
+
 }
 void tty_close(int fd)
 {
-    close(fd);
-    thread_tty_fd = 0;
-    current_birate = 0;
+    int i = 0;
+    for(i = 0; i < MAX_OPENED_TTY;i++)
+    {
+        if((opened_tty[i].fd == fd) && (opened_tty[i].fd != 0))
+        {
+            opened_tty[i].open_cnt--;
+            printf("opened_tty[%d].open_cnt %d\n",i,opened_tty[i].open_cnt);
+            if(opened_tty[i].open_cnt <= 0)
+            {
+                memset(&opened_tty[i], 0, sizeof(struct g_opened_tty));
+                close(fd);
+                thread_tty_fd = 0;
+                current_birate = 0;
+            }
+        }
+    }
+
 }
 /******************************************************************************
   Function:       tty_setting
@@ -66,8 +129,22 @@ void tty_close(int fd)
 *******************************************************************************/
 int 			tty_setting(int fd, int bitrate, int datasize, int mode, int flow, int par, int stop)
 {
+    int i = 0;
 	struct termios newtio;
     dbg_printf("%d %d %d %d %d %d %d\n",fd,bitrate,datasize,mode,flow,par,stop);
+    for(i = 0; i < MAX_OPENED_TTY; i++ )
+    {
+        if(opened_tty[i].fd == fd)
+        {
+            opened_tty[i].bitrate = bitrate;
+            opened_tty[i].datasize = datasize;
+            opened_tty[i].mode = mode;
+            opened_tty[i].flow = flow;
+            opened_tty[i].par = par;
+            opened_tty[i].stop = stop;
+        }
+
+    }
 
     current_birate = bitrate;
 	/* ignore modem control lines and enable receiver */

@@ -134,6 +134,19 @@
         <translation>请先打开RS485接口</translation>
     </message>
     <message>
+        <source>Serial had opened!Now use the opened configuration!</source>
+        <translation>串口已打开，使用已打开的配置！</translation>
+    </message>
+    <message>
+        <source>RS485 had opened!Now use the opened configuration!</source>
+        <translation>RS485已打开，使用已打开的配置！</translation>
+    </message>
+    <message>
+        <source>Can had opened!Now use the opened configuration!</source>
+        <translation>CAN已打开，使用已打开的配置！</translation>
+
+    </message>
+    <message>
         <source>CAN:</source>
         <translation>CAN:</translation>
     </message>

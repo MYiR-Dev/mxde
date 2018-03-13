@@ -54,7 +54,7 @@ ServiceTestPage::ServiceTestPage(arrayElement  ale,QWidget *parent) : QWidget(pa
     m_pingHBoxLayout->addWidget(m_pingLineEdit);
 
     m_pingPushButton = new QPushButton(m_pingWidget);
-    m_pingPushButton->setObjectName(QStringLiteral("pushButton_ping"));
+    m_pingPushButton->setObjectName("netButton");
     m_pingPushButton->setText(tr("Ping"));
     m_pingHBoxLayout->addWidget(m_pingPushButton);
 
