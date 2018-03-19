@@ -78,6 +78,7 @@ private:
     QMap<QString,QVariant> ipv4map;
     QDBusObjectPath objpath;
     QStringList sl_ipv4_method;
+    QStringList sl_ipv4_method_minuscules;
 
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;

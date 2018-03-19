@@ -59,7 +59,7 @@ void SystemContentWidget::initUI()
 {
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setFixedSize(m_width, m_height);
-    m_tabWidget->setFocusPolicy(Qt::NoFocus);
+    m_tabWidget->setFocus(Qt::NoFocusReason);
     tab_map.clear();
 
     if (QDBusConnection::systemBus().isConnected() )

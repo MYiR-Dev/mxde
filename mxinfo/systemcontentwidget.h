@@ -13,6 +13,7 @@
 #include "mxde.h"
 #include "mxapplication.h"
 #include "basewidget.h"
+#include <QGroupBox>
 class SystemContentWidget : public BaseWidget
 {
     Q_OBJECT
@@ -26,13 +27,13 @@ public:
     void initUI();
     void initConnection();
     void display();
+    void createSoftwareInfoGroupBox();
+    void createHardwareInfoGroupBox();
 
 signals:
     void clickSerialPortCombobox();
 
 public slots:
-
-    void changeInfoPage(int);
 
 private:
     QWidget                 *m_parent;
@@ -40,9 +41,34 @@ private:
     int                      m_width;
     int                      m_height;
     QGridLayout     *mainLayout;
-    QLabel* m_info_label;
-    QListWidget *m_category_widget;
-    QTableView *m_info_tableview;
+    QGridLayout *m_SoftwareLayout;
+    QGridLayout *m_HardwareLayout;
+    QGroupBox *m_SoftwareInfoGroupBox;
+    QGroupBox *m_HardwareInfoGroupBox;
+
+    QLabel* mQtDemoLable;
+    QLabel* mQtDemoValueLable;
+    QLabel* mLinuxLable;
+    QLabel* mLinuxValueLable;
+    QLabel* mComplierLable;
+    QLabel* mComplierValueLable;
+    QLabel* mubootLable;
+    QLabel* mubootValueLable;
+    QLabel* mLinuxlogo;
+
+    QLabel* mManufacturerLable;
+    QLabel* mManufacturerValueLable;
+    QLabel* mBoardLable;
+    QLabel* mBoardValueLable;
+    QLabel* mCPULable;
+    QLabel* mCPUValueLable;
+    QLabel* mMemoryLable;
+    QLabel* mMemortValueLable;
+    QLabel* mStorageLable;
+    QLabel* mStorageValueLable;
+    QLabel* mManufacturerlogo;
+
+    QStringList infoList;
 
 };
 

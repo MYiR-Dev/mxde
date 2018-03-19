@@ -33,3 +33,8 @@ inst2.path = /usr/share/pixmaps
 
 INSTALLS += target inst1 inst2
 include(../mxbase/mxbase.pri)
+
+DISTFILES +=
+RESOURCES += \
+    img.qrc \
+    img.qrc

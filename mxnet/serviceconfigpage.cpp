@@ -87,7 +87,7 @@ void ServiceConfigPage::create_config_page()
 
     m_ipLineEdit = new QLineEdit(m_infolayoutWidget);
     m_ipLineEdit->setObjectName(QStringLiteral("addressLineEdit"));
-    m_ipLineEdit->setFocus(Qt::OtherFocusReason);
+    m_ipLineEdit->setFocus(Qt::NoFocusReason);
     m_infoformLayout->setWidget(0, QFormLayout::FieldRole, m_ipLineEdit);
 
 
@@ -98,7 +98,7 @@ void ServiceConfigPage::create_config_page()
 
     m_netmaskLineEdit = new QLineEdit(m_infolayoutWidget);
     m_netmaskLineEdit->setObjectName(QStringLiteral("netmaskLineEdit"));
-    m_netmaskLineEdit->setFocus(Qt::OtherFocusReason);
+    m_netmaskLineEdit->setFocus(Qt::NoFocusReason);
     m_infoformLayout->setWidget(1, QFormLayout::FieldRole, m_netmaskLineEdit);
 
 
@@ -110,7 +110,7 @@ void ServiceConfigPage::create_config_page()
 
     m_gatewayLineEdit = new QLineEdit(m_infolayoutWidget);
     m_gatewayLineEdit->setObjectName(QStringLiteral("gatewayLineEdit"));
-    m_gatewayLineEdit->setFocus(Qt::OtherFocusReason);
+    m_gatewayLineEdit->setFocus(Qt::NoFocusReason);
     m_infoformLayout->setWidget(2, QFormLayout::FieldRole, m_gatewayLineEdit);
 
     connect(m_methodComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(ipv4Method(int)));
@@ -145,13 +145,15 @@ void ServiceConfigPage::initUI()
 {
     create_config_page();
     create_detail_page();
+#if 1
     objpath = services_item.objpath;
     objmap = services_item.objmap;
     shared::extractMapData(ipv4map, objmap.value("IPv4.Configuration") );
 
     m_methodComboBox->clear();
     sl_ipv4_method.clear();
-    sl_ipv4_method << "dhcp" << "manual" << "off";
+    sl_ipv4_method << "DHCP" << "Manual" << "Off";
+    sl_ipv4_method_minuscules << "dhcp" << "manual" << "off";
     m_methodComboBox->addItems(sl_ipv4_method);
 
 
@@ -166,7 +168,7 @@ void ServiceConfigPage::initUI()
 
 
     if (! ipv4map.value("Method").toString().isEmpty() ) {
-      m_methodComboBox->setCurrentIndex(sl_ipv4_method.indexOf(QRegularExpression(ipv4map.value("Method").toString())) );
+      m_methodComboBox->setCurrentIndex(sl_ipv4_method_minuscules.indexOf(QRegularExpression(ipv4map.value("Method").toString())) );
 
       if(ipv4map.value("Method").toString() == "dhcp")
       {
@@ -175,12 +177,31 @@ void ServiceConfigPage::initUI()
           m_gatewayLineEdit->hide();
       }
     }
+#endif
 }
 
 void ServiceConfigPage::updateData(arrayElement ael)
 {
     services_item = ael;
-    initUI();
+    //initUI();
+#if 1
+    objpath = services_item.objpath;
+    objmap = services_item.objmap;
+    shared::extractMapData(ipv4map, objmap.value("IPv4.Configuration") );
+
+    if (! ipv4map.value("Method").toString().isEmpty() ) {
+      m_methodComboBox->setCurrentIndex(sl_ipv4_method_minuscules.indexOf(QRegularExpression(ipv4map.value("Method").toString())) );
+
+      if(ipv4map.value("Method").toString() == "dhcp")
+      {
+          m_ipLineEdit->hide();
+          m_netmaskLineEdit->hide();
+          m_gatewayLineEdit->hide();
+      }
+    }
+#endif
+    showServiceDetails();
+
 }
 void ServiceConfigPage::ipv4Method(int idx)
 {
@@ -210,6 +231,15 @@ void ServiceConfigPage::updateConfiguration()
     QList<QLineEdit*> lep;
     QStringList slp;
 
+    if((m_methodComboBox->currentIndex() == 1) )
+
+    {
+        if( m_ipLineEdit->text().isEmpty() || m_netmaskLineEdit->text().isEmpty())
+        {
+            qDebug() << "ip or netmask is empty! " ;
+            return;
+        }
+    }
     QDBusInterface* iface_serv = new QDBusInterface(DBUS_CON_SERVICE, services_item.objpath.path(), "net.connman.Service", QDBusConnection::systemBus(), this);
 
     // ipv4
@@ -219,7 +249,7 @@ void ServiceConfigPage::updateConfiguration()
     vlist << setAutoConnect;
     iface_serv->callWithArgumentList(QDBus::AutoDetect, "SetProperty", vlist);
     // Only update if an entry has changed.
-    if ((m_methodComboBox->currentText() != ipv4map.value("Method").toString() )	|
+    if ((m_methodComboBox->currentIndex() != sl_ipv4_method_minuscules.indexOf(ipv4map.value("Method").toString()) )	|
             (m_ipLineEdit->text() != ipv4map.value("Address").toString() )      	|
             (m_netmaskLineEdit->text() != ipv4map.value("Netmask").toString() )				|
             (m_gatewayLineEdit->text() != ipv4map.value("Gateway").toString()) )			{
@@ -231,7 +261,7 @@ void ServiceConfigPage::updateConfiguration()
 
         if (m_methodComboBox->currentIndex() >= 0) {
             vlist << "IPv4.Configuration";
-            dict.insert("Method", sl_ipv4_method.at(m_methodComboBox->currentIndex()) );
+            dict.insert("Method", sl_ipv4_method_minuscules.at(m_methodComboBox->currentIndex()) );
             lep << m_ipLineEdit << m_netmaskLineEdit << m_gatewayLineEdit;
             slp << "Address" << "Netmask" << "Gateway";
 

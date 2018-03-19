@@ -179,49 +179,50 @@
         <translation>请先打开CAN接口！</translation>
     </message>
     <message>
-        <source>System</source>
-        <translation>系统</translation>
+        <source>Software Information</source>
+        <translation>软件信息</translation>
     </message>
     <message>
-        <source>CPU</source>
-        <translation>处理器</translation>
+        <source>Hardware Information</source>
+        <translation>硬件信息</translation>
     </message>
     <message>
-        <source>Memory</source>
-        <translation>内存</translation>
+        <source>QT Demo Version :</source>
+        <translation>QT Demo版本 :</translation>
     </message>
     <message>
-        <source>Storage</source>
-        <translation>储存空间</translation>
+        <source>Linux Version :</source>
+        <translation>Linux版本 :</translation>
     </message>
     <message>
-        <source>Website</source>
-        <translation>网址</translation>
+        <source>Complier Version :</source>
+        <translation>编译器版本 :</translation>
     </message>
     <message>
-        <source>Sales Email</source>
-        <translation>销售邮箱</translation>
+        <source>U-Boot Version :</source>
+        <translation>U-Boot版本 :</translation>
     </message>
     <message>
-        <source>Support Email</source>
-        <translation>技术支持邮箱</translation>
+        <source>Manufacturer :</source>
+        <translation>制造商 :</translation>
     </message>
     <message>
-        <source>Support Phone</source>
-        <translation>技术支持电话</translation>
+        <source>Board :</source>
+        <translation>型号 :</translation>
     </message>
     <message>
-        <source>Phone</source>
-        <translation>总部电话</translation>
+        <source>CPU :</source>
+        <translation>处理器 :</translation>
     </message>
     <message>
-        <source>Fax</source>
-        <translation>传真</translation>
+        <source>Memory :</source>
+        <translation>内存 :</translation>
     </message>
     <message>
-        <source>Address: zh</source>
-        <translation>地址: 深圳市龙岗区坂田街道发达路云里智能园2栋6楼04室</translation>
+        <source>Storage :</source>
+        <translation>储存空间 :</translation>
     </message>
+
 </context>
 <context>
     <name>ServiceTab</name>

@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QStandardItemModel>
+#include <QFile>
 #include "mxde.h"
 #include "systemcontentwidget.h"
 #include "mxde.h"
@@ -39,43 +40,126 @@ SystemContentWidget::~SystemContentWidget()
    // m_mxde->callCloseSerialPort(m_serial_fd);
 
 }
+void SystemContentWidget::createSoftwareInfoGroupBox()
+{
+
+    m_SoftwareInfoGroupBox = new QGroupBox(this);
+    m_SoftwareInfoGroupBox->setTitle(tr("Software Information"));
+    m_SoftwareLayout = new QGridLayout(m_SoftwareInfoGroupBox);
+
+
+    mQtDemoLable = new QLabel(m_SoftwareInfoGroupBox);
+    mQtDemoLable->setText(tr("QT Demo Version :"));
+    mQtDemoValueLable = new QLabel(m_SoftwareInfoGroupBox);
+    mQtDemoValueLable->setText(infoList.at(0));
+    m_SoftwareLayout->addWidget(mQtDemoLable,0,0,1,1);
+    m_SoftwareLayout->addWidget(mQtDemoValueLable,0,1,1,1);
+
+    mLinuxLable = new QLabel(m_SoftwareInfoGroupBox);
+    mLinuxLable->setText(tr("Linux Version :"));
+    mLinuxValueLable = new QLabel(m_SoftwareInfoGroupBox);
+    mLinuxValueLable->setText(infoList.at(1));
+    m_SoftwareLayout->addWidget(mLinuxLable,1,0,1,1);
+    m_SoftwareLayout->addWidget(mLinuxValueLable,1,1,1,1);
+
+
+
+    mubootLable = new QLabel(m_SoftwareInfoGroupBox);
+    mubootLable->setText(tr("U-Boot Version :"));
+    mubootValueLable = new QLabel(m_SoftwareInfoGroupBox);
+    mubootValueLable->setText(infoList.at(2));
+    m_SoftwareLayout->addWidget(mubootLable,2,0,1,1);
+    m_SoftwareLayout->addWidget(mubootValueLable,2,1,1,1);
+
+    mComplierLable = new QLabel(m_SoftwareInfoGroupBox);
+    mComplierLable->setText(tr("Complier Version :"));
+    mComplierValueLable = new QLabel(m_SoftwareInfoGroupBox);
+    mComplierValueLable->setText(infoList.at(3));
+    m_SoftwareLayout->addWidget(mComplierLable,3,0,1,1);
+    m_SoftwareLayout->addWidget(mComplierValueLable,3,1,1,1);
+
+    mLinuxlogo = new QLabel(m_SoftwareInfoGroupBox);
+    mLinuxlogo->setScaledContents(true);
+    QPixmap label_pixmap(":/res/images/logo_linux.jpg");
+    mLinuxlogo->setPixmap(label_pixmap);
+    m_SoftwareLayout->addWidget(mLinuxlogo,0,5,4,4,Qt::AlignRight |Qt::AlignTop);
+
+
+    m_SoftwareInfoGroupBox->setLayout(m_SoftwareLayout);
+}
+void SystemContentWidget::createHardwareInfoGroupBox()
+{
+    m_HardwareInfoGroupBox = new QGroupBox(tr("Hardware Information"));
+    m_HardwareLayout = new QGridLayout(m_HardwareInfoGroupBox);
+
+    mManufacturerLable = new QLabel(m_HardwareInfoGroupBox);
+    mManufacturerLable->setText(tr("Manufacturer :"));
+    mManufacturerValueLable = new QLabel(m_HardwareInfoGroupBox);
+    mManufacturerValueLable->setText(infoList.at(4));
+    m_HardwareLayout->addWidget(mManufacturerLable,0,0,1,1);
+    m_HardwareLayout->addWidget(mManufacturerValueLable,0,1,1,1);
+
+    mBoardLable = new QLabel(m_HardwareInfoGroupBox);
+    mBoardLable->setText(tr("Board :"));
+    mBoardValueLable = new QLabel(m_HardwareInfoGroupBox);
+    mBoardValueLable->setText(infoList.at(5));
+    m_HardwareLayout->addWidget(mBoardLable,1,0,1,1);
+    m_HardwareLayout->addWidget(mBoardValueLable,1,1,1,1);
+
+    mCPULable = new QLabel(m_HardwareInfoGroupBox);
+    mCPULable->setText(tr("CPU :"));
+    mCPUValueLable = new QLabel(m_HardwareInfoGroupBox);
+    mCPUValueLable->setText(infoList.at(6));
+    m_HardwareLayout->addWidget(mCPULable,2,0,1,1);
+    m_HardwareLayout->addWidget(mCPUValueLable,2,1,1,1);
+
+    mMemoryLable = new QLabel(m_HardwareInfoGroupBox);
+    mMemoryLable->setText(tr("Memory :"));
+    mMemortValueLable = new QLabel(m_HardwareInfoGroupBox);
+    mMemortValueLable->setText(infoList.at(7));
+    m_HardwareLayout->addWidget(mMemoryLable,3,0,1,1);
+    m_HardwareLayout->addWidget(mMemortValueLable,3,1,1,1);
+
+    mStorageLable = new QLabel(m_HardwareInfoGroupBox);
+    mStorageLable->setText(tr("Storage :"));
+    mStorageValueLable = new QLabel(m_HardwareInfoGroupBox);
+    mStorageValueLable->setText(infoList.at(8));
+    m_HardwareLayout->addWidget(mStorageLable,4,0,1,1);
+    m_HardwareLayout->addWidget(mStorageValueLable,4,1,1,1);
+
+    mManufacturerlogo = new QLabel(m_HardwareInfoGroupBox);
+    mManufacturerlogo->setScaledContents(true);
+    QPixmap label_pixmap(":/res/images/logo_myir.png");
+    mManufacturerlogo->setPixmap(label_pixmap);
+
+    m_HardwareLayout->addWidget(mManufacturerlogo,1,5,4,4,Qt::AlignRight |Qt::AlignTop);
+    m_HardwareInfoGroupBox->setLayout(m_HardwareLayout);
+
+}
 void SystemContentWidget::initUI()
 {
 
-    //this->setFixedSize(800, 480);
-   // OTHER_CONTENT_HEIGHT();
-    m_info_label = new QLabel(this);
-    m_info_label->adjustSize();
-    m_info_label->setGeometry(130,0,m_width-130,m_height);
-    m_info_label->setWordWrap(true);
-    m_info_label->setAlignment(Qt::AlignTop);
+    QFile file("/usr/share/myir/board_system_info");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug()<<"Can't open the file!"<<endl;
+    }
+    infoList.clear();
+    QTextStream in(&file);
+    while( !in.atEnd()){
+        QString line = in.readLine();
 
-    m_category_widget = new QListWidget(this);
-    m_category_widget->setFixedSize(130, m_height);
-    m_category_widget->setFocusPolicy(Qt::NoFocus);
-    m_category_widget->setObjectName("infoList");
-
-    m_category_widget->setIconSize(QSize(16, 16));//设置QListWidget中的单元项的图片大小
-    m_category_widget->setResizeMode(QListView::Adjust);
-    m_category_widget->setViewMode(QListView::ListMode);   //设置QListWidget的显示模式
-    m_category_widget->setMovement(QListView::Static);//设置QListWidget中的单元项不可被拖动
-
-
-    QStringList type_list,icon_list;
-    type_list << tr("System")  << tr("CPU") << tr("Memory") << tr("Storage");
-    icon_list << "system.png" << "cpu.png" << "memory.png" << "storage.png";
-
-    for(int i = 0;i < type_list.length();i ++) {
-        QIcon icon;
-        icon.addFile(":/res/hardware/" + icon_list.at(i), QSize(), QIcon::Normal, QIcon::Off);
-        QListWidgetItem *item = new QListWidgetItem(type_list.at(i), m_category_widget);
-        item->setSizeHint(QSize(120,36));
-        item->setIcon(icon);
+        infoList << line;
     }
 
-    connect(m_category_widget,SIGNAL(currentRowChanged(int)),this,SLOT(changeInfoPage(int)));
+    createSoftwareInfoGroupBox();
+    createHardwareInfoGroupBox();
 
-    m_category_widget->setCurrentRow(0);
+    mainLayout = new QGridLayout;
+    mainLayout->addWidget(m_SoftwareInfoGroupBox, 0,0);
+    mainLayout->addWidget(m_HardwareInfoGroupBox,1,0);
+    this->setLayout(mainLayout);
+
+
 
 
 }
@@ -104,31 +188,3 @@ void SystemContentWidget::setParentWindow(QWidget *parent)
     m_parent = parent;
 }
 
-void SystemContentWidget::changeInfoPage(int row) {
-
-    switch(row){
-
-        case 0:{
-            QString SystemInfo = m_mxde->callgetSystemInfo();
-            m_info_label->setText(SystemInfo);
-            break;
-        }
-        case 1:{
-            QString CpuInfo = m_mxde->callgetCpuInfo();
-            m_info_label->setText(CpuInfo);
-            break;
-        }
-        case 2:{
-            QString MemoryInfo = m_mxde->callgetMemoryInfo();
-            m_info_label->setText(MemoryInfo);
-            break;
-        }
-         case 3:{
-            QString StorageInfo = m_mxde->callgetStorageInfo();
-            m_info_label->setText(StorageInfo);
-            break;
-        }
-        default:
-            break;
-    }
-}

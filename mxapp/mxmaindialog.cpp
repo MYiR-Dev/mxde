@@ -195,23 +195,23 @@ void MxMainDialog::initAnimation()
     QPoint needPoint4(0, m_other_action_height);
 
     QPropertyAnimation *mainActionAnimation = new QPropertyAnimation(default_action_widget, "pos");
-    mainActionAnimation->setDuration(500);
+    mainActionAnimation->setDuration(700);
     mainActionAnimation->setStartValue(origPoint1);
     mainActionAnimation->setEndValue(needPoint1);
 
     QPropertyAnimation *mainActionAnimation2 = new QPropertyAnimation(other_action_widget, "pos");
-    mainActionAnimation2->setDuration(500);
+    mainActionAnimation2->setDuration(700);
     mainActionAnimation2->setStartValue(origPoint2);
     mainActionAnimation2->setEndValue(needPoint2);
 
 
     QPropertyAnimation *mainContentAnimation = new QPropertyAnimation(default_content_widget, "pos");
-    mainContentAnimation->setDuration(500);
+    mainContentAnimation->setDuration(700);
     mainContentAnimation->setStartValue(origPoint3);
     mainContentAnimation->setEndValue(needPoint3);
 
     QPropertyAnimation *mainContentAnimation2 = new QPropertyAnimation(other_content_widget, "pos");
-    mainContentAnimation2->setDuration(500);
+    mainContentAnimation2->setDuration(700);
     mainContentAnimation2->setStartValue(origPoint4);
     mainContentAnimation2->setEndValue(needPoint4);
 
@@ -360,7 +360,7 @@ void MxMainDialog::OnCurrentPageChanged(int index){
     else
     {
         qDebug() << "onCurrentPageChanged " << index << "\n" << endl;
-        bottomStack->setCurrentWidget(home_content_widget);
+        //bottomStack->setCurrentWidget(home_content_widget);
         gatherGroup->start();
 
     }
