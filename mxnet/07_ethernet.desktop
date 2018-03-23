@@ -5,7 +5,7 @@ Name[zh_CN]=以太网
 
 Type=Application
 Icon=/usr/share/pixmaps/ethernet192.png
-Exec=/home/sunny/mxethernet --platform linuxfb
+Exec=/home/sunny/mxnet --platform linuxfb
 Terminal=false
 MimeType=application/x-directory;inode/directory;
 Categories=System;FileTools;Utility;Qt;FileManager;

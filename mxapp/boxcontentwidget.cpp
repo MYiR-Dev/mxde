@@ -49,7 +49,7 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int widt
         //set white background color
        this->setAutoFillBackground(true);
         QPalette palette;
-        palette.setBrush(QPalette::Window, QBrush(Qt::green));
+        palette.setBrush(QPalette::Window, QBrush(Qt::white));
         this->setPalette(palette);
         this->setStyleSheet("QWidget{border: none;}");
 
@@ -71,8 +71,8 @@ BoxContentWidget::BoxContentWidget(QWidget *parent, MxApplication *obj, int widt
         }
         m_list_view->setGridSize(QSize(grid_x,grid_y));
     //    list_view->setLineWidth(110);
-        m_list_view->setGeometry(rect());
-
+        //m_list_view->setGeometry(rect());
+        m_list_view->setGeometry(0,20,m_width,m_height);
         m_list_view->setUniformItemSizes(true);
 //        m_list_view->installEventFilter(this);
         m_list_view->viewport()->installEventFilter(this);

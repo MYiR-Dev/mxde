@@ -27,7 +27,7 @@
 #include <QTime>
 #include <QEventLoop>
 #include <QCoreApplication>
-
+#include <QPalette>
 
 MxMainDialog::MxMainDialog(MxApplication *app, QWidget *parent, int w, int h)
     : QDialog(parent)
@@ -117,6 +117,9 @@ MxMainDialog::MxMainDialog(MxApplication *app, QWidget *parent, int w, int h)
     other_content_widget->setGeometry(QRect(0,m_height,m_width, m_other_content_height));
     other_content_widget->setFixedSize(m_other_content_width,m_other_content_height);
     other_content_widget->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(Qt::white));
+    other_content_widget->setPalette(palette);
 
     bottomStack = new QStackedWidget(other_content_widget);
     bottomStack->setGeometry(other_content_widget->rect());

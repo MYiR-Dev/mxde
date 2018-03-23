@@ -26,7 +26,7 @@ HEADERS  += \
 
 target.path = /home/sunny
 
-inst1.files = ./02_hello.desktop
+inst1.files = ./02_support.desktop
 inst1.path = /usr/share/applications
 inst2.files = ./res/images/hello192.png
 inst2.path = /usr/share/pixmaps
@@ -36,5 +36,4 @@ include(../mxbase/mxbase.pri)
 
 DISTFILES +=
 RESOURCES += \
-    img.qrc \
     img.qrc

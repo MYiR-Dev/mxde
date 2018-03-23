@@ -124,7 +124,7 @@ void MxDesktopFile::processFinished(int exitCode, QProcess::ExitStatus exitStatu
 {
     Q_UNUSED(exitCode);
     Q_UNUSED(exitStatus);
-
+    qDebug() << "Process finished: ";
     emit demoFinished();
 
     QObject::disconnect(this, SIGNAL(demoStarted()), 0, 0);
@@ -152,5 +152,9 @@ void MxDesktopFile::processData()
     qDebug() << outStr;
     if(outStr.contains("MainDialogShown")){
         emit this->demoStarted();
+    }
+    if(outStr.contains("MainDialogHide")){
+        process->close();
+        emit this->demoFinished();
     }
 }

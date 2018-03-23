@@ -55,6 +55,10 @@ MxMainDialog::~MxMainDialog()
         delete m_contentwidget;
         m_contentwidget = NULL;
     }
+    if(main_skin_pixmap != NULL){
+        delete main_skin_pixmap;
+        main_skin_pixmap = NULL;
+    }
 }
 
 void MxMainDialog::setApplication(MxApplication *app)
@@ -117,7 +121,10 @@ void MxMainDialog::OnSystemDialogClosed()
     if(m_parent){
         m_parent->show();
         m_parent->raise();
+
     }
+    std::cout << "MainDialogHide" << std::endl;
+    std::cerr << "MainDialogHide" << std::endl;
     this->close();
 }
 

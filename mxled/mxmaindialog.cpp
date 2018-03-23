@@ -118,6 +118,8 @@ void MxMainDialog::OnSystemDialogClosed()
         m_parent->show();
         m_parent->raise();
     }
+    std::cout << "MainDialogHide" << std::endl;
+    std::cerr << "MainDialogHide" << std::endl;
     this->close();
 }
 

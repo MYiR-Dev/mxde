@@ -60,31 +60,16 @@ void SystemContentWidget::initUI()
 
         QGridLayout *mainLayout = new QGridLayout;
 
-        bigEditor = new QTextEdit;
-        bigEditor->setReadOnly(true);
-        bigEditor->setFocusPolicy(Qt::NoFocus);
-        bigEditor->setStyleSheet("border:none");
+
+        ledLable = new QLabel();
+        ledLable->adjustSize();
 
         getBoardLedInfo();
 
-        QLabel *m = new QLabel();
-        m->setPixmap(QPixmap("/usr/share/myir/MYD-AM335Xs.jpg"));
-        m->setAlignment(Qt::AlignCenter);
-
         mainLayout->addWidget(horizontalGroupBox,0,0,1,3,Qt::AlignCenter);
-//        mainLayout->addWidget(m,1,0,2,1);
-        mainLayout->addWidget(bigEditor,1,1,2,1);
+        mainLayout->addWidget(ledLable,1,0,2,1);
 
-//        mainLayout->addWidget(buttonBox);
         setLayout(mainLayout);
-
-//        setWindowTitle(tr("Basic Layouts"));
-//        QDesktopWidget *desk = QApplication::desktop();
-//        QRect deskRect = desk->availableGeometry();
-//        this->resize(QSize(800,480));
-//        this->move((deskRect.width()-this->width())/2, (deskRect.height()-this->height())/2);
-
-
 
         connect(this, SIGNAL(click_Button(int)), this, SLOT(on_click_Button(int)));
         //connect(m_mxde->m_dbus->mxde_session_iface, SIGNAL(sigLedBrightnessChanged(QString)), this, SLOT(onLedBrightnessChanged(QString)));
@@ -101,18 +86,15 @@ void SystemContentWidget::getBoardLedInfo()
          qDebug()  << "Open failed.";
 
     }
-#if 1
     QTextStream txtInput(&f);
     txtInput.setCodec(codec);
-    QString lineStr;
-    while(!txtInput.atEnd())
-    {
-       bigEditor->append(codec->fromUnicode(txtInput.readLine()));
+    QString ledinfoStr;
 
-    }
+    ledinfoStr.append( txtInput.readAll());
 
-    //f.close();
-#endif
+    ledLable->setStyleSheet("color:#000000;font: 18px");
+    ledLable->setText(ledinfoStr);
+    f.close();
 
 }
 //! [5]

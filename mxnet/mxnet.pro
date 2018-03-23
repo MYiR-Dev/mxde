@@ -8,7 +8,7 @@ QT       += core gui dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = mxethernet
+TARGET = mxnet
 TEMPLATE = app
 
 target.path = /home/sunny
