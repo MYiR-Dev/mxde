@@ -126,10 +126,8 @@ void MxMainDialog::display(){
 }
 void MxMainDialog::OnSystemDialogClosed()
 {
-    if(m_parent){
-        m_parent->show();
-        m_parent->raise();
-    }
+
+    m_contentwidget->closeDevice();
     std::cout << "MainDialogHide" << std::endl;
     std::cerr << "MainDialogHide" << std::endl;
     this->close();

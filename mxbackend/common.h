@@ -39,5 +39,5 @@
 #define EXIT_FAILURE	1
 
 #define MAX_INPUT 		255
-
+int IsUtf8Format(const char *str);
 #endif		// __COMMON_H__

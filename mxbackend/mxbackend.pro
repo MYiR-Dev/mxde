@@ -8,7 +8,8 @@ SOURCES += \
     led.c \
     tty.c \
     can.c \
-    info.c
+    info.c \
+    common.c
 
 include(./config.pri)
 

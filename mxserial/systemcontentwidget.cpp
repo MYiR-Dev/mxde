@@ -52,13 +52,14 @@ SystemContentWidget::SystemContentWidget(QWidget *parent, MxApplication *obj, in
 
 SystemContentWidget::~SystemContentWidget()
 {
+    qDebug() << "SystemContentWidget ..." << m_serial_fd;
     m_mxde->callCloseSerialPort(m_serial_fd);
 
 }
 
 void SystemContentWidget::SerialPortInit()
 {
-
+    m_serial_fd = 0;
     QString str = m_mxde->callGetSerialList();
     if((str!=NULL) &&(str.length() < 2)){
         return;
@@ -377,6 +378,8 @@ void SystemContentWidget::on_openPushButton_clicked()
             m_serial_fd = list.at(1).toInt();
             qDebug() << "m_serial_fd: " << m_serial_fd;
             qDebug() << "tty_configure: " <<  tty_configure;
+
+            qDebug() << "1111111111111111111";
             setCurrentConfigure(list);
             mSerialOpenButton->setText(tr("Close"));
             openFlag = true;
@@ -428,7 +431,12 @@ void SystemContentWidget::on_openPushButton_clicked()
         qDebug() << "closed ...";
     }
 }
-
+void SystemContentWidget::closeDevice()
+{
+    qDebug() << "closeDevice ..." << m_serial_fd;
+    m_mxde->callCloseSerialPort(m_serial_fd);
+    m_serial_fd = 0;
+}
 void SystemContentWidget::on_clearPushButton_clicked()
 {
     m_RecvTextEdit1->clear();

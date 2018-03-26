@@ -44,6 +44,7 @@ public:
     void initUI();
     void initConnection();
     void display();
+    void closeDevice();
 
 signals:
     void clickSerialPortCombobox();

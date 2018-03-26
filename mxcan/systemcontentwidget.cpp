@@ -55,13 +55,14 @@ SystemContentWidget::SystemContentWidget(QWidget *parent, MxApplication *obj, in
 
 SystemContentWidget::~SystemContentWidget()
 {
+    qDebug() << "SystemContentWidget ..." << m_can_fd;
     m_mxde->callCloseSerialPort(m_can_fd);
 
 }
 
 void SystemContentWidget::SerialPortInit()
 {
-
+    m_can_fd = 0;
     QString str = m_mxde->callgetCanList();
     if((str!=NULL) &&(str.length() < 2)){
         return;
@@ -395,7 +396,12 @@ void SystemContentWidget::on_openPushButton_clicked()
         qDebug() << "closed ...";
     }
 }
-
+void SystemContentWidget::closeDevice()
+{
+    qDebug() << "closeDevice ..." << m_can_fd;
+    m_mxde->callcloseCanPort(m_can_name,m_can_fd);
+    m_can_fd = 0;
+}
 void SystemContentWidget::on_clearPushButton_clicked()
 {
     m_RecvTextEdit1->clear();

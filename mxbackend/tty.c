@@ -538,29 +538,39 @@ int * tty_read_thread(void *arg)
                 if(len > 0)
                 {
                     respone = &buf[0];
-                    msg = dbus_message_new_signal(DBUS_SERVER_PATH,
-                                                  DBUS_SERVER_INTERFACE,
-                                                  "sigSerialRecv");
-                    dbus_message_iter_init_append(msg, &args);
-                    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_INT32, &thread_tty_fd)) {
-                        fprintf(stderr, "Out Of Memory!\n");
-                        return;
+                    if(IsUtf8Format(buf))
+                    {
+
+                        msg = dbus_message_new_signal(DBUS_SERVER_PATH,
+                                                      DBUS_SERVER_INTERFACE,
+                                                      "sigSerialRecv");
+                        dbus_message_iter_init_append(msg, &args);
+                        if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_INT32, &thread_tty_fd)) {
+                            fprintf(stderr, "Out Of Memory!\n");
+                            return;
+                        }
+                        if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &respone)) {
+                            fprintf(stderr, "Out Of Memory!\n");
+                            return;
+                        }
+                        if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_INT32, &len)) {
+                            fprintf(stderr, "Out Of Memory!\n");
+                            return;
+                        }
+                        if (!dbus_connection_send(dbus_server_conn, msg, NULL)) {
+                            fprintf(stderr, "Out Of Memory!\n");
+                            return;
+                        }
+
+                        dbus_connection_flush(dbus_server_conn);
+                        dbus_message_unref(msg);
                     }
-                    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &respone)) {
-                        fprintf(stderr, "Out Of Memory!\n");
-                        return;
-                    }
-                    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_INT32, &len)) {
-                        fprintf(stderr, "Out Of Memory!\n");
-                        return;
-                    }
-                    if (!dbus_connection_send(dbus_server_conn, msg, NULL)) {
-                        fprintf(stderr, "Out Of Memory!\n");
-                        return;
+                    else
+                    {
+                        printf("str is not utf-8!\n");
                     }
 
-                    dbus_connection_flush(dbus_server_conn);
-                    dbus_message_unref(msg);
+
                 }
             }
 

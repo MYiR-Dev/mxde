@@ -52,6 +52,7 @@ SystemContentWidget::SystemContentWidget(QWidget *parent, MxApplication *obj, in
 
 SystemContentWidget::~SystemContentWidget()
 {
+    qDebug() << "SystemContentWidget ..." << m_serial_fd;
     m_mxde->callCloseSerialPort(m_serial_fd);
 
 }
@@ -59,6 +60,7 @@ SystemContentWidget::~SystemContentWidget()
 void SystemContentWidget::SerialPortInit()
 {
 
+    m_serial_fd = 0;
     QString str = m_mxde->callgetRs485List();
     if((str!=NULL) &&(str.length() < 2)){
         return;
@@ -428,7 +430,12 @@ void SystemContentWidget::on_openPushButton_clicked()
         qDebug() << "closed ...";
     }
 }
-
+void SystemContentWidget::closeDevice()
+{
+    qDebug() << "closeDevice ..." << m_serial_fd;
+    m_mxde->callCloseSerialPort(m_serial_fd);
+    m_serial_fd = 0;
+}
 void SystemContentWidget::on_clearPushButton_clicked()
 {
     m_RecvTextEdit1->clear();
