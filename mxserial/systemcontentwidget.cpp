@@ -379,7 +379,6 @@ void SystemContentWidget::on_openPushButton_clicked()
             qDebug() << "m_serial_fd: " << m_serial_fd;
             qDebug() << "tty_configure: " <<  tty_configure;
 
-            qDebug() << "1111111111111111111";
             setCurrentConfigure(list);
             mSerialOpenButton->setText(tr("Close"));
             openFlag = true;

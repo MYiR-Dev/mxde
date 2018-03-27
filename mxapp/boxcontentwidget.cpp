@@ -136,12 +136,18 @@ void BoxContentWidget::setCurrentLanguage(QString &lang)
 
 void BoxContentWidget::loadApplications()
 {
-    QDirIterator it("/usr/share/applications", QStringList("*.desktop"),
-        QDir::Files | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            it.next();
-            m_apps.append(new MxDesktopFile(it.filePath(),m_mxapp));
-        }
+    QDir dir("/usr/share/applications");
+    QStringList filter;
+    filter<<"*.desktop";
+    dir.setNameFilters(filter);
+    dir.setSorting(QDir::Name);
+
+    QFileInfoList list = dir.entryInfoList();
+    for (int i = 0; i < list.size(); ++i) {
+
+          QFileInfo fileInfo = list.at(i);
+          m_apps.append(new MxDesktopFile(fileInfo.filePath(),m_mxapp));
+     }
 }
 
 void BoxContentWidget::loadApplicationWidgets()
