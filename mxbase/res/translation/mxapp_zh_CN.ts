@@ -4,8 +4,8 @@
 <context>
     <name>BoxActionWidget</name>
     <message>
-        <source>QT5 Demo System</source>
-        <translation>QT5演示系统</translation>
+        <source>MEasy HMI V1.0</source>
+        <translation>MEasy HMI V1.0</translation>
     </message>
 </context>
 <context>
@@ -20,7 +20,7 @@
     </message>
     <message>
         <source>RS485 Port Test</source>
-        <translation>RS485接口测试</translation>
+        <translation>RS485测试</translation>
     </message>
     <message>
         <source>CAN BUS Test</source>
@@ -37,6 +37,10 @@
     <message>
         <source>MYIR Support</source>
         <translation>米尔支持</translation>
+    </message>
+    <message>
+        <source>Task Manager</source>
+        <translation>任务管理器</translation>
     </message>
 </context>
 <context>
@@ -187,8 +191,8 @@
         <translation>硬件信息</translation>
     </message>
     <message>
-        <source>QT Demo Version :</source>
-        <translation>QT Demo版本 :</translation>
+        <source>HMI Version :</source>
+        <translation>HMI版本 :</translation>
     </message>
     <message>
         <source>Linux Version :</source>
@@ -221,6 +225,14 @@
     <message>
         <source>Storage :</source>
         <translation>储存空间 :</translation>
+    </message>
+    <message>
+        <source>Performance Info</source>
+        <translation>性能信息</translation>
+    </message>
+    <message>
+        <source>Process Info</source>
+        <translation>进程信息</translation>
     </message>
 
 </context>
@@ -275,5 +287,79 @@
         <translation>Ping测试</translation>
     </message>
 
+</context>
+<context>
+    <name>Miscinfo</name>
+    <message>
+        <source>CPU</source>
+        <translation>处理器</translation>
+    </message>
+    <message>
+        <source>CPU: </source>
+        <translation>处理器: </translation>
+    </message>
+    <message>
+        <source>Memory And Storage</source>
+        <translation>内存和存储空间</translation>
+    </message>
+    <message>
+        <source>Memory: </source>
+        <translation>内存: </translation>
+    </message>
+    <message>
+        <source>Storage: </source>
+        <translation>存储空间: </translation>
+    </message>
+    <message>
+        <source>Used: </source>
+        <translation>已使用: </translation>
+    </message>
+    <message>
+        <source>Free: </source>
+        <translation>空闲的: </translation>
+    </message>
+    <message>
+        <source>Total: </source>
+        <translation>总共的: </translation>
+    </message>
+</context>
+<context>
+    <name>Taskinfo</name>
+    <message>
+        <source>PID</source>
+        <translation>进程号</translation>
+    </message>
+    <message>
+        <source>Process</source>
+        <translation>进程名</translation>
+    </message>
+    <message>
+        <source>STAT</source>
+        <translation>状态</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>优先级</translation>
+    </message>
+    <message>
+        <source>VSZ</source>
+        <translation>占用内存</translation>
+    </message>
+    <message>
+        <source>Total Process</source>
+        <translation>进程总数</translation>
+    </message>
+    <message>
+        <source>Running Process</source>
+        <translation>运行进程</translation>
+    </message>
+    <message>
+        <source>Sleep Process</source>
+        <translation>睡眠进程</translation>
+    </message>
+    <message>
+        <source>Zombie Process</source>
+        <translation>僵尸进程</translation>
+    </message>
 </context>
 </TS>

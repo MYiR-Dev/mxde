@@ -1398,22 +1398,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnEnter">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="text">
-              <string>Enter</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="btnType">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
@@ -1426,6 +1410,22 @@
              </property>
              <property name="text">
               <string>Shift</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnEnter">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="text">
+              <string>Close</string>
              </property>
             </widget>
            </item>

@@ -24,9 +24,9 @@ HEADERS  += \
 
 
 
-target.path = /home/sunny
+target.path = /home/myir
 
-inst1.files = ./02_support.desktop
+inst1.files = ./07_support.desktop
 inst1.path = /usr/share/applications
 inst2.files = ./res/images/hello192.png
 inst2.path = /usr/share/pixmaps

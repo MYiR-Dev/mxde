@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = mxapp
 TEMPLATE = app
 
-target.path = /home/sunny/
+target.path = /home/myir/
 INSTALLS += target
 include(../mxbase/mxbase.pri)
 

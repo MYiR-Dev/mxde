@@ -769,6 +769,7 @@ void frmInput::ChangeFont()
     ui->btnPre->setFont(labFont);
     ui->btnNext->setFont(labFont);
     ui->btnClose->setFont(labFont);
+    ui->btnEnter->setStyleSheet("background: rgb(135,206,250)");
 }
 
 void frmInput::changeStyle(QString topColor, QString bottomColor, QString borderColor, QString textColor)

@@ -22,9 +22,9 @@ HEADERS  += mxmaindialog.h \
     systemactionwidget.h \
     systemcontentwidget.h
 
-target.path = /home/sunny
+target.path = /home/myir
 
-inst1.files = ./06_can.desktop
+inst1.files = ./04_can.desktop
 inst1.path = /usr/share/applications
 inst2.files = ./res/images/can192.png
 inst2.path = /usr/share/pixmaps

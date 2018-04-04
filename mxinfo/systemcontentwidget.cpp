@@ -49,7 +49,7 @@ void SystemContentWidget::createSoftwareInfoGroupBox()
 
 
     mQtDemoLable = new QLabel(m_SoftwareInfoGroupBox);
-    mQtDemoLable->setText(tr("QT Demo Version :"));
+    mQtDemoLable->setText(tr("HMI Version :"));
     mQtDemoValueLable = new QLabel(m_SoftwareInfoGroupBox);
     mQtDemoValueLable->setText(infoList.at(0));
     m_SoftwareLayout->addWidget(mQtDemoLable,0,0,1,1);

@@ -13,7 +13,7 @@ SOURCES += \
 
 include(./config.pri)
 
-target.path = /home/sunny
+target.path = /home/myir
 inst1.files += ../mxdbus/mxde.xml
 inst1.path = /usr/share/myir
 INSTALLS += target inst1

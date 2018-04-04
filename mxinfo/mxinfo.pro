@@ -21,9 +21,9 @@ HEADERS  += \
     systemactionwidget.h \
     systemcontentwidget.h
 
-target.path = /home/sunny
+target.path = /home/myir
 
-inst1.files = ./01_system.desktop
+inst1.files = ./08_system.desktop
 inst1.path = /usr/share/applications
 inst2.files = ./res/images/system192.png
 inst2.path = /usr/share/pixmaps
@@ -46,7 +46,6 @@ else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/
 else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/libmxdbus.a
 
 DISTFILES += \
-    01_system.desktop \
     res/hardware/audio.png \
     res/hardware/battery.png \
     res/hardware/board.png \
@@ -59,7 +58,8 @@ DISTFILES += \
     res/hardware/sensor.png \
     res/hardware/unity.png \
     res/hardware/system.png \
-    res/hardware/storage.png
+    res/hardware/storage.png \
+    08_system.desktop
 
 RESOURCES += \
     img.qrc

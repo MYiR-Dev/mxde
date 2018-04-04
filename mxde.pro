@@ -10,7 +10,8 @@ SUBDIRS += \
     mxcan \
     mxnet \
     mxinfo \
-    mxsupport
+    mxsupport \
+    mxtaskmanager
 
 
 TRANSLATIONS += \

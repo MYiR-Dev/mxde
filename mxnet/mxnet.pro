@@ -35,9 +35,9 @@ HEADERS  += \
     serviceconfigpage.h
 
 FORMS    +=
-target.path = /home/sunny
+target.path = /home/myir
 
-inst1.files = ./07_ethernet.desktop
+inst1.files = ./05_ethernet.desktop
 inst1.path = /usr/share/applications
 inst2.files = ./res/images/ethernet192.png
 inst2.path = /usr/share/pixmaps
@@ -49,7 +49,7 @@ include(../mxbase/mxbase.pri)
 
 
 DISTFILES += \
-    07_ethernet.desktop \
-    res/images/ethernet192.png
+    res/images/ethernet192.png \
+    05_ethernet.desktop
 
 

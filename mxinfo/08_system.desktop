@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=MYIR Support
-Name[zh_TW]=米尔支持
-Name[zh_CN]=米尔支持
+Name=System Info
+Name[zh_TW]=系统信息
+Name[zh_CN]=系统信息
 
 Type=Application
-Icon=/usr/share/pixmaps/hello192.png
-Exec=/home/sunny/mxsupport --platform linuxfb
+Icon=/usr/share/pixmaps/system192.png
+Exec=/home/myir/mxinfo --platform linuxfb
 Terminal=false
 MimeType=application/x-directory;inode/directory;
 Categories=System;FileTools;Utility;Qt;FileManager;

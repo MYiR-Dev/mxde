@@ -25,9 +25,9 @@ HEADERS  += \
             systemcontentwidget.h \
             mxmaindialog.h
 
-target.path = /home/sunny
+target.path = /home/myir
 
-inst1.files = ./03_led.desktop
+inst1.files = ./01_led.desktop
 inst1.path = /usr/share/applications
 inst2.files = ./res/images/led192.png
 inst2.path = /usr/share/pixmaps
@@ -44,7 +44,7 @@ DEPENDPATH += $$PWD/../mxdbus
 unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../mxdbus/libmxdbus.a
 
 DISTFILES += \
-    03_led.desktop
+    01_led.desktop
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mxdbus/release/ -lmxdbus
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mxdbus/debug/ -lmxdbus

@@ -123,6 +123,6 @@ void BoxActionWidget::display()
 void BoxActionWidget::setCurrentLanguage(QString &lang)
 {
     qDebug() << "BoxActionWidget setCurrentLanguage :" << lang << endl;
-    title_myir_label->setText(tr("QT5 Demo System"));
+    title_myir_label->setText(tr("MEasy HMI V1.0"));
 }
 
