@@ -29,37 +29,37 @@
 			<section class="tab" id="led">
 				<h2>Test LED</h2>
 				<div class="one_item">
-					<input class="text" id="led1" value="cpu" type="text" readonly />
+					<input class="text" id="led1" value="CPU1" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="1" type="button" value="LED_ON"></input>
 					<input class="button second menu" str_op="led_close" str_num="1" type="button" value="LED_OFF"></input>
 					<img class="led" src="statics/images_en/led_red.png" />
 				</div>
 				<div class="one_item" style="display:none">
-					<input class="text" id="led2" value="cpu" type="text" readonly />
+					<input class="text" id="led2" value="CPU2" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="2" type="button" value="LED_ON"></input>
 					<input class="button second menu" type="button"  str_op="led_close" str_num="2" value="LED_OFF"></input>
 					<img class="led" src="statics/images_en/led_red.png" />
 				</div>
 				<div class="one_item" style="display:none">
-					<input class="text" id="led3" value="cpu" type="text" readonly />
+					<input class="text" id="led3" value="CPU3" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="3" type="button" value="LED_ON"></input>
 					<input class="button second menu" type="button"  str_op="led_close" str_num="3" value="LED_OFF"></input>
 					<img class="led" src="statics/images_en/led_red.png" />
 				</div>
 				<div class="one_item" style="display:none">
-					<input class="text" id="led4" value="cpu" type="text" readonly />
+					<input class="text" id="led4" value="CPU4" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="4" type="button" value="LED_ON"></input>
 					<input class="button second menu" type="button"  str_op="led_close" str_num="4" value="LED_OFF"></input>
 					<img class="led" src="statics/images_en/led_red.png" />
 				</div>
 				<div class="one_item" style="display:none">
-					<input class="text" id="led5" value="cpu" type="text" readonly />
+					<input class="text" id="led5" value="CPU5" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="5" type="button" value="LED_ON"></input>
 					<input class="button second menu" type="button"  str_op="led_close" str_num="5" value="LED_OFF"></input>
 					<img class="led" src="statics/images_en/led_red.png" />
 				</div>
 				<div class="one_item" style="display:none">
-					<input class="text" id="led6" value="cpu" type="text" readonly />
+					<input class="text" id="led6" value="CPU6" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="6" type="button" value="LED_ON"></input>
 					<input class="button second menu" type="button"  str_op="led_close" str_num="6" value="LED_OFF"></input>
 					<img class="led" src="statics/images_en/led_red.png" />
@@ -238,8 +238,8 @@
 				</tr>
 				</table>
 			</section>
-			<section class="tab" id="ethernet" >
-				<h2>网卡设置</h2>
+			<section class="tab">
+				<h2>EtherNet</h2>
 				<div class="nav">
 					<span data="0">Eth1</span>
 					<span data="1">Eth2</span>
@@ -250,7 +250,7 @@
 					<table>
 					<tr>
 						<td>					
-						IP 1
+						IP Address1
 						<input type="text" id="net_ip0"  name="name"></input>
 						Netmask
 						<input type="text" id="net_netmask0"  name="name"></input>
@@ -284,7 +284,7 @@
 					<table>
 					<tr>
 						<td>					
-						IP 2
+						IP Address2
 						<input type="text" id="net_ip1" name="name"></input>
 						Netmask
 						<input type="text" id="net_netmask1" name="name"></input>
@@ -318,7 +318,7 @@
 					<table>
 					<tr>
 						<td>					
-						IP 3
+						IP Address3
 						<input type="text" id="net_ip2" name="name"></input>
 						Netmask
 						<input type="text" id="net_netmask2" name="name"></input>
@@ -352,7 +352,7 @@
 					<table>
 					<tr>
 						<td>					
-						IP 4
+						IP Address4
 						<input type="text" id="net_ip3"  name="name"></input>
 						Netmask
 						<input type="text" id="net_netmask3"  name="name"></input>
@@ -383,15 +383,18 @@
 				</div>
 			</section>
 			<section class="tab contact">
-				<h2>Contact us</h2>
+				<h2>联系我们</h2>
 				<div class="one_item">
-				    E-mail: sales@myirtech.com or myirtech@yahoo.com　　
-					Phone: +86-755-22984836　
-					Fax: +86-755-25532724
-					Address：Room 04, 6th Floor, Building No.2, Fada Road, Yunli Smart Park, Bantian, Longgang District, Shenzhen, Guangdong, China 518129<br>				<div class="one_item">
-					<strong>support</strong><br>
-					Phone:027-59621648 <br>	
-					E-mail:support.cn@myirtech.com<br>
+					<strong>深圳总部</strong><br>
+					电话：0755-25622735 <br>					
+					传真：0755-25532724 <br>	
+					邮箱：sales.cn@myirtech.com<br>
+					地址：深圳市龙岗区坂田街道发达路云里智能园2栋6楼04室<br>
+				</div>
+				<div class="one_item">
+					<strong>技术支持</strong><br>
+					电话：027-59621648 <br>	
+					邮箱：support.cn@myirtech.com<br>
 				</div>
 			</section>
 		</div>
@@ -405,9 +408,10 @@
 <script type="text/javascript">
 
 var portsize = 3;//定义网口数量
-var ledsize = 1;//定义led数量
+var portsize_sta = 1;//定义网口数量
+var ledsize = 1 ;//定义led数量
 
-var language="en";
+var language="zh";
 
 var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","close_can_str":"0","net_set_str":"0","net_dhcp_str":"0","test_str":"0","test111_str":"0"};
 
@@ -421,12 +425,12 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	       element_not.net_dhcp_str="自动获取IP";
 		   element_not.test_str="测试";
 	   }else{
-		   element_not.open_uart_str="open";
-	       element_not.close_uart_str="close";
-	       element_not.open_can_str="open";
-	       element_not.close_can_str="close";
-		   element_not.net_set_str="set ip";
-		   element_not.net_dhcp_str="dhcpc";
+		   element_not.open_uart_str="OPEN";
+	       element_not.close_uart_str="CLOSE";
+	       element_not.open_can_str="OPEN";
+	       element_not.close_can_str="CLOSE";
+		   element_not.net_set_str="Set IP";
+		   element_not.net_dhcp_str="DHCPC";
 	       element_not.test_str="testing";
 	   }
    }
@@ -434,7 +438,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	var ws = new WebSocket("ws://{{info_ip}}:{{info_port_eth}}/{{info_event}}"); // 新建一个ws连接
 	ws.onopen = function() {
         set_define();
-        ledlist_sendMsg();
+		led_update();
 	};
 	ws.onmessage = function(e){
 			analyze_recv_data(e);
@@ -458,7 +462,8 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			document.getElementById('can_recv_data').value= temp_can+"can id :"+obj.data_id+"can data:"+obj.data_buff;
 		}else if(obj.name_cmd=="eth_data"){
 			portsize =  obj.eth_number;
-//			net_show_update(portsize);
+			
+//			net_show_update();
 			if(obj.control=="data_buff"){
 
                 for(var i=0;i<obj.eth_number;i++){
@@ -471,42 +476,12 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			    }  
 			}else if(obj.control=="ping")
 			{   var log_ping;
+     
 				log_ping = document.getElementById('eth'+obj.eth_name.slice(3)+'_ping_data').value;
 				document.getElementById('eth'+obj.eth_name.slice(3)+'_ping_data').value = log_ping + "\n" + obj.ping_data;
 			}
-		}else if(obj.name_cmd=="led_recv_data"){
-				 var  led_data = obj.data_buff.split("\n");
-				 var  led_statu="f";
-				 ledsize  = led_data.length-1;
-				 for (var i = 1; i < led_data.length; i++) {
-                     var Median_str = led_data[i-1].split(" ")
-                     document.getElementById('led' + i).value = Median_str[0];
-					 if (Median_str[1]==0){
-						led_statu="statics/images_zh/led_red.png";
- 					 }else {
-					    led_statu="statics/images_zh/led_green.png";
-					 }
-					 document.getElementById('img'+ i).src=led_statu;
-                 }
+		}
 
-				 led_update(ledsize);
-//				 portsize=4;
-				 net_show_update(portsize);
-		}else if(obj.name_cmd=="status_data"){
-				if(obj.name_status=="RS232_STATUS"){
-				    if(obj.status_operation=="successed"){
-				    	document.getElementById('rs232_button').value = element_not.close_uart_str;
-					}
-                }else if(obj.name_status=="RS485_STATUS"){
-					if(obj.status_operation=="successed"){
-				    	document.getElementById('rs485_button').value = element_not.close_uart_str;
-					}
-				}else if(obj.name_status=="CAN_STATUS"){
-					if(obj.status_operation=="successed"){
-				    	document.getElementById('can_button').value = element_not.close_can_str;
-					}
-				}
-			}
 	}
 
     function change_parameter(arg)
@@ -586,15 +561,15 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			var str = JSON.stringify(data);
 			ws.send(str);
 		}
-	function led_update(arg){
+	function led_update(){
 		$("#led .one_item").each(function(index,val){
-		    if(index<arg){
+			if(index<ledsize){
 				$(this).show();
-			}
+		}
 		});
     }
 
-	function net_show_update(portsize){
+	function net_show_update(){
 		for(var i=0;i<portsize;i++)
 		{	
 			var port;
@@ -607,10 +582,11 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 		$(this).addClass("current");
 		$(".nav_item").hide();
 		$(".nav_item:eq("+index+")").show();
-	    });
+	});
+
     }
 
-//uart  232
+    //uart  232
          function uart_sendMsg(arg,arg2){
 			var data = new Object;
 			data.cmd="uart_cmd";
@@ -712,22 +688,22 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 $(document).ready(function(){	
 	$(".nav").html("");
 	if(ledsize<1){
-		ledsize = 1;
+		ledsize=1;
 	}
 	if(ledsize>6){
 		ledsize = 6;
 	}
 	if(portsize<1){
-		portsize = 1;
+		portsize=1;
 	}
 	if(portsize>4){
 		portsize = 4;
 	}
-//	 for(var i=0;i<portsize;i++)
-//	 {
-//	 	var port = i+1;
-//	 	$(".nav").append("<span data='"+i+"'>网口"+port+"</span>");
-//	 }
+	 for(var i=0;i<portsize;i++)
+	 {
+	 	var port = i+1;
+	 	$(".nav").append("<span data='"+i+"'>网口"+port+"</span>");
+	 }
 
 	$(".menus").click(function(){
 		var index = 1+$(".menus").index(this);
@@ -798,21 +774,20 @@ $(document).ready(function(){
 
 	});
 
-//	 $(".nav span").click(function(){
-//	 	var index = $(this).attr('data');
-//	 	$(".nav span").removeClass("current");
-//	 	$(this).addClass("current");
-//	 	$(".nav_item").hide();
-//	 	$(".nav_item:eq("+index+")").show();
-//	 });
-//	 $(".nav span:eq(0)").click();
+	 $(".nav span").click(function(){
+	 	var index = $(this).attr('data');
+	 	$(".nav span").removeClass("current");
+	 	$(this).addClass("current");
+	 	$(".nav_item").hide();
+	 	$(".nav_item:eq("+index+")").show();
+	 });
+	 $(".nav span:eq(0)").click();
 
 	$("#led .one_item").each(function(index,val){
 		if(index<ledsize){
 			$(this).show();
 		}
 	});
-
 	$(".language").click(function(){
 		var myForm = document.createElement("form");
 		myForm.method = "post";

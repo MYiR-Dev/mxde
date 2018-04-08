@@ -37,7 +37,27 @@ class MyClass_json:
         self.name_cmd=" "
         self.list_data=[]
 
-class dbus_Handler_method():
+def send_message(message,item_list):
+    for handler in item_list.socket_handlers:
+        try:
+            handler.write_message(message)
+        except:
+            logging.error('Error sending message', exc_info=True)
+
+
+class mainloop_class():
+
+    def __init__(self):
+        self.mainloop = GLib.MainLoop()
+
+    def mainloop_run(self):
+        self.mainloop.run()
+
+    def mainloop_quit(self):
+        self.mainloop.quit()
+
+
+class BaseMessage_DBus():
     # dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
     print "dbus start--1"
     bus=dbus.SessionBus()
