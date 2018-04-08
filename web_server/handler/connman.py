@@ -62,6 +62,7 @@ class ConnmanClient:
         self.dbus = dbus.Interface(self.__bus.get_object(DBUS_DOMAIN, '/'),
                         'net.connman.Service')
 
+        self.manager_py = pyconnman.ConnManager()
 
         for prop in self._exposed_properties:
             def mysetter(name, this, value):
@@ -71,24 +72,56 @@ class ConnmanClient:
             myprop = property(fget=functools.partial(mygetter, prop), fset=functools.partial(mysetter, prop))
             setattr(self.__class__, prop.lower(), myprop)
 
-    def get_state(self,ServiceId):
-        for path,properties in self.manager.GetServices():
-            if path == self.path + ServiceId:
-                    return properties["State"]
-
-    def get_services_id(self):
-        list_servicesid = []
-        for path, properties in self.manager.GetServices():   ## 没有网络时执行此处会卡死在此处
+    def get_services_info(self):
+        list_services_info = []
+        servers_cnt=0
+        for path, properties in self.manager.GetServices():
             serviceId = path[path.rfind("/") + 1:]
-            list_servicesid.append(serviceId)
+            servers_cnt = servers_cnt + 1    # 个数
 
+            list_services_info.append(path)
+            list_services_info.append(serviceId)
+            list_services_info.append(properties["State"])
 
-        return list_servicesid
+            list_services_info.append(properties.get("Ethernet").get('Interface')) ## net name
+            list_services_info.append(properties.get("Ethernet").get('Address'))   ##  MAC
+            list_services_info.append(properties.get("IPv4").get('Address'))       ## ipv4 ip
+            list_services_info.append(properties.get("IPv4").get('Netmask'))       ## ipv4  子掩码
+            list_services_info.append(properties.get("IPv4").get('Gateway'))       ## ipv4  网关
+
+        return servers_cnt,list_services_info
+
+    # def get_state(self,ServiceId):
+    #     for path,properties in self.manager.GetServices():
+    #         if path == self.path + ServiceId:
+    #                 return properties["State"]
+
+    # def get_services_id(self):
+    #     list_servicesid = []
+    #     cnt=0
+    #     for path, properties in self.manager.GetServices():   ## 没有网络时执行此处会卡死在此处
+    #         serviceId = path[path.rfind("/") + 1:]
+    #         cnt = cnt + 1
+    #         list_servicesid.append(serviceId)
+    #     return list_servicesid,cnt
+
+    # def list_services_cnt(self):
+    #     count=0
+    #     try:
+    #         services = self.manager_py.get_services()
+    #         for i in services:
+    #             (path, params) = i
+    #             # print path, '[' + params['Name'] + ']'
+    #             count =count+1
+    #     except dbus.exceptions.DBusException:
+    #         print 'Unable to complete:', sys.exc_info()
+    #     return count
 
     def get_ipv4(self):
+        count = 0
         list_servicesid_ipv4 = []
         for path, properties in self.manager.GetServices():
-
+            count = count + 1
             list_servicesid_ipv4.append(properties.get("Ethernet").get('Interface')) ## net name
             list_servicesid_ipv4.append(properties.get("Ethernet").get('Address')) ##  MAC
 
@@ -96,7 +129,7 @@ class ConnmanClient:
             list_servicesid_ipv4.append(properties.get("IPv4").get('Netmask'))     ## ipv4  子掩码
             list_servicesid_ipv4.append(properties.get("IPv4").get('Gateway'))     ## ipv4 网关
 
-        return list_servicesid_ipv4
+        return list_servicesid_ipv4,count
 
     def connect(self,services_id):
         service_path=self.path+services_id
@@ -163,12 +196,39 @@ class ConnmanClient:
         # tech.set_property(name, value)
 
 
+class MyClass_json:
+    #初始化
+    def __init__(self):
+        self.name_cmd=" "
+        self.list_data=[]
+
+from time import ctime,sleep
+
 if (__name__ == "__main__"):
     myConn = ConnmanClient(90)
-    print myConn.get_services_id()
-    iii= myConn.get_ipv4()
-    #
-    #
+    print myConn.get_services_info()
+    # iii= myConn.get_ipv4()
+    eth_server_cnt = 0
+    # eth_server_cnt , list_services_info = myConn.get_services_info()
+    # for i in range(cnt):
+    #     if (list_services_info[i * 7 + 2] == "idle"):
+    #         self.myConn.connect(list_services_info[i * 7 + 1])
+
+    # if eth_server_cnt > 0:
+    #     ip_addr = list_services_info[5]
+    #     print ip_addr
+    #     print type(ip_addr)
+
+    while (eth_server_cnt<=0):
+        eth_server_cnt, list_services_info = myConn.get_services_info()
+        if eth_server_cnt>0:
+            ip_addr = list_services_info[5]
+            print ip_addr
+            print type(ip_addr)
+        else:
+            sleep(1)
+
+
     # print len(iii)
     # for i in range(len(iii)) :
     #     print iii[i]
@@ -178,26 +238,5 @@ if (__name__ == "__main__"):
     # time.sleep(5)
     # myConn.connect("ethernet_e6000d8cc1e9_cable")
 
-
-
-
-
-'''
-0000
-
-setenv ipaddr 192.168.1.120    
-setenv serverip 192.168.1.103  
-setenv ethaddr 01:02:03:04:05:06 
-setenv nfsroot /home/eum/work/nfs_rootfs
-setenv gateway 192.168.30.255 
-setenv netmask 255.255.255.0
-
-setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} ${smp} root=/dev/nfs ip=${ipaddr}:${serverip}:${gateway}:${netmask}::eth0:off nfsroot=${serverip}:${nfsroot}'
-
-setenv bootcmd 'nand read ${loadaddr} 0x500000 0xA00000;nand read ${fdt_addr} 0xF00000 0x100000;run bootcmd_nfs;bootz ${loadaddr} - ${fdt_addr}' 
-
-saveenv
-
-'''
 
 

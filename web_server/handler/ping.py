@@ -127,6 +127,50 @@ def verbose_ping_2(dest_addr, timeout = 2):
     log2= "get ping in %0.4fms" % delay
   return log+log2
 
+
+
+
+##    判断IP的地址是否合法  
+  
+import re  
+  
+def judge_legal_ip(one_str):  
+    ''''' 
+    正则匹配方法 
+    判断一个字符串是否是合法IP地址 
+    '''  
+    compile_ip=re.compile('^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')    
+    if compile_ip.match(one_str):    
+        return True    
+    else:    
+        return False   
+  
+  
+def judge_legal_ip2(one_str):  
+    ''''' 
+    简单的字符串判断 
+    '''  
+    if '.' not in one_str:  
+        return False  
+    elif one_str.count('.')!=3:  
+        return False  
+    else:  
+        flag=True  
+        one_list=one_str.split('.')  
+        for one in one_list:  
+            try:  
+                one_num=int(one)  
+                if one_num>=0 and one_num<=255:  
+                    pass  
+                else:  
+                    flag=False  
+            except:  
+                flag=False  
+        return flag  
+
+
+
+
 if __name__ == '__main__':
   print verbose_ping_2("192.168.30.2",2)
   # verbose_ping_2("192.168.30.2",2)

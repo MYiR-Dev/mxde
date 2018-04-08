@@ -35,36 +35,17 @@ class MyClass_json:
     #初始化
     def __init__(self):
         self.name_cmd=" "
+        self.list_data=[]
 
-def send_message_to_html(message,item_list):
-    for handler in item_list.socket_handlers:
-        try:
-            handler.write_message(message)
-        except:
-            logging.error('Error sending message', exc_info=True)
-
-
-class mainloop_class():
-
-    def __init__(self):
-        self.mainloop = GLib.MainLoop()
-
-    def mainloop_run(self):
-        self.mainloop.run()
-
-    def mainloop_quit(self):
-        self.mainloop.quit()
-
-## dbus base
-class BaseMessage_DBus():
+class dbus_Handler_method():
+    # dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+    print "dbus start--1"
     bus=dbus.SessionBus()
     "暂时写定，没有动态处理"
     dbus_name="com.myirtech.mxde"
     dbu_path="/com/myirtech/mxde"
     dbus_interface="com.myirtech.mxde.MxdeInterface"
-
     iface = dbus.Interface("test",dbus_interface)
-
     # def __init__(self):
     #     pass
     #     print "init dbus"
@@ -74,12 +55,11 @@ class BaseMessage_DBus():
         print("try dbus connect !!!")
         remote_object = bus.get_object(dbus_name, dbu_path)
         iface = dbus.Interface(remote_object, dbus_interface)
-
     except dbus.DBusException:
         # traceback.print_exc()
         print("dbus get object error !")
 
-    print("dbus connect succless !")
+        print("dbus connect succless !")
 
     # mainloop = GLib.MainLoop()
 
@@ -103,7 +83,6 @@ class BaseMessage_DBus():
 
     # def r_quit(self):
     #     self.mainloop.quit()
-
 
 def str_operate(fd,str_input,fun):
     MAX_LEN=30
@@ -165,9 +144,11 @@ class dbus_led(BaseMessage_DBus):
         configure_data.data_buff = temp_str
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
-        send_message_to_html(json_data, WebSocketHandler_myir)
+        send_message(json_data, WebSocketHandler_myir)
 
     def led_recv_data(self, str_led):
+        print "recccccccccccccccccccccccccccccccccccccccccc"
+        print str_led
         self._message_led(str_led)
 
     def led_list(self):
@@ -199,6 +180,8 @@ class dbus_uart(BaseMessage_DBus):
             temp_data = data
 
             configure_data = MyClass_json()
+
+            print "hufan uaert333333333333333333333333333333333"
             from handler.index import GL
             if GL.fd_tty232 == temp_fd:
                 configure_data.name_cmd = "rs232_recv_data"
@@ -211,7 +194,7 @@ class dbus_uart(BaseMessage_DBus):
             configure_data.data_buff = temp_data
             configure_data_json = configure_data.__dict__
             json_data = json.dumps(configure_data_json)
-            send_message_to_html(json_data, WebSocketHandler_myir)
+            send_message(json_data, WebSocketHandler_myir)
 
     ## 串口的相关函数
     def serial_open(self,tty_name):
@@ -267,7 +250,7 @@ class dbus_can(BaseMessage_DBus):
         configure_data.data_id = can_id
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
-        send_message_to_html(json_data, WebSocketHandler_myir)
+        send_message(json_data, WebSocketHandler_myir)
 ## can
     def can_open(self,can_name):
         temp = dbus.String(can_name)
