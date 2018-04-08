@@ -29,7 +29,7 @@ from handler.connman import ConnmanClient
 # import dbus.decorators
 # import dbus.glib
 from handler.dbus_mess import MyClass_json
-from handler.dbus_mess import send_message
+from handler.dbus_mess import send_message_to_html
 from handler.dbus_mess import dbus_uart
 from handler.dbus_mess import dbus_can
 from handler.dbus_mess import dbus_led
@@ -69,29 +69,30 @@ def get_ip_address(ifname):
   ret = socket.inet_ntoa(inet[20:24])
   return ret
 
-# class PageCounter(object):
-#     count = 0
-#     #led
-#     led_statu=0
-#     #rs232
-#     rs232_baudrate_v = 9600
-#     rs232_databit_v = 8
-#     rs232_captbit_v = "NONE"
-#     rs232_stopbit_v = 1
-#     rs232_statu = 0  # close-0 open-1
-#     rs232_name = "/dev/tttmxc0"
-#     #rs485
-#     rs485_baudrate_v = 9600
-#     rs485_databit_v = 8
-#     rs485_captbit_v = "NONE"
-#     rs485_stopbit_v = 1
-#     rs485_statu =0   # close-0 open-1
-#     rs485_name="/dev/tttmxc0"
-#     #can
-#     can_baudrate_v = 50000
-#     can_buff_send_v = 1000
-#     can_statu =0   # close-0 open-1
-#     can_name="/dev/tttmxc0"
+##内存数据
+class PageCounter(object):
+    count = 0
+    #led
+    led_statu=0
+    #rs232
+    rs232_baudrate_v = 9600
+    rs232_databit_v = 8
+    rs232_captbit_v = "NONE"
+    rs232_stopbit_v = 1
+    rs232_statu = 0  # close-0 open-1
+    rs232_name = "/dev/tttmxc0"
+    #rs485
+    rs485_baudrate_v = 9600
+    rs485_databit_v = 8
+    rs485_captbit_v = "NONE"
+    rs485_stopbit_v = 1
+    rs485_statu =0   # close-0 open-1
+    rs485_name="/dev/tttmxc0"
+    #can
+    can_baudrate_v = 50000
+    can_buff_send_v = 1000
+    can_statu =0   # close-0 open-1
+    can_name="/dev/tttmxc0"
 
 class Parse_command():
 
@@ -127,7 +128,7 @@ class Parse_command():
 
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
-            send_message(self.status_json, WebSocketHandler_myir)
+            send_message_to_html(self.status_json, WebSocketHandler_myir)
             # 添加反馈信息到html
 
         elif uart_control == 2:  # set
@@ -164,7 +165,7 @@ class Parse_command():
 
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
-            send_message(self.status_json, WebSocketHandler_myir)
+            send_message_to_html(self.status_json, WebSocketHandler_myir)
         elif uart_control == 2:  # set
             baudrate = python_object["baud_rate"]
             databit = python_object["databit"]
@@ -204,7 +205,7 @@ class Parse_command():
 
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
-            send_message(self.status_json, WebSocketHandler_myir)
+            send_message_to_html(self.status_json, WebSocketHandler_myir)
 
             # print "uuu=",GL.fd_can
         elif can_control == 2:  # set
@@ -260,7 +261,7 @@ class Parse_command():
                 eth_data.ping_data=ping_log
                 eth_json_data = eth_data.__dict__
                 eth_json = json.dumps(eth_json_data)
-                send_message(eth_json, WebSocketHandler_myir)
+                send_message_to_html(eth_json, WebSocketHandler_myir)
                 
     def update_eth_info(self):
         eth_op = class_eth()
@@ -362,7 +363,7 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         configure_data.eth0_port=eth0_port
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
-        send_message(json_data, WebSocketHandler_myir)
+        send_message_to_html(json_data, WebSocketHandler_myir)
 
         # config = {'Method': make_string('manual'),
         #           'Address': make_string('192.168.1.108'),
@@ -410,7 +411,7 @@ class class_eth():
         eth_data_json = eth_data.__dict__
         eth_json = json.dumps(eth_data_json)
         # print eth_json
-        send_message(eth_json, WebSocketHandler_myir)
+        send_message_to_html(eth_json, WebSocketHandler_myir)
 
     def read_eth_state_and_connect(self):
         cnt , list_services_info = self.myConn.get_services_info()

@@ -37,7 +37,7 @@ class MyClass_json:
         self.name_cmd=" "
         self.list_data=[]
 
-def send_message(message,item_list):
+def send_message_to_html(message,item_list):
     for handler in item_list.socket_handlers:
         try:
             handler.write_message(message)
@@ -56,10 +56,8 @@ class mainloop_class():
     def mainloop_quit(self):
         self.mainloop.quit()
 
-
+## dbus base
 class BaseMessage_DBus():
-    # dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-    print "dbus start--1"
     bus=dbus.SessionBus()
     "暂时写定，没有动态处理"
     dbus_name="com.myirtech.mxde"
@@ -164,11 +162,9 @@ class dbus_led(BaseMessage_DBus):
         configure_data.data_buff = temp_str
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
-        send_message(json_data, WebSocketHandler_myir)
+        send_message_to_html(json_data, WebSocketHandler_myir)
 
     def led_recv_data(self, str_led):
-        print "recccccccccccccccccccccccccccccccccccccccccc"
-        print str_led
         self._message_led(str_led)
 
     def led_list(self):
@@ -200,8 +196,6 @@ class dbus_uart(BaseMessage_DBus):
             temp_data = data
 
             configure_data = MyClass_json()
-
-            print "hufan uaert333333333333333333333333333333333"
             from handler.index import GL
             if GL.fd_tty232 == temp_fd:
                 configure_data.name_cmd = "rs232_recv_data"
@@ -214,7 +208,7 @@ class dbus_uart(BaseMessage_DBus):
             configure_data.data_buff = temp_data
             configure_data_json = configure_data.__dict__
             json_data = json.dumps(configure_data_json)
-            send_message(json_data, WebSocketHandler_myir)
+            send_message_to_html(json_data, WebSocketHandler_myir)
 
     ## 串口的相关函数
     def serial_open(self,tty_name):
@@ -270,7 +264,7 @@ class dbus_can(BaseMessage_DBus):
         configure_data.data_id = can_id
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
-        send_message(json_data, WebSocketHandler_myir)
+        send_message_to_html(json_data, WebSocketHandler_myir)
 ## can
     def can_open(self,can_name):
         temp = dbus.String(can_name)
