@@ -184,7 +184,7 @@
 				</table>
 			</section>
 			<section class="tab">
-				<h2>CAN参数设置</h2>
+				<h2>Test CAN</h2>
 				<table>
 				<tr>
 					<td>					
@@ -239,12 +239,12 @@
 				</table>
 			</section>
 			<section class="tab" id="ethernet" >
-				<h2>网卡设置</h2>
-				<div class="nav">
-					<span data="0">Eth1</span>
-					<span data="1">Eth2</span>
-					<span data="2">Eth3</span>
-					<span data="3">Eth4</span>
+				<h2>EtherNet</h2>
+				<div id="netcalss" class="nav">
+					<span id="eth0" data="0">Eth1</span>
+					<span id="eth1" data="1">Eth2</span>
+					<span id="eth2" data="2">Eth3</span>
+					<span id="eth3" data="3">Eth4</span>
 					</div>
 				<div class="nav_item">
 					<table>
@@ -257,7 +257,6 @@
 						Gateway
 						<input type="text" id="net_gateway0"  name="name"></input>
 						</td>
-						
 					</tr>
 					<tr>
 						<td>
@@ -383,7 +382,7 @@
 				</div>
 			</section>
 			<section class="tab contact">
-				<h2>Contact us</h2>
+				<h2>Contact Us</h2>
 				<div class="one_item">
 				    E-mail: sales@myirtech.com or myirtech@yahoo.com　　<br>
 					Phone: +86-755-22984836　<br>
@@ -445,7 +444,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	function analyze_recv_data(e){
 		var data = e.data;
 		var obj = $.parseJSON(data);
-
 		if(obj.name_cmd=="configure_cmd"){
 			add_select_option("rs232_port_name",obj.rs232_port);
 			add_select_option("rs485_port_name",obj.rs485_port);
@@ -462,7 +460,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			portsize =  obj.eth_number;
 //			net_show_update(portsize);
 			if(obj.control=="data_buff"){
-
                 for(var i=0;i<obj.eth_number;i++){
 					var temp_eth_name="eth"+i;
 					if(obj.list_data[i*5]==temp_eth_name){
@@ -470,7 +467,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 						document.getElementById("net_netmask"+i).value = obj.list_data[i*5+3];
 						document.getElementById("net_gateway"+i).value = obj.list_data[i*5+4];
 					}
-			    }  
+                }
 			}else if(obj.control=="ping")
 			{   var log_ping;
      
@@ -491,9 +488,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 					 }
 					 document.getElementById('img'+ i).src=led_statu;
                  }
-
 				 led_update(ledsize);
-//				 portsize=4;
 				 net_show_update(portsize);
 		}else if(obj.name_cmd=="status_data"){
 				if(obj.name_status=="RS232_STATUS"){
@@ -593,27 +588,31 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 		$("#led .one_item").each(function(index,val){
 		    if(index<arg){
 				$(this).show();
-
 			}
 		});
     }
 
-
-
 	function net_show_update(portsize){
+
+		$("#netcalss").empty();
 		for(var i=0;i<portsize;i++)
-		{	
+		{
 			var port;
 			port  = i;
-			$(".nav").append("<span data='"+i+"'>网口"+port+"</span>");
+			$(".nav").append("<span data='"+i+"'>ETH"+i+"</span>");
 		}
-		$(".nav span").click(function(){
-		var index = $(this).attr('data');	
-		$(".nav span").removeClass("current");
-		$(this).addClass("current");
-		$(".nav_item").hide();
-		$(".nav_item:eq("+index+")").show();
+
+		$(".nav span").click(function()
+		{
+			var index = $(this).attr('data');
+
+			$(".nav span").removeClass("current");
+			$(this).addClass("current");
+			$(".nav_item").hide();
+			$(".nav_item:eq("+index+")").show();
 	    });
+		$(".nav span:eq(0)").click();
+
     }
 
 //uart  232
@@ -788,7 +787,6 @@ $(document).ready(function(){
 			data.dest_addr=document.getElementById("net_ip"+$(this).attr("str_num")).value;
 			data.dest_netmask=document.getElementById("net_netmask"+$(this).attr("str_num")).value;
 			data.dest_gateway=document.getElementById("net_gateway"+$(this).attr("str_num")).value;
-
 			var str = JSON.stringify(data);
 			ws.send(str);
 		}

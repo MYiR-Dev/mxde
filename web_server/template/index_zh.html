@@ -95,7 +95,7 @@
 						<option value="56000">56000
 						<option value="576000">576000
 						<option value="115200">115200
-					</select>
+					</select>&nbsp;
 					&nbsp;数据位
 					<select id="rs232_databit" name="name" str_op="rs232_change" onchange="change_parameter($(this).attr('str_op'));">
 						<option value="8" selected>8
@@ -255,7 +255,7 @@
 			</section>
 			<section class="tab" id="ethernet" >
 				<h2>网卡设置</h2>
-				<div class="nav">
+				<div id="netcalss" class="nav">
 					<span data="0">网口1</span>
 					<span data="1">网口2</span>
 					<span data="2">网口3</span>
@@ -504,10 +504,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 					 document.getElementById('img'+ i).src=led_statu;
                  }
 
-
-
 				 led_update(ledsize);
-//				 portsize=4;
 				 net_show_update(portsize);
 		}else if(obj.name_cmd=="status_data"){
 				if(obj.name_status=="RS232_STATUS"){
@@ -607,38 +604,29 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 		$("#led .one_item").each(function(index,val){
 		    if(index<arg){
 				$(this).show();
-
 			}
 		});
     }
 
-    function led_update_status(){
-//		$("#led .one_item").each(function(index,val){
-//			if(index<ledsize){
-//				if($(this).attr("status_s") == "0") {
-//					$(this).parent().children(".led").attr('src', "statics/images_zh/led_red.png");
-//				}else{
-//				    $(this).parent().children(".led").attr('src', "statics/images_zh/led_green.png");
-//				}
-//			}
-//		});
-		;
-    }
-
 	function net_show_update(portsize){
+		$("#netcalss").empty();
 		for(var i=0;i<portsize;i++)
-		{	
+		{
 			var port;
 			port  = i;
-			$(".nav").append("<span data='"+i+"'>网口"+port+"</span>");
+			$(".nav").append("<span data='"+i+"'>ETH"+i+"</span>");
 		}
-		$(".nav span").click(function(){
-		var index = $(this).attr('data');	
-		$(".nav span").removeClass("current");
-		$(this).addClass("current");
-		$(".nav_item").hide();
-		$(".nav_item:eq("+index+")").show();
+
+		$(".nav span").click(function()
+		{
+			var index = $(this).attr('data');
+
+			$(".nav span").removeClass("current");
+			$(this).addClass("current");
+			$(".nav_item").hide();
+			$(".nav_item:eq("+index+")").show();
 	    });
+		$(".nav span:eq(0)").click();
     }
 
 //uart  232
