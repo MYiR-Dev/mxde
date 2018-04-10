@@ -114,29 +114,64 @@ class Parse_command():
             GL.fd_tty232 = 0
         elif uart_control == 1:  # open
             uart_name = python_object["name"]
-            GL.fd_tty232 = dbus_call_t.serial_open(uart_name)
-            self.status_data.name_status = "RS232_STATUS"
-            if GL.fd_tty232>0:
-                baudrate = python_object["baud_rate"]
-                databit = python_object["databit"]
-                stopbit = python_object["stopbit"]
-                captbit = python_object["checkbit"]
-                dbus_call_t.serial_set_parameter(GL.fd_tty232, baudrate, databit, 0, 1, captbit, stopbit)
+            self.status_data.name_status = "rs232_status"
+
+            #GL.fd_tty232 = dbus_call_t.serial_open(uart_name)
+            tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
+            if tmp_value == 0:
+                GL.fd_tty232 = tmp_param[1]
+                # baudrate = tmp_param[2]
+                # databit = tmp_param[3]
+                # captbit = tmp_param[6]
+                # stopbit = tmp_param[7]
+
+                self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
+                # self.status_data.baudrate = baudrate
+                # self.status_data.databit = databit
+                # self.status_data.captbit = captbit
+                # self.status_data.stopbit = stopbit
+                self.status_data.baudrate = tmp_param[2]
+                self.status_data.databit = tmp_param[3]
+                self.status_data.captbit = tmp_param[6]
+                self.status_data.stopbit = tmp_param[7]
+
             else:
-                self.status_data.status_operation = "faild"
+                if tmp_value > 0:
+                    GL.fd_tty232 = tmp_value
+                    self.status_data.status_rdy = 0
+                    baudrate = python_object["baud_rate"]
+                    databit = python_object["databit"]
+                    stopbit = python_object["stopbit"]
+                    captbit = python_object["checkbit"]
+                    dbus_call_t.serial_set_parameter(GL.fd_tty232, baudrate, databit, 0, 1, captbit, stopbit)
+                    self.status_data.status_operation = "successed"
+                else:
+                    self.status_data.status_operation = "faild"
+                    GL.fd_tty232=-1
+
+##  旧的
+            # if GL.fd_tty232>0:
+            #     baudrate = python_object["baud_rate"]
+            #     databit = python_object["databit"]
+            #     stopbit = python_object["stopbit"]
+            #     captbit = python_object["checkbit"]
+            #     dbus_call_t.serial_set_parameter(GL.fd_tty232, baudrate, databit, 0, 1, captbit, stopbit)
+            #     self.status_data.status_operation = "successed"
+            # else:
+            #     self.status_data.status_operation = "faild"
 
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
             send_message_to_html(self.status_json, WebSocketHandler_myir)
             # 添加反馈信息到html
 
-        elif uart_control == 2:  # set
-            baudrate = python_object["baud_rate"]
-            databit = python_object["databit"]
-            stopbit = python_object["stopbit"]
-            captbit = python_object["checkbit"]
-            dbus_call_t.serial_set_parameter(GL.fd_tty232, baudrate, databit, 0, 1, captbit, stopbit)
+        # elif uart_control == 2:  # set
+        #     baudrate = python_object["baud_rate"]
+        #     databit = python_object["databit"]
+        #     stopbit = python_object["stopbit"]
+        #     captbit = python_object["checkbit"]
+        #     dbus_call_t.serial_set_parameter(GL.fd_tty232, baudrate, databit, 0, 1, captbit, stopbit)
         elif uart_control == 3:  # send
             buf_data = python_object["buf_data"]
             dbus_call_t.serial_send_data(GL.fd_tty232, buf_data, len(buf_data))
@@ -151,27 +186,63 @@ class Parse_command():
             GL.fd_tty485 = 0
         elif uart_control == 1:  # open
             uart_name = python_object["name"]
-            GL.fd_tty485 = dbus_call_t.serial_open(uart_name)
-            self.status_data.name_status = "RS485_STATUS"
-            if GL.fd_tty485 > 0:
-                baudrate = python_object["baud_rate"]
-                databit = python_object["databit"]
-                stopbit = python_object["stopbit"]
-                captbit = python_object["checkbit"]
-                dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
+## 旧的
+            # GL.fd_tty485 = dbus_call_t.serial_open(uart_name)
+            # self.status_data.name_status = "rs485_status"
+            # if GL.fd_tty485 > 0:
+            #     baudrate = python_object["baud_rate"]
+            #     databit = python_object["databit"]
+            #     stopbit = python_object["stopbit"]
+            #     captbit = python_object["checkbit"]
+            #     dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
+            #     self.status_data.status_operation = "successed"
+            # else:
+            #     self.status_data.status_operation = "faild"
+
+            self.status_data.name_status = "rs485_status"
+            #GL.fd_tty485 = dbus_call_t.serial_open(uart_name)
+            tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
+            if tmp_value == 0:    ##
+                GL.fd_tty485 = tmp_param[1]
+                # baudrate = tmp_param[2]
+                # databit = tmp_param[3]
+                # captbit = tmp_param[6]
+                # stopbit = tmp_param[7]
+
+                self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
+                # self.status_data.baudrate = baudrate
+                # self.status_data.databit = databit
+                # self.status_data.captbit = captbit
+                # self.status_data.stopbit = stopbit
+                self.status_data.baudrate = tmp_param[2]
+                self.status_data.databit = tmp_param[3]
+                self.status_data.captbit = tmp_param[6]
+                self.status_data.stopbit = tmp_param[7]
+
             else:
-                self.status_data.status_operation = "faild"
+                if tmp_value > 0:
+                    GL.fd_tty485 = tmp_value
+                    self.status_data.status_rdy = 0
+                    baudrate = python_object["baud_rate"]
+                    databit = python_object["databit"]
+                    stopbit = python_object["stopbit"]
+                    captbit = python_object["checkbit"]
+                    dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
+                    self.status_data.status_operation = "successed"
+                else:
+                    self.status_data.status_operation = "faild"
+                    GL.fd_tty485=-1
 
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
             send_message_to_html(self.status_json, WebSocketHandler_myir)
-        elif uart_control == 2:  # set
-            baudrate = python_object["baud_rate"]
-            databit = python_object["databit"]
-            stopbit = python_object["stopbit"]
-            captbit = python_object["checkbit"]
-            dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
+        # elif uart_control == 2:  # set
+        #     baudrate = python_object["baud_rate"]
+        #     databit = python_object["databit"]
+        #     stopbit = python_object["stopbit"]
+        #     captbit = python_object["checkbit"]
+        #     dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
         elif uart_control == 3:  # send
             buf_data = python_object["buf_data"]
             dbus_call_t.serial_send_data(GL.fd_tty485, buf_data, len(buf_data))
@@ -191,17 +262,42 @@ class Parse_command():
             dbus_call_t.can_close(can_name, GL.fd_can)
             GL.fd_can = 0
         elif can_control == 1:  # open
-            dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
-            GL.fd_can = dbus_call_t.can_open(can_name)  # get can id
 
-            if GL.fd_can>0:
-                baudrate = python_object["baud_rate"]
-                self.status_data.name_status = "CAN_STATUS"
-                # sendbuff_len = python_object["can_len_sendbuff"]
-                dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
+    ##  旧版本
+            # dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
+            # GL.fd_can = dbus_call_t.can_open(can_name)  # get can id
+
+            # if GL.fd_can>0:
+            #     baudrate = python_object["baud_rate"]
+            #     self.status_data.name_status = "can_status"
+            #     # sendbuff_len = python_object["can_len_sendbuff"]
+            #     dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
+            #     self.status_data.status_operation = "successed"
+            # else:
+            #     self.status_data.status_operation = "faild"
+
+            self.status_data.name_status = "can_statuss"
+            tmp_value,tmp_param=dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
+            if tmp_value==100:   ##  已经是打开状态
+                # GL.fd_can = dbus_call_t.can_open(can_name)
+                can_param = temp_param.split()
+                GL.fd_can = can_param[1]
+                baudrate = can_param[2]
+                can_loop = can_param[3]
+
+                self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
+                self.status_data.baudrate = baudrate
+                self.status_data.can_loop = can_loop
+                # self.status_data.fd_can = can_loop
+                self.status_data.name_can = can_param[0]
             else:
-                self.status_data.status_operation = "faild"
+                self.status_data.status_rdy = 0
+                GL.fd_can = dbus_call_t.can_open(can_name)
+                if GL.fd_can<0:
+                    self.status_data.status_operation = "faild"
+                else:
+                    self.status_data.status_operation = "successed"
 
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
@@ -270,15 +366,8 @@ class Parse_command():
         eth_op._eth_handler_to_sent()
 
     def update_language(self,python_object):
-        
         log = tttm()
         log.log_en()
-
-        # set_language=python_object["set_language"]
-        # if set_language=="en":
-        #     self.render("index_en.html")
-        # elif set_language=="zh":
-        #     self.render("index_zh.html")
 
     def parse_c(self,message):
         python_object = json.loads(message)
@@ -299,12 +388,12 @@ class Parse_command():
             self.update_language(python_object)
 
 def read_configure():
-    path_file='/etc/board_configure_info.json'
+    path_file='/usr/share/myir/www/statics/board_configure_info.json'
     try:
         file=open(path_file, 'r')
         f_read = json.load(file)
     except:
-        print("Did not find the configuration file '/etc/board_configure_info.json' ")
+        print("Did not find the configuration file '/usr/share/myir/www/statics/board_configure_info.json' ")
 
     finally:
         pass
@@ -349,8 +438,7 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self):
-        print ("websocket opened")
-
+        # print ("websocket opened")
         WebSocketHandler_myir.socket_handlers.add(self)
         eth_operate = class_eth()
         ## init
@@ -374,15 +462,14 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         # eth_operate._eth_handler_to_sent()
 
     def on_message(self, message):
-        print '------------------------------------------------------------------------------------------------',message
         self.mess_t.parse_c(message)
         return
 
     def on_close(self):
-        print ('websocket closed')
-        # self.mess_t.uart_dbus_call.serial_close(GL.fd_tty485)
-        # self.mess_t.uart_dbus_call.serial_close(GL.fd_tty232)
-        # self.mess_t.can_dbus_call.can_close(GL.fd_can_name,GL.fd_can)
+        # print ('websocket closed')
+        self.mess_t.uart_dbus_call.serial_close(GL.fd_tty485)
+        self.mess_t.uart_dbus_call.serial_close(GL.fd_tty232)
+        self.mess_t.can_dbus_call.can_close(GL.fd_can_name,GL.fd_can)
         WebSocketHandler_myir.socket_handlers.remove(self)
 
 class class_eth():

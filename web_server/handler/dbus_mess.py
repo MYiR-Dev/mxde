@@ -213,9 +213,17 @@ class dbus_uart(BaseMessage_DBus):
     ## 串口的相关函数
     def serial_open(self,tty_name):
         temp = dbus.String(tty_name)
-        serial_fd=BaseMessage_DBus.iface.openSerialPort(temp)
-        # print "recv serial=",serial_fd
-        return serial_fd
+        # serial_fd=BaseMessage_DBus.iface.openSerialPort(temp)
+
+        '''
+        char device_name,int fd, int bitrate, int datasize, int mode, int flow, char * par, int stop
+        '''
+        serial_fd, temp_param = BaseMessage_DBus.iface.openSerialPort(temp)
+        # if serial_fd==0:
+        #     serial_param = temp_param.split()
+        #     return serial_fd,serial_param ## 串口的状态是已经打开的
+
+        return serial_fd,serial_param
 
     def serial_close(self,tty_fd):
         temp = dbus.Int16(tty_fd)
@@ -287,7 +295,20 @@ class dbus_can(BaseMessage_DBus):
         temp_baud_rates = dbus.Int64(baud_rates_1)
         temp_baud_status = dbus.Int16(status)
         temp_loop = dbus.String(loop)
-        BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates,temp_baud_status,temp_loop)
+        #temp_ret=BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates,temp_baud_status,temp_loop)
+
+        '''
+        <arg name="can_configure" type="s" direction="out"/> 
+        char *device_name, int fd, int bitrate, char  *loop
+        '''
+        temp_ret,temp_param= BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates, temp_baud_status, temp_loop)
+        # if temp_ret==100:              # 已经是设置状态
+        #     pass
+        #     can_param=temp_param.split()
+        # else:
+        #     return 0xFF,can_param
+
+        return temp_ret, can_param
 
     def can_send_data(self,fd,data,num):
         # temp_fd = dbus.Int16(fd)
@@ -295,3 +316,6 @@ class dbus_can(BaseMessage_DBus):
         # temp_num = dbus.Int16(num)
         # BaseMessage_DBus.iface.CanWrite(temp_fd,temp_data,temp_num)
         str_operate(fd, data, BaseMessage_DBus.iface.CanWrite)
+
+
+

@@ -436,12 +436,12 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	       element_not.net_dhcp_str="自动获取IP";
 		   element_not.test_str="测试";
 	   }else{
-		   element_not.open_uart_str="OPEN";
-	       element_not.close_uart_str="CLOSE";
-	       element_not.open_can_str="OPEN";
-	       element_not.close_can_str="CLOSE";
-		   element_not.net_set_str="Set IP";
-		   element_not.net_dhcp_str="DHCPC";
+		   element_not.open_uart_str="open";
+	       element_not.close_uart_str="close";
+	       element_not.open_can_str="open";
+	       element_not.close_can_str="close";
+		   element_not.net_set_str="set ip";
+		   element_not.net_dhcp_str="dhcpc";
 	       element_not.test_str="testing";
 	   }
    }
@@ -475,7 +475,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			portsize =  obj.eth_number;
 //			net_show_update(portsize);
 			if(obj.control=="data_buff"){
-
                 for(var i=0;i<obj.eth_number;i++){
 					var temp_eth_name="eth"+i;
 					if(obj.list_data[i*5]==temp_eth_name){
@@ -507,19 +506,54 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				 led_update(ledsize);
 				 net_show_update(portsize);
 		}else if(obj.name_cmd=="status_data"){
-				if(obj.name_status=="RS232_STATUS"){
-				    if(obj.status_operation=="successed"){
-				    	document.getElementById('rs232_button').value = element_not.close_uart_str;
-					}
-                }else if(obj.name_status=="RS485_STATUS"){
-					if(obj.status_operation=="successed"){
-				    	document.getElementById('rs485_button').value = element_not.close_uart_str;
-					}
-				}else if(obj.name_status=="CAN_STATUS"){
+			     var tmp_var;
+				if(obj.name_status=="can_statuss"){
 					if(obj.status_operation=="successed"){
 				    	document.getElementById('can_button').value = element_not.close_can_str;
 					}
+					if(obj.status_rdy==1){
+						document.getElementById('can_loop').value = obj.can_loop;
+						document.getElementById('can_baudrate').value = obj.baudrate;
+						document.getElementById('can_name').value = obj.name_can;
+					}
+					return;
 				}
+
+			     tmp_var=obj.name_status.split("_")
+			     if(obj.name_status== tmp_var[0]+"_status"){
+				    if(obj.status_operation=="successed"){
+				    	document.getElementById(tmp_var[0]+'_button').value = element_not.close_uart_str;
+					}
+					if(obj.status_rdy==1){
+						document.getElementById(tmp_var[0]+'_baud_rate').value = obj.baudrate;
+						document.getElementById(tmp_var[0]+'_databit').value = obj.databit;
+						document.getElementById(tmp_var[0]+'_checkbit').value = obj.captbit;
+						document.getElementById(tmp_var[0]+'_stopbit').value = obj.stopbit;
+					}
+					return;
+				 }
+
+//				if(obj.name_status=="rs232_status"){
+//				    if(obj.status_operation=="successed"){
+//				    	document.getElementById('rs232_button').value = element_not.close_uart_str;
+//					}
+//					if(obj.status_rdy==1){
+//						document.getElementById('rs232_baud_rate').value = obj.baudrate;
+//						document.getElementById('rs485_databit').value = obj.databit;
+//						document.getElementById('rs485_checkbit').value = obj.captbit;
+//						document.getElementById('rs485_stopbit').value = obj.stopbit;
+//					}
+//                }else if(obj.name_status=="rs485_status"){
+//					if(obj.status_operation=="successed"){
+//				    	document.getElementById('rs485_button').value = element_not.close_uart_str;
+//					}
+//					if(obj.status_rdy==1){
+//						document.getElementById('rs485_baud_rate').value = obj.baudrate;
+//						document.getElementById('rs485_databit').value = obj.databit;
+//						document.getElementById('rs485_checkbit').value = obj.captbit;
+//						document.getElementById('rs485_stopbit').value = obj.stopbit;
+//					}
+//				}
 			}
 	}
 

@@ -58,9 +58,7 @@ def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)
-    # ip_addr=get_ip_address("eth1")
     ip_addr="none"
-    
     eth_op = class_eth()
     eth_server_cnt=0
     while (eth_server_cnt<=0):
@@ -72,6 +70,8 @@ def main():
         else:
             time.sleep(1)
             eth_server_cnt=0
+            print "Waiting for network services"
+
     time.sleep(0.5)
     str_temp='Development server is running at http://'+ip_addr+':'+str(options.port)+'/login'
     print (str_temp)
