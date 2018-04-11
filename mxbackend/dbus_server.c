@@ -411,7 +411,7 @@ void Introspect_method_call(DBusMessage * msg, DBusConnection * conn)
 	int buffersize;
 	char *respone;
 	
-	doc = xmlReadFile("/usr/share/myir/mxde.xml","UTF-8",XML_PARSE_RECOVER);  
+    doc = xmlReadFile(MXDE_DBUS_XML,"UTF-8",XML_PARSE_RECOVER);
     xmlDocDumpFormatMemory(doc, &xmlbuf, &buffersize, 1);  
 	respone = (char *)xmlbuf;
 	
@@ -748,6 +748,7 @@ void listen_dbus()
 }
 int main( int argc , char ** argv){
 	
+    board_cfg_init();
 	led_init();
     tty_init();
     listen_dbus(); 

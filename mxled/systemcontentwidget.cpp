@@ -27,7 +27,9 @@
 #include <QDirIterator>
 #include <QStringList>
 #include <QPalette>
-
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QDebug>
 char *led_name[5];
 char *led_statu[5];
 
@@ -78,7 +80,8 @@ void SystemContentWidget::initUI()
 
 void SystemContentWidget::getBoardLedInfo()
 {
-    QFile f("/usr/share/myir/board_led_info");
+    QString val;
+    QFile f("/usr/share/myir/board_cfg.json");
     QTextCodec *codec = QTextCodec::codecForName("UTF8");
 
     if(!f.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -86,15 +89,23 @@ void SystemContentWidget::getBoardLedInfo()
          qDebug()  << "Open failed.";
 
     }
-    QTextStream txtInput(&f);
-    txtInput.setCodec(codec);
-    QString ledinfoStr;
+    val = f.readAll();
+    f.close();
 
-    ledinfoStr.append( txtInput.readAll());
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject jsonObj = jsonDoc.object();
+    QJsonValue value = jsonObj.value(QString("board_info"));
+    QJsonObject item = value.toObject();
+    QJsonArray test = item["led"].toArray();
+    QString ledinfoStr;
+    for(int i = 0;i < test.size();i++ )
+    {
+        ledinfoStr.append(test[i].toString());
+        ledinfoStr.append("\n");
+    }
 
     ledLable->setStyleSheet("color:#000000;font: 18px");
     ledLable->setText(ledinfoStr);
-    f.close();
 
 }
 //! [5]

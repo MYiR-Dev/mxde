@@ -21,7 +21,7 @@
 #include "common.h"
 #include "can.h"
 
-#define CAN_INFO_PATH "/usr/share/myir/board_can_info"
+
 static int can_baudrate = CAN_DEFAULT_BAUDRATE;
 pthread_t can_thread_id = 0;
 int thread_can_fd = 0;
@@ -312,22 +312,9 @@ int				parse_canframe(char* strFrame, struct can_frame *frame)
 
 void get_can_list(char * result)
 {
-    char tmp[30]={0};
-    int n = 0;
-    FILE *fp;
 
-    fp = fopen(CAN_INFO_PATH,"r");
+    get_cfg_list("can",result);
 
-    if (NULL == fp)
-      {
-          printf("fopen error!\n");
-          return;
-      }
-    while(fgets(tmp,20,fp) != NULL)
-    {
-        n +=sprintf(result+n,"%s",tmp);
-        memset(tmp, 0, sizeof(tmp));
-    }
 }
 
 

@@ -17,16 +17,14 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <net/if.h>
-
+#include <cJSON.h>
 #include "common.h"
 #include "tty.h"
 
-#define UART_INFO_PATH "/usr/share/myir/board_uart_info"
-#define RS485_INFO_PATH "/usr/share/myir/board_rs485_info"
 pthread_t tty_thread_id = 0;
 int thread_tty_fd = 0;
 int current_birate =0;
-
+extern  char *board_cfg;
 #define MAX_OPENED_TTY 5
 struct g_opened_tty opened_tty[MAX_OPENED_TTY];
 int opened_num = 0;
@@ -445,44 +443,18 @@ int 			tty_mode(const int fd,  int mode)
 
 	return res;
 }
+
 void get_rs485_list(char * result)
 {
-    char tmp[30]={0};
-    int n = 0;
-    FILE *fp;
 
-    fp = fopen(RS485_INFO_PATH,"r");
+    get_cfg_list("rs485",result);
 
-    if (NULL == fp)
-      {
-          printf("fopen error!\n");
-          return;
-      }
-    while(fgets(tmp,20,fp) != NULL)
-    {
-        n +=sprintf(result+n,"%s",tmp);
-        memset(tmp, 0, sizeof(tmp));
-    }
 }
+
 void get_serial_list(char * result)
 {
-    char tmp[30]={0};
-    int n = 0;
-    FILE *fp;
 
-    fp = fopen(UART_INFO_PATH,"r");
-
-    if (NULL == fp)
-      {
-          printf("fopen error!\n");
-          return;
-      }
-    while(fgets(tmp,20,fp) != NULL)
-    {
-        n +=sprintf(result+n,"%s",tmp);
-        memset(tmp, 0, sizeof(tmp));
-    }
-    //printf("get_serial_list:%s",result);
+    get_cfg_list("rs232",result);
 }
 
 void parse_tty_param(char *tty_param)

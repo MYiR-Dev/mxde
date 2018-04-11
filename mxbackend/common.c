@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <cJSON.h>
+#include "common.h"
+char *board_cfg;
 unsigned char utf8_look_for_table[] =
     {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -75,4 +77,53 @@ int IsUtf8Format(const char *str)
         return 0;
 
     return 1;
+}
+void board_cfg_init()
+{
+    FILE *f;
+    long len;
+
+    f=fopen(MXDE_BOARD_CFG_PATH,"rb");
+    fseek(f,0,SEEK_END);
+    len=ftell(f);
+    fseek(f,0,SEEK_SET);
+    board_cfg=(char*)malloc(len+1);
+    fread(board_cfg,1,len,f);
+    fclose(f);
+}
+void get_cfg_list(char *item_name,char * result)
+{
+
+    cJSON *json;
+    cJSON *node;
+    cJSON *item;
+    cJSON *tnode;
+    int i=0,n=0;
+
+    json=cJSON_Parse(board_cfg);
+    if (!json) {
+        printf("Error before: [%s]\n",cJSON_GetErrorPtr());
+        return;
+    }
+
+    item = cJSON_GetObjectItem(json,"board_info");
+    if(item == NULL)
+    {
+        printf("Error before: [%s]\n",cJSON_GetErrorPtr());
+        return ;
+    }
+    node = cJSON_GetObjectItem(item,item_name);
+    if(node->type == cJSON_Array)
+    {
+        int size1 = cJSON_GetArraySize(node);
+        for(i=0;i<size1;i++)
+        {
+            tnode = cJSON_GetArrayItem(node,i);
+            if(tnode->type == cJSON_String)
+            {
+                n +=sprintf(result+n,"%s\n",tnode->valuestring);
+            }
+        }
+
+    }
 }

@@ -22,6 +22,7 @@
 #define MXDE_SETTING_FILE_NAME_SETTING  "mxde"
 #define MXDE_COMPANY_SETTING            "myirtech"
 #define MXDE_SETTING_FILE_PATH          "/usr/share/myir/settings.ini"
+#define MXDE_BOARD_CFG_PATH "/usr/share/myir/board_cfg.json"
 class MxApplication : public QtSingleApplication
 {
     Q_OBJECT

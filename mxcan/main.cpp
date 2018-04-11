@@ -25,7 +25,7 @@
 #include <QTranslator>
 #include <QDesktopWidget>
 
-#define MXDE_SETTING_FILE_PATH          "/usr/share/myir/settings.ini"
+
 static const char short_options[] = "w:h";
 static const struct option long_options[]={
     {"width", required_argument, NULL, 'w'},

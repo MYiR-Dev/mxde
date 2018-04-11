@@ -9,6 +9,11 @@
 #include <QLabel>
 #include <QStandardItemModel>
 #include <QFile>
+#include <QTextCodec>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+
 #include "mxde.h"
 #include "systemcontentwidget.h"
 #include "mxde.h"
@@ -136,21 +141,41 @@ void SystemContentWidget::createHardwareInfoGroupBox()
     m_HardwareInfoGroupBox->setLayout(m_HardwareLayout);
 
 }
+void SystemContentWidget::get_system_cfg()
+{
+    QString val;
+    QFile f(MXDE_BOARD_CFG_PATH);
+    QTextCodec *codec = QTextCodec::codecForName("UTF8");
+
+    if(!f.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+         qDebug()  << "Open failed.";
+
+    }
+    val = f.readAll();
+    f.close();
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject jsonObj = jsonDoc.object();
+    QJsonValue value1 = jsonObj.value(QString("board_info"));
+    QJsonObject item1 = value1.toObject();
+    QJsonValue value2 = item1.value("system");
+    QJsonObject item2 = value2.toObject();
+
+    infoList << item2.value("HMI_version").toString();
+    infoList << item2.value("linux_version").toString();
+    infoList << item2.value("uboot_version").toString();
+    infoList << item2.value("gcc_version").toString();
+    infoList << item2.value("manufacturer").toString();
+    infoList << item2.value("board").toString();
+    infoList << item2.value("CPU").toString();
+    infoList << item2.value("memory").toString();
+    infoList << item2.value("storage").toString();
+
+}
 void SystemContentWidget::initUI()
 {
-
-    QFile file("/usr/share/myir/board_system_info");
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug()<<"Can't open the file!"<<endl;
-    }
-    infoList.clear();
-    QTextStream in(&file);
-    while( !in.atEnd()){
-        QString line = in.readLine();
-
-        infoList << line;
-    }
-
+    get_system_cfg();
     createSoftwareInfoGroupBox();
     createHardwareInfoGroupBox();
 
@@ -158,10 +183,6 @@ void SystemContentWidget::initUI()
     mainLayout->addWidget(m_SoftwareInfoGroupBox, 0,0);
     mainLayout->addWidget(m_HardwareInfoGroupBox,1,0);
     this->setLayout(mainLayout);
-
-
-
-
 }
 
 void SystemContentWidget::initConnection()

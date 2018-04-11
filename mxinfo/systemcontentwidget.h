@@ -29,7 +29,7 @@ public:
     void display();
     void createSoftwareInfoGroupBox();
     void createHardwareInfoGroupBox();
-
+    void get_system_cfg();
 signals:
     void clickSerialPortCombobox();
 
