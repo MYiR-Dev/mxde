@@ -22,7 +22,7 @@
 			<span class="menus menu2">&nbsp;</span>
 			<span class="menus menu3">&nbsp;</span>
 			<span class="menus menu4">&nbsp;</span>
-			<span class="menus menu5">&nbsp;</span>
+			<span class="menus menu5" id="eth_update">&nbsp;</span>
 			<span class="menus menu6">&nbsp;</span>
 		</div>
 		<div id="right">
@@ -461,14 +461,22 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			portsize =  obj.eth_number;
 //			net_show_update(portsize);
 			if(obj.control=="data_buff"){
+
+				var str_net_combination=" ";
                 for(var i=0;i<obj.eth_number;i++){
-					var temp_eth_name="eth"+i;
-					if(obj.list_data[i*5]==temp_eth_name){
-						document.getElementById("net_ip"+i).value = obj.list_data[i*5+2];
-						document.getElementById("net_netmask"+i).value = obj.list_data[i*5+3];
-						document.getElementById("net_gateway"+i).value = obj.list_data[i*5+4];
-					}
+
+//					var temp_eth_name="eth"+i;
+//					if(obj.list_data[i*5]==temp_eth_name){
+					    var tmp_vv = obj.list_data[i*5+0].substring(3);
+//					    var tmp_cc  = tmp_vv + " ";
+					    str_net_combination = str_net_combination + tmp_vv + " ";
+						document.getElementById("net_ip"+tmp_vv).value = obj.list_data[i*5+2];
+						document.getElementById("net_netmask"+tmp_vv).value = obj.list_data[i*5+3];
+						document.getElementById("net_gateway"+tmp_vv).value = obj.list_data[i*5+4];
+//					}
                 }
+                net_show_update(obj.eth_number,str_net_combination.substring(1));
+
 			}else if(obj.control=="ping")
 			{   var log_ping;
 				log_ping = document.getElementById('eth'+obj.eth_name.slice(3)+'_ping_data').value;
@@ -490,7 +498,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
                  }
 
 				 led_update(ledsize);
-				 net_show_update(portsize);
+
 		}else if(obj.name_cmd=="status_data"){
 			     var tmp_var;
 				if(obj.name_status=="can_statuss"){
@@ -628,14 +636,14 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 		});
     }
 
-	function net_show_update(portsize){
-
+	function net_show_update(num,str_net){
+        var vv=str_net.split(" ");
 		$("#netcalss").empty();
-		for(var i=0;i<portsize;i++)
+		for(var i=0;i<num;i++)
 		{
 			var port;
 			port  = i;
-			$(".nav").append("<span data='"+i+"'>ETH"+i+"</span>");
+			$(".nav").append("<span data='"+vv[i]+"'>ETH"+vv[i]+"</span>");
 		}
 
 		$(".nav span").click(function()
@@ -864,6 +872,13 @@ $(document).ready(function(){
 		document.body.appendChild(myForm);
 		myForm.submit();
 		document.body.removeChild(myForm);
+	});
+	$("#eth_update").click(function(arg){
+		var data = new Object;
+		data.cmd="eth_cmd_upate";
+		data.upate_cmd="eth_cmd_upate";
+		var str = JSON.stringify(data);
+		ws.send(str);
 	});
 
 });

@@ -28,6 +28,7 @@ import dbus
 import dbus.decorators
 import dbus.glib
 from gi.repository import GLib
+# from handler.index import GL
 
 import json
 
@@ -58,11 +59,29 @@ class mainloop_class():
 
 ## dbus base
 class BaseMessage_DBus():
-    bus=dbus.SessionBus()
-    "暂时写定，没有动态处理"
+
     dbus_name="com.myirtech.mxde"
     dbu_path="/com/myirtech/mxde"
     dbus_interface="com.myirtech.mxde.MxdeInterface"
+
+    path_file='/usr/share/myir/board_cfg.json'
+    try:
+        file=open(path_file, 'r')
+        f_read = json.load(file)
+    except:
+        print("Did not find the configuration file '/usr/share/myir/board_cfg.json' ")
+    finally:
+        pass
+    try:
+        dbus_name=f_read["dbus_info"][0]
+        dbus_path=f_read["dbus_info"][1]
+        dbus_interface=f_read["dbus_info"][2]
+    except:
+        print ("read error")
+    bus=dbus.SessionBus()
+    # dbus_name="com.myirtech.mxde"
+    # dbu_path="/com/myirtech/mxde"
+    # dbus_interface="com.myirtech.mxde.MxdeInterface"
     iface = dbus.Interface("test",dbus_interface)
     # def __init__(self):
     #     pass
@@ -76,9 +95,7 @@ class BaseMessage_DBus():
     except dbus.DBusException:
         # traceback.print_exc()
         print("dbus get object error !")
-
-        print("dbus connect succless !")
-
+    print("dbus connect succless !")
     # mainloop = GLib.MainLoop()
 
     def __init__(self):

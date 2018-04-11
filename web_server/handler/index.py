@@ -52,8 +52,13 @@ class MyGlobal:
         self.fd_can = 2
         self.fd_can_name = "can0"
         self.net_name="net1"
+        # self.dbus_name=" "
+        # self.dbus_path=" "
+        # self.dbus_interface=" "
+
 
 GL = MyGlobal()
+
 # def get_ip_address(ifname):
 #     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 #     return socket.inet_ntoa(fcntl.ioctl(
@@ -388,25 +393,28 @@ class Parse_command():
             self.update_language(python_object)
 
 def read_configure():
-    path_file='/usr/share/myir/www/statics/board_configure_info.json'
+    path_file='/usr/share/myir/board_cfg.json'
     try:
         file=open(path_file, 'r')
         f_read = json.load(file)
     except:
-        print("Did not find the configuration file '/usr/share/myir/www/statics/board_configure_info.json' ")
-
+        print("Did not find the configuration file '/usr/share/myir/board_cfg.json' ")
     finally:
         pass
-
     try:
-        rs232_port=f_read['board_info']['rs232_port']
-        rs485_port=f_read['board_info']['rs485_port']
-        can_port=f_read['board_info']['can_port']
-        eth0_port=f_read['board_info']['eth0_port']
+        rs232_port="/dev/"+f_read["board_info"]['rs232'][0]
+        rs485_port="/dev/"+f_read["board_info"]['rs485'][0]
+        can_port=f_read["board_info"]['can'][0]
+        # eth0_port=f_read['board_info']['eth0_port']
+
+        # GL.dbus_name=f_read["dbus_info"][0]
+        # GL.dbus_path=f_read["dbus_info"][1]
+        # GL.dbus_interface=f_read["dbus_info"][2]
+
     except:
         print ("read error")
         return 0
-    return rs232_port,rs485_port,can_port,eth0_port
+    return rs232_port,rs485_port,can_port
 
 class read_configure_file():
 
@@ -414,18 +422,18 @@ class read_configure_file():
         pass
 
     def read_configure(self):
-        file = open('board_configure_info.json', 'r')
+        path_file = '/usr/share/myir/board_cfg.json'
+        file=open(path_file, 'r')
         f_read = json.load(file)
 
         try:
-            rs232_port=f_read['board_info']['rs232_port']
-            rs485_port=f_read['board_info']['rs485_port']
-            can_port=f_read['board_info']['can_port']
-            eth0_port=f_read['board_info']['eth0_port']
+            rs232_port = f_read["board_info"]['rs232'][0]
+            rs485_port = f_read["board_info"]['rs485'][0]
+            can_port = f_read["board_info"]['can'][0]
         except:
             print "read error"
 
-        return rs232_port,rs485_port,can_port,eth0_port
+        return rs232_port,rs485_port,can_port
 
 def make_string(str):
     return dbus.String(str, variant_level=1)
@@ -442,13 +450,13 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         WebSocketHandler_myir.socket_handlers.add(self)
         eth_operate = class_eth()
         ## init
-        rs232_port, rs485_port, can_port, eth0_port=read_configure()
+        rs232_port, rs485_port, can_port=read_configure()
         configure_data = MyClass_json()
         configure_data.name_cmd="configure_cmd"
         configure_data.rs232_port=rs232_port
         configure_data.rs485_port=rs485_port
         configure_data.can_port=can_port
-        configure_data.eth0_port=eth0_port
+        # configure_data.eth0_port=eth0_port
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
@@ -509,7 +517,6 @@ class class_eth():
     def _read_eth(self):
         cnt, list_services_info = self.myConn.get_services_info()
         return cnt,list_services_info
-
 
 class tttm(tornado.web.RequestHandler):
     def log_zh(self):

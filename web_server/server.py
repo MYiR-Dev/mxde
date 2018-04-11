@@ -29,12 +29,10 @@ from handler.dbus_mess import mainloop_class
 from handler.index import get_ip_address
 from handler.index import class_eth
 
-
-class MyGlobal_NET:
-    def __init__(self):
-        self.net_name = "eth"
-
-GL_NET = MyGlobal_NET()
+# class MyGlobal_NET:
+#     def __init__(self):
+#         self.net_name = "eth"
+# GL_NET = MyGlobal_NET()
 
 define("port",default=8090,help="run on th given port",type=int)
 
