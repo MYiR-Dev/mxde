@@ -25,7 +25,8 @@
 #include <QVBoxLayout>
 #include <QList>
 #include <QTextEdit>
-
+#include <QTableWidget>
+#include <QGridLayout>
 #include "mxde.h"
 #include "mxledindicator.h"
 #include "mxapplication.h"
@@ -57,6 +58,9 @@ private:
     void createHorizontalGroupBox();
     void getLedNameAndStatus();
     void getBoardLedInfo();
+
+    QTableWidget *m_tableWidget;
+    QGridLayout *mainLayout;
     QGroupBox          *horizontalGroupBox;
     QTextEdit             *bigEditor;
     QLabel              *ledLable;
@@ -67,6 +71,7 @@ private:
     MxApplication        *m_app;
     int                      m_width;
     int                      m_height;
+    QStringList ledlocationList;
 };
 
 #endif // SYSTEMCONTENTWIDGET_H

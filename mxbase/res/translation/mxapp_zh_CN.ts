@@ -234,7 +234,18 @@
         <source>Process Info</source>
         <translation>进程信息</translation>
     </message>
-
+    <message>
+        <source>Status</source>
+        <translation>状态</translation>
+    </message>
+    <message>
+        <source>Switch</source>
+        <translation>开关</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation>位置</translation>
+    </message>
 </context>
 <context>
     <name>ServiceTab</name>

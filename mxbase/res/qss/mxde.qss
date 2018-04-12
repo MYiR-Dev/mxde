@@ -147,8 +147,9 @@ QPushButton#ledButton{
         blue;
     padding: 4px;
     min-width: 65px;
-    min-height: 12px;
+    min-height: 20px;
     margin: 5px;
+    background-color: #AFEEEE;
 }
 QPushButton#serialButton{
     background-color: #AFEEEE;

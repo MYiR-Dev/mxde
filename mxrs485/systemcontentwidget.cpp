@@ -144,12 +144,12 @@ void SystemContentWidget::createSettingGroupBox()
     }
     else
     {
-    m_SettingLayout->addLayout(hLayout1,0,0,1,1);
-    m_SettingLayout->addLayout(hLayout2,0,1,1,1);
-    m_SettingLayout->addLayout(hLayout3,0,2,1,1);
-    m_SettingLayout->addLayout(hLayout4,0,3,1,1);
-    m_SettingLayout->addLayout(hLayout5,0,4,1,1);
-    m_SettingLayout->addLayout(hLayout6,1,4,1,1);
+    m_SettingLayout->addLayout(hLayout1,0,0,1,10);
+    m_SettingLayout->addLayout(hLayout2,0,11,1,10);
+    m_SettingLayout->addLayout(hLayout3,0,21,1,10);
+    m_SettingLayout->addLayout(hLayout4,0,31,1,10);
+    m_SettingLayout->addLayout(hLayout5,0,41,1,10);
+    m_SettingLayout->addLayout(hLayout6,1,43,1,8);
     }
 
     m_SettingGroup->setLayout(m_SettingLayout);

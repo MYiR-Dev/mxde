@@ -30,6 +30,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 char *led_name[5];
 char *led_statu[5];
 
@@ -58,19 +60,59 @@ SystemContentWidget::~SystemContentWidget()
 
 void SystemContentWidget::initUI()
 {
-        createHorizontalGroupBox();
-
-        QGridLayout *mainLayout = new QGridLayout;
-
-
-        ledLable = new QLabel();
-        ledLable->adjustSize();
 
         getBoardLedInfo();
+        QSignalMapper *signal_mapper = new QSignalMapper(this);
+        mainLayout = new QGridLayout;
+        m_tableWidget = new QTableWidget();
 
-        mainLayout->addWidget(horizontalGroupBox,0,0,1,3,Qt::AlignCenter);
-        mainLayout->addWidget(ledLable,1,0,2,1);
+        m_tableWidget->setColumnCount(leds.size()); //设置列数
+        m_tableWidget->setRowCount(3);
+        m_tableWidget->setFrameShape(QFrame::NoFrame);
+        m_tableWidget->verticalHeader()->setHighlightSections(false);
+        m_tableWidget->horizontalHeader()->setVisible(false); //隐藏列表头
+        //m_tableWidget->horizontalHeader()->setDisabled(true);
+        //m_tableWidget->verticalHeader()->setDisabled(true);
+        m_tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        m_tableWidget->verticalHeader()->setDefaultSectionSize(45);
+        m_tableWidget->horizontalHeader()->setStretchLastSection(true);
+        m_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        m_tableWidget->setStyleSheet("QTableWidget::item:selected { background-color: rgb(255, 255,255,0%) }");
 
+        QStringList header;
+        header<<tr("Status")<<tr("Switch")<<tr("Location");
+        m_tableWidget->setVerticalHeaderLabels(header);
+        for(int i = 0; i < leds.size(); i++)
+        {
+
+            QPushButton *ledButton = new QPushButton();
+            ledButton->setObjectName("ledButton");
+            ledButton->setText(leds.at(i)->getLedName());
+            connect(ledButton, SIGNAL(clicked()), signal_mapper, SLOT(map()));
+            signal_mapper->setMapping(ledButton, QString::number(i, 10));
+
+            QWidget *lediconWidget = new QWidget(m_tableWidget);
+            QHBoxLayout *lediconLayout= new QHBoxLayout();
+            lediconLayout->addWidget(leds.at(i));
+            lediconLayout->setAlignment(leds.at(i), Qt::AlignCenter);
+            lediconWidget->setLayout(lediconLayout);
+
+            QWidget *locationWidget = new QWidget(m_tableWidget);
+            QLabel *locateLable = new QLabel(m_tableWidget);
+            locateLable->setText(ledlocationList.at(i));
+            locateLable->setAlignment(Qt::AlignCenter);
+            QHBoxLayout *locationLayout= new QHBoxLayout();
+            locationLayout->addWidget(locateLable);
+            locationLayout->setAlignment(locateLable, Qt::AlignCenter);
+            locationWidget->setLayout(locationLayout);
+
+            m_tableWidget->setCellWidget(0,i,lediconWidget);
+            m_tableWidget->setCellWidget(1,i,ledButton);
+            m_tableWidget->setCellWidget(2,i,locationWidget);
+        }
+        connect(signal_mapper, SIGNAL(mapped(QString)), this, SLOT(switchSelectedLedButtoIndex(QString)));
+
+        mainLayout->addWidget(m_tableWidget,0,0,1,1);
         setLayout(mainLayout);
 
         connect(this, SIGNAL(click_Button(int)), this, SLOT(on_click_Button(int)));
@@ -81,7 +123,7 @@ void SystemContentWidget::initUI()
 void SystemContentWidget::getBoardLedInfo()
 {
     QString val;
-    QFile f("/usr/share/myir/board_cfg.json");
+    QFile f(MXDE_BOARD_CFG_PATH);
     QTextCodec *codec = QTextCodec::codecForName("UTF8");
 
     if(!f.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -94,18 +136,17 @@ void SystemContentWidget::getBoardLedInfo()
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
     QJsonObject jsonObj = jsonDoc.object();
-    QJsonValue value = jsonObj.value(QString("board_info"));
-    QJsonObject item = value.toObject();
-    QJsonArray test = item["led"].toArray();
-    QString ledinfoStr;
-    for(int i = 0;i < test.size();i++ )
+    QJsonValue value1 = jsonObj.value(QString("board_info"));
+    QJsonObject item1 = value1.toObject();
+    QJsonValue value2 = item1.value(QString("led"));
+    QJsonObject item2 = value2.toObject();
+    QStringList keyList = item2.keys();
+
+    for(int i = 0; i< keyList.size();i++)
     {
-        ledinfoStr.append(test[i].toString());
-        ledinfoStr.append("\n");
+        ledlocationList << item2[keyList.at(i)].toString();
     }
 
-    ledLable->setStyleSheet("color:#000000;font: 18px");
-    ledLable->setText(ledinfoStr);
 
 }
 //! [5]
@@ -162,6 +203,7 @@ void SystemContentWidget::createHorizontalGroupBox()
     horizontalGroupBox = new QGroupBox();
     QHBoxLayout *layout = new QHBoxLayout;
 
+
     for (int i = 0; i < leds.size(); ++i) {
  //      buttons[i] = new QPushButton(leds.at(i)->getLedName());
         QVBoxLayout *ledLayout = new QVBoxLayout();
@@ -179,6 +221,7 @@ void SystemContentWidget::createHorizontalGroupBox()
     connect(signal_mapper, SIGNAL(mapped(QString)), this, SLOT(switchSelectedLedButtoIndex(QString)));
     horizontalGroupBox->setLayout(layout);
     horizontalGroupBox->setStyleSheet("QGroupBox{border: 0px solid white;border-radius:1px;background-color: #ffffff;}");
+
 }
 
 void SystemContentWidget::switchSelectedLedButtoIndex(QString index)
