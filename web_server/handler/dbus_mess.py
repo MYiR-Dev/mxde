@@ -179,19 +179,13 @@ class dbus_led(BaseMessage_DBus):
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
-        print "hufan ====121212====",json_data
+        print "json",json_data
 
     def led_recv_data(self, str_led):
-        print "led-----------------------------------------------------------------------------------------------------------------"
-        print "led-----------------------------------------------------------------------------------------------------------------"
-        print "led-----------------------------------------------------------------------------------------------------------------"
-        print "led-----------------------------------------------------------------------------------------------------------------"
-        print str_led
         self._message_led(str_led)
 
     def led_list(self):
         str_led = BaseMessage_DBus.iface.getLedList()
-        print  "---------------------------cdcdcdc",str_led
         self._message_led(str_led)
 
     def led_set(self,led_name,val):

@@ -492,18 +492,18 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				document.getElementById('eth'+obj.eth_name.slice(3)+'_ping_data').value = log_ping + "\n" + obj.ping_data;
 			}
 		}else if(obj.name_cmd=="led_recv_data"){
-				 var  led_data12 = obj.data_buff.split("\n");
-				 led_data=led_data12.replace(",","");
+
+//			     alert("json===");
+//			     alert(obj.data_buff);
+				 var  led_data = obj.data_buff.split("\n");
 				 var  led_statu="f";
-				 alert("hufan");
-				 alert(led_data);
-				 alert(led_data.length);
+
 				 ledsize  = led_data.length-1;
+				 alert(ledsize);
 				 for (var i = 1; i < led_data.length; i++) {
                      var Median_str = led_data[i-1].split(" ");
                      document.getElementById('led' + i).value = Median_str[0];
-                     alert(Median_str[0]);
-                     alert(Median_str[1]);
+
 					 if (Median_str[1]==0){
 						led_statu="statics/images_en/led_red.png";
  					 }else {
