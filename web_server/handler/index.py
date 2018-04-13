@@ -321,7 +321,7 @@ class Parse_command():
             # temp_param = tmp_param.split(" ")
             if tmp_value==100:   ##  已经是打开状态
                 # GL.fd_can = dbus_call_t.can_open(can_name)
-                can_param = temp_param.split()
+                can_param = tmp_param.split()
                 GL.fd_can = can_param[1]
                 baudrate = can_param[2]
                 can_loop = can_param[3]

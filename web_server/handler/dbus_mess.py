@@ -171,22 +171,22 @@ class dbus_led(BaseMessage_DBus):
                                      bus_name=BaseMessage_DBus.dbus_name,path=BaseMessage_DBus.dbu_path, \
                                      signal_name="sigLedBrightnessChanged")
 
-    def _message_led(self,temp_str):
+    def _message_led(self,temp_str,list_va):
         from handler.index import WebSocketHandler_myir
         configure_data = MyClass_json()
         configure_data.name_cmd = "led_recv_data"
         configure_data.data_buff = temp_str
+        configure_data.list_va = list_va
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
-        print "json",json_data
 
     def led_recv_data(self, str_led):
-        self._message_led(str_led)
+        self._message_led(str_led,0)
 
     def led_list(self):
         str_led = BaseMessage_DBus.iface.getLedList()
-        self._message_led(str_led)
+        self._message_led(str_led,1)
 
     def led_set(self,led_name,val):
         temp_name=dbus.String(led_name)

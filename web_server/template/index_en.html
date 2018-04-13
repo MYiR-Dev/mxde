@@ -415,6 +415,7 @@
 
 var portsize = 3;//定义网口数量
 var ledsize = 1;//定义led数量
+var ledsize_static = 1;//
 
 var language="en";
 
@@ -444,7 +445,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	ws.onopen = function() {
         set_define();
         ledlist_sendMsg();
-
 	};
 	ws.onmessage = function(e){
 			analyze_recv_data(e);
@@ -492,27 +492,36 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				document.getElementById('eth'+obj.eth_name.slice(3)+'_ping_data').value = log_ping + "\n" + obj.ping_data;
 			}
 		}else if(obj.name_cmd=="led_recv_data"){
-
-//			     alert("json===");
-//			     alert(obj.data_buff);
-				 var  led_data = obj.data_buff.split("\n");
 				 var  led_statu="f";
-
-				 ledsize  = led_data.length-1;
-				 alert(ledsize);
-				 for (var i = 1; i < led_data.length; i++) {
-                     var Median_str = led_data[i-1].split(" ");
-                     document.getElementById('led' + i).value = Median_str[0];
-
-					 if (Median_str[1]==0){
-						led_statu="statics/images_en/led_red.png";
- 					 }else {
-					    led_statu="statics/images_en/led_green.png";
+                 var  led_data;
+				 if(obj.list_va==1){   // update led list
+				     led_data = obj.data_buff.split("\n");
+                     ledsize_static = led_data.length-1;
+					 for (var i = 1; i <= led_data.length; i++) {
+						 var Median_str = led_data[i-1].split(" ");
+						 document.getElementById('led' + i).value = Median_str[0];
+						 if (Median_str[1]==0){
+							led_statu="statics/images_en/led_red.png";
+						 }else {
+							led_statu="statics/images_en/led_green.png";
+						 }
+						 document.getElementById('img'+ i).src=led_statu;
 					 }
-					 document.getElementById('img'+ i).src=led_statu;
-                 }
-
-				 led_update(ledsize);
+				 }else{   // update led status
+                    led_data = obj.data_buff;
+                    var Median_str= led_data.split(" ");
+                    for(var i=1;i< ledsize_static+1 ;i++){
+                       if(document.getElementById('led' + i).value == Median_str[0]){
+							 if (Median_str[1]==0){
+								led_statu="statics/images_en/led_red.png";
+							 }else {
+								led_statu="statics/images_en/led_green.png";
+							 }
+							 document.getElementById('img'+ i).src=led_statu;
+					   }
+					}
+				 }
+				 led_update(ledsize_static);
 
 		}else if(obj.name_cmd=="status_data"){
 			     var tmp_var;
