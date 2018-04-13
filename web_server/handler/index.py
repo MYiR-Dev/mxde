@@ -47,9 +47,9 @@ class MyGlobal:
     def __init__(self):
         # self.A = 0
         # self.B = [0]
-        self.fd_tty485 = 2
-        self.fd_tty232 = 2
-        self.fd_can = 2
+        self.fd_tty485 = -1
+        self.fd_tty232 = -1
+        self.fd_can = -1
         self.fd_can_name = "can0"
         self.net_name="net1"
         # self.dbus_name=" "
@@ -74,42 +74,90 @@ def get_ip_address(ifname):
   ret = socket.inet_ntoa(inet[20:24])
   return ret
 
-##内存数据
-class PageCounter(object):
-    count = 0
-    #led
-    led_statu=0
-    #rs232
-    rs232_baudrate_v = 9600
-    rs232_databit_v = 8
-    rs232_captbit_v = "NONE"
-    rs232_stopbit_v = 1
-    rs232_statu = 0  # close-0 open-1
-    rs232_name = "/dev/tttmxc0"
-    #rs485
-    rs485_baudrate_v = 9600
-    rs485_databit_v = 8
-    rs485_captbit_v = "NONE"
-    rs485_stopbit_v = 1
-    rs485_statu =0   # close-0 open-1
-    rs485_name="/dev/tttmxc0"
-    #can
-    can_baudrate_v = 50000
-    can_buff_send_v = 1000
-    can_statu =0   # close-0 open-1
-    can_name="/dev/tttmxc0"
-
 class Parse_command():
-
     uart_dbus_call = dbus_uart()
     can_dbus_call = dbus_can()
     led_dbus_call = dbus_led()
     uart_dbus_call.add_signal_call()
     can_dbus_call.add_signal_call()
     led_dbus_call.add_signal_call()
-
     status_data = MyClass_json()
     status_data.name_cmd = "status_data"
+
+
+    def baudrate_get(self,tmp1):
+        # return {
+        #     "300": 1,
+        #     "600": 2,
+        #     "1200": 3,
+        #     "2400": 4,
+        #     "4800": 5,
+        #     "9600": 6,
+        #     "19200": 7,
+        #     "38400": 8,
+        #     "57600": 9,
+        #     "115200": 10,
+        # }.get(var,'error')
+        tmp=str(tmp1)
+        if tmp=="300":
+            return 1
+        elif tmp=="600":
+            return 2
+        elif tmp=="1200":
+            return 3
+        elif tmp=="2400":
+            return 4
+        elif tmp=="4800":
+            return 5
+        elif tmp=="9600":
+            return 6
+        elif tmp=="19200":
+            return 7
+        elif tmp=="38400":
+            return 8
+        elif tmp=="57600":
+            return 9
+        elif tmp=="115200":
+            return 10
+
+    def databit_get(self,tmp1):
+        # return {
+        #     "8": 1,
+        #     "7": 2,
+        #     "6": 3,
+        # }.get(var,'1')
+        tmp = str(tmp1)
+        if tmp == "8":
+            return 1
+        elif tmp == "7":
+            return 2
+        elif tmp == "6":
+            return 3
+
+    def check_get(self,tmp1):
+        # return {
+        #     "NONE": 1,
+        #     "EVEN": 2,
+        #     "ODD": 3,
+        # }.get(var,'1')
+        tmp = str(tmp1)
+        if tmp == "NONE":
+            return 1
+        elif tmp == "EVEN":
+            return 2
+        elif tmp == "ODD":
+            return 3
+
+    def stop_get(self,tmp1):
+        # return {
+        #     "1": 1,
+        #     "2": 2,
+        # }.get(var,'1')
+        tmp = str(tmp1)
+        if tmp == "1":
+            return 1
+        elif tmp == "2":
+            return 2
 
     def serial_rs232_handler(self,python_object,dbus_call_t):
         uart_control = python_object["control"]
@@ -123,24 +171,16 @@ class Parse_command():
 
             #GL.fd_tty232 = dbus_call_t.serial_open(uart_name)
             tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
-            if tmp_value == 0:
-                GL.fd_tty232 = tmp_param[1]
-                # baudrate = tmp_param[2]
-                # databit = tmp_param[3]
-                # captbit = tmp_param[6]
-                # stopbit = tmp_param[7]
+            temp_param = tmp_param.split(" ")
 
+            if tmp_value == 0:
+                GL.fd_tty232 = temp_param[1]
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
-                # self.status_data.baudrate = baudrate
-                # self.status_data.databit = databit
-                # self.status_data.captbit = captbit
-                # self.status_data.stopbit = stopbit
-                self.status_data.baudrate = tmp_param[2]
-                self.status_data.databit = tmp_param[3]
-                self.status_data.captbit = tmp_param[6]
-                self.status_data.stopbit = tmp_param[7]
-
+                self.status_data.baudrate_1 = self.baudrate_get(temp_param[2])
+                self.status_data.databit_1 = self.databit_get(temp_param[3])
+                self.status_data.captbit_1 = self.check_get(temp_param[6])
+                self.status_data.stopbit_1 = self.stop_get(temp_param[7])
             else:
                 if tmp_value > 0:
                     GL.fd_tty232 = tmp_value
@@ -154,7 +194,6 @@ class Parse_command():
                 else:
                     self.status_data.status_operation = "faild"
                     GL.fd_tty232=-1
-
 ##  旧的
             # if GL.fd_tty232>0:
             #     baudrate = python_object["baud_rate"]
@@ -207,12 +246,9 @@ class Parse_command():
             self.status_data.name_status = "rs485_status"
             #GL.fd_tty485 = dbus_call_t.serial_open(uart_name)
             tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
+            temp_param = tmp_param.split(" ")
             if tmp_value == 0:    ##
                 GL.fd_tty485 = tmp_param[1]
-                # baudrate = tmp_param[2]
-                # databit = tmp_param[3]
-                # captbit = tmp_param[6]
-                # stopbit = tmp_param[7]
 
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
@@ -220,10 +256,10 @@ class Parse_command():
                 # self.status_data.databit = databit
                 # self.status_data.captbit = captbit
                 # self.status_data.stopbit = stopbit
-                self.status_data.baudrate = tmp_param[2]
-                self.status_data.databit = tmp_param[3]
-                self.status_data.captbit = tmp_param[6]
-                self.status_data.stopbit = tmp_param[7]
+                self.status_data.baudrate_1 = self.baudrate_get(temp_param[2])
+                self.status_data.databit_1 = self.databit_get(temp_param[3])
+                self.status_data.captbit_1 = self.check_get(temp_param[6])
+                self.status_data.stopbit_1 = self.stop_get(temp_param[7])
 
             else:
                 if tmp_value > 0:
@@ -242,12 +278,12 @@ class Parse_command():
             self.status_data_data = self.status_data.__dict__
             self.status_json = json.dumps(self.status_data_data)
             send_message_to_html(self.status_json, WebSocketHandler_myir)
-        # elif uart_control == 2:  # set
-        #     baudrate = python_object["baud_rate"]
-        #     databit = python_object["databit"]
-        #     stopbit = python_object["stopbit"]
-        #     captbit = python_object["checkbit"]
-        #     dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
+            # elif uart_control == 2:  # set
+            #     baudrate = python_object["baud_rate"]
+            #     databit = python_object["databit"]
+            #     stopbit = python_object["stopbit"]
+            #     captbit = python_object["checkbit"]
+            #     dbus_call_t.serial_set_parameter(GL.fd_tty485, baudrate, databit, 1, 1, captbit, stopbit)
         elif uart_control == 3:  # send
             buf_data = python_object["buf_data"]
             dbus_call_t.serial_send_data(GL.fd_tty485, buf_data, len(buf_data))
@@ -261,7 +297,6 @@ class Parse_command():
         can_control = python_object["control"]
         baudrate = python_object["baud_rate"]
         can_loop = python_object["can_loop"]
-        # print "can_loop=",can_loop
         if can_control == 0:    # close
             dbus_call_t.can_set_parameter(can_name, baudrate, 0, can_loop)
             dbus_call_t.can_close(can_name, GL.fd_can)
@@ -283,6 +318,7 @@ class Parse_command():
 
             self.status_data.name_status = "can_statuss"
             tmp_value,tmp_param=dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
+            # temp_param = tmp_param.split(" ")
             if tmp_value==100:   ##  已经是打开状态
                 # GL.fd_can = dbus_call_t.can_open(can_name)
                 can_param = temp_param.split()
@@ -308,7 +344,6 @@ class Parse_command():
             self.status_json = json.dumps(self.status_data_data)
             send_message_to_html(self.status_json, WebSocketHandler_myir)
 
-            # print "uuu=",GL.fd_can
         elif can_control == 2:  # set
             baudrate = python_object["baud_rate"]
             # sendbuff_len = python_object["can_len_sendbuff"]
@@ -317,8 +352,6 @@ class Parse_command():
             buf_data = python_object["buf_data"]
             can_id = python_object["can_id"]
             buf_send=str(can_id)+"+"+buf_data
-            # print "can test=",buf_send
-            # print "uuu1=", GL.fd_can
             self.can_dbus_call.can_send_data(GL.fd_can, buf_send, len(buf_data))
         else:
             pass
@@ -370,9 +403,6 @@ class Parse_command():
         # sleep(0.5)
         eth_op._eth_handler_to_sent()
 
-    def update_language(self,python_object):
-        log = tttm()
-        log.log_en()
 
     def parse_c(self,message):
         python_object = json.loads(message)
@@ -389,8 +419,7 @@ class Parse_command():
             self.eth_handler(python_object)
         elif cmd == "eth_cmd_upate":
             self.update_eth_info()
-        elif cmd == "language_cmd":
-            self.update_language(python_object)
+
 
 def read_configure():
     path_file='/usr/share/myir/board_cfg.json'
@@ -412,7 +441,7 @@ def read_configure():
         # GL.dbus_interface=f_read["dbus_info"][2]
 
     except:
-        print ("read error")
+        print ("read board_cfg.json error")
         return 0
     return rs232_port,rs485_port,can_port
 
@@ -431,7 +460,7 @@ class read_configure_file():
             rs485_port = f_read["board_info"]['rs485'][0]
             can_port = f_read["board_info"]['can'][0]
         except:
-            print "read error"
+            print ("read board_cfg.json error")
 
         return rs232_port,rs485_port,can_port
 
@@ -475,9 +504,12 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         # print ('websocket closed')
-        self.mess_t.uart_dbus_call.serial_close(GL.fd_tty485)
-        self.mess_t.uart_dbus_call.serial_close(GL.fd_tty232)
-        self.mess_t.can_dbus_call.can_close(GL.fd_can_name,GL.fd_can)
+        if  GL.fd_tty485>0:
+            self.mess_t.uart_dbus_call.serial_close(GL.fd_tty485)
+        if  GL.fd_tty232>0:
+            self.mess_t.uart_dbus_call.serial_close(GL.fd_tty232)
+        if  GL.fd_can>0:
+            self.mess_t.can_dbus_call.can_close(GL.fd_can_name,GL.fd_can)
         WebSocketHandler_myir.socket_handlers.remove(self)
 
 class class_eth():
@@ -518,16 +550,6 @@ class class_eth():
         cnt, list_services_info = self.myConn.get_services_info()
         return cnt,list_services_info
 
-class tttm(tornado.web.RequestHandler):
-    def log_zh(self):
-        temp = str(GL.net_name)
-        ip_str = get_ip_address(temp)
-        self.render("index_zh.html", info_ip=ip_str, info_port_eth=options.port, info_event="myir")
-    def log_en(self):
-        temp = str(GL.net_name)
-        ip_str = get_ip_address(temp)
-        self.render("index_en.html", info_ip=ip_str, info_port_eth=options.port, info_event="myir")
-
 class login(tornado.web.RequestHandler):
     def get(self):
         # lst = ["myirtech web demo"]
@@ -563,7 +585,7 @@ class language_change(tornado.web.RequestHandler):
         self.render("login.html")
     def post(self,*args,**kwargs):
         language_read = self.get_argument('language')
-        print  language_read
+        # print  language_read
         temp = str(GL.net_name)
         ip_str = get_ip_address(temp)
         if language_read=="zh":
@@ -572,12 +594,12 @@ class language_change(tornado.web.RequestHandler):
             self.render("index_en.html", info_ip=ip_str, info_port_eth=options.port, info_event="myir")
 
 # ajax  method
-class AjaxHandler(tornado.web.RequestHandler):
-    def post(self):
-        global fd_tty
-        ret_data=self.get_argument("message")
-        ret_data_str = ret_data.encode("utf-8")
-        # recv_data = sent_data(fd_tty,ret_data_str,len(ret_data_str))
-        # self.write("data recv")
-        self.write(str(ret_data))
-
+# class AjaxHandler(tornado.web.RequestHandler):
+#     def post(self):
+#         global fd_tty
+#         ret_data=self.get_argument("message")
+#         ret_data_str = ret_data.encode("utf-8")
+#         # recv_data = sent_data(fd_tty,ret_data_str,len(ret_data_str))
+#         # self.write("data recv")
+#         self.write(str(ret_data))
+#

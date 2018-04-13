@@ -163,7 +163,6 @@ class ConnmanClient:
 
         srv_prop = srv_obj.GetProperties()
 
-        print '-hun=',srv_prop
         #     if 'Name' in srv_prop:
         #         srv_name += "/" + srv_prop['Name']
         #     if SHOW_ADDR and value == 'online':
@@ -182,7 +181,6 @@ class ConnmanClient:
         #
         # tech = pyconnman.ConnService(tech_path)
         # # service.set_property(name, value)
-        # print '12121212121'
         #
         # ip_address = {'Method': 'manual', 'Address': address, 'Netmask': netmask}
         # if gateway:
@@ -192,51 +190,4 @@ class ConnmanClient:
             # tech.set_property(make_string(ip4config), make_string(ip_address))
         # if nameservers:
         #     self.dbus.SetProperty(self.dnsconfig, nameservers)
-
         # tech.set_property(name, value)
-
-
-class MyClass_json:
-    #初始化
-    def __init__(self):
-        self.name_cmd=" "
-        self.list_data=[]
-
-from time import ctime,sleep
-
-if (__name__ == "__main__"):
-    myConn = ConnmanClient(90)
-    print myConn.get_services_info()
-    # iii= myConn.get_ipv4()
-    eth_server_cnt = 0
-    # eth_server_cnt , list_services_info = myConn.get_services_info()
-    # for i in range(cnt):
-    #     if (list_services_info[i * 7 + 2] == "idle"):
-    #         self.myConn.connect(list_services_info[i * 7 + 1])
-
-    # if eth_server_cnt > 0:
-    #     ip_addr = list_services_info[5]
-    #     print ip_addr
-    #     print type(ip_addr)
-
-    while (eth_server_cnt<=0):
-        eth_server_cnt, list_services_info = myConn.get_services_info()
-        if eth_server_cnt>0:
-            ip_addr = list_services_info[5]
-            print ip_addr
-            print type(ip_addr)
-        else:
-            sleep(1)
-
-
-    # print len(iii)
-    # for i in range(len(iii)) :
-    #     print iii[i]
-
-    # myConn.connect("ethernet_0e4aa18747c9_cable")
-    # myConn.dissconnect("ethernet_e6000d8cc1e9_cable")
-    # time.sleep(5)
-    # myConn.connect("ethernet_e6000d8cc1e9_cable")
-
-
-

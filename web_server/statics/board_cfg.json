@@ -10,13 +10,9 @@
                         "can0",
                         "can1"
                 ],
-                "led": [
-                        "MYD-Y6ULX",
-                        "==========",
-                        " ",
-                        "  LEDS:",
-                        "  ├── myc:blue:cpu0 - D30  - Core Board"
-                ],
+                "led": {
+                        "myc:blue":"cpu0 - D30  - Core Board"
+                },
                 "system": {
                         "HMI_version": "MEasy HMI V1.0",
                         "linux_version": "linux-4.1.15",

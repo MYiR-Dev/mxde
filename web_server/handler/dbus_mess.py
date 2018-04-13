@@ -77,7 +77,7 @@ class BaseMessage_DBus():
         dbus_path=f_read["dbus_info"][1]
         dbus_interface=f_read["dbus_info"][2]
     except:
-        print ("read error")
+        print ("read dbus configure error")
     bus=dbus.SessionBus()
     # dbus_name="com.myirtech.mxde"
     # dbu_path="/com/myirtech/mxde"
@@ -158,7 +158,6 @@ class str_intercept():
             end_pos=i*self.MAX_LEN+self.MAX_LEN-1
             temp_str=str_input[start_pos:end_pos]
             # print temp_str
-            #handker data
             # return temp_str
 ## led
 class dbus_led(BaseMessage_DBus):
@@ -180,12 +179,19 @@ class dbus_led(BaseMessage_DBus):
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
+        print "hufan ====121212====",json_data
 
     def led_recv_data(self, str_led):
+        print "led-----------------------------------------------------------------------------------------------------------------"
+        print "led-----------------------------------------------------------------------------------------------------------------"
+        print "led-----------------------------------------------------------------------------------------------------------------"
+        print "led-----------------------------------------------------------------------------------------------------------------"
+        print str_led
         self._message_led(str_led)
 
     def led_list(self):
         str_led = BaseMessage_DBus.iface.getLedList()
+        print  "---------------------------cdcdcdc",str_led
         self._message_led(str_led)
 
     def led_set(self,led_name,val):
@@ -239,8 +245,7 @@ class dbus_uart(BaseMessage_DBus):
         # if serial_fd==0:
         #     serial_param = temp_param.split()
         #     return serial_fd,serial_param ## 串口的状态是已经打开的
-
-        return serial_fd,serial_param
+        return serial_fd,temp_param
 
     def serial_close(self,tty_fd):
         temp = dbus.Int16(tty_fd)
@@ -278,10 +283,6 @@ class dbus_can(BaseMessage_DBus):
 
     def can_recv_data(self, fd, can_id, len,can_data):
         from handler.index import WebSocketHandler_myir
-        # print ("can_rev = "),dbus.Int16(fd)
-        # print ("can_rev = "),dbus.Int32(can_id)
-        # print ("can_rev = "),dbus.Int16(len)
-        # print ("can_rev DAT= "),dbus.String(can_data)
         configure_data = MyClass_json()
         from handler.index import GL
         configure_data.name_cmd = "can_recv_data"
@@ -319,13 +320,7 @@ class dbus_can(BaseMessage_DBus):
         char *device_name, int fd, int bitrate, char  *loop
         '''
         temp_ret,temp_param= BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates, temp_baud_status, temp_loop)
-        # if temp_ret==100:              # 已经是设置状态
-        #     pass
-        #     can_param=temp_param.split()
-        # else:
-        #     return 0xFF,can_param
-
-        return temp_ret, can_param
+        return temp_ret, temp_param
 
     def can_send_data(self,fd,data,num):
         # temp_fd = dbus.Int16(fd)

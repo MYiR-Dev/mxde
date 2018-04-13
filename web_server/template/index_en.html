@@ -77,11 +77,15 @@
 					</select>
 					&nbsp;Baud rate
 					<select id="rs232_baud_rate" name="name" str_op="rs232_change" onchange="change_parameter($(this).attr('str_op'));">
-						<option value="9600" selected>9600
+						<option value="300" selected>300
+						<option value="600">600
+						<option value="1200">1200
+						<option value="2400">2400
+						<option value="4800">4800
+						<option value="9600">9600
 						<option value="19200">19200
 						<option value="38400">38400
-						<option value="56000">56000
-						<option value="576000">576000
+						<option value="57600">57600
 						<option value="115200">115200
 					</select>
 					&nbsp;Data bits
@@ -136,11 +140,15 @@
 					</select>
 					Baud rate
 					<select id="rs485_baud_rate" name="name" str_op="rs485_change" onchange="change_parameter($(this).attr('str_op'));">
-						<option value="9600" selected>9600
+						<option value="300" selected>300
+						<option value="600">600
+						<option value="1200">1200
+						<option value="2400">2400
+						<option value="4800">4800
+						<option value="9600">9600
 						<option value="19200">19200
 						<option value="38400">38400
-						<option value="56000">56000
-						<option value="576000">576000
+						<option value="57600">57600
 						<option value="115200">115200
 					</select>
 					Data bits
@@ -436,6 +444,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	ws.onopen = function() {
         set_define();
         ledlist_sendMsg();
+
 	};
 	ws.onmessage = function(e){
 			analyze_recv_data(e);
@@ -483,12 +492,18 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				document.getElementById('eth'+obj.eth_name.slice(3)+'_ping_data').value = log_ping + "\n" + obj.ping_data;
 			}
 		}else if(obj.name_cmd=="led_recv_data"){
-				 var  led_data = obj.data_buff.split("\n");
+				 var  led_data12 = obj.data_buff.split("\n");
+				 led_data=led_data12.replace(",","");
 				 var  led_statu="f";
+				 alert("hufan");
+				 alert(led_data);
+				 alert(led_data.length);
 				 ledsize  = led_data.length-1;
 				 for (var i = 1; i < led_data.length; i++) {
-                     var Median_str = led_data[i-1].split(" ")
+                     var Median_str = led_data[i-1].split(" ");
                      document.getElementById('led' + i).value = Median_str[0];
+                     alert(Median_str[0]);
+                     alert(Median_str[1]);
 					 if (Median_str[1]==0){
 						led_statu="statics/images_en/led_red.png";
  					 }else {
@@ -506,48 +521,41 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				    	document.getElementById('can_button').value = element_not.close_can_str;
 					}
 					if(obj.status_rdy==1){
-						document.getElementById('can_loop').value = obj.can_loop;
-						document.getElementById('can_baudrate').value = obj.baudrate;
-						document.getElementById('can_name').value = obj.name_can;
+//						document.getElementById('can_loop').value = obj.can_loop;
+//						document.getElementById('can_baudrate').value = obj.baudrate;
+//						document.getElementById('can_name').value = obj.name_can;
+						var all_options;
+						all_options = document.getElementById("can_loop").options;
+						all_options[obj.can_loop-1].selected = true;
+						all_options = document.getElementById("can_baudrate").options;
+						all_options[obj.baudrate-1].selected = true;
+						all_options = document.getElementById("can_name").options;
+						all_options[obj.name_can-1].selected = true;
 					}
 					return;
 				}
 
-			     tmp_var=obj.name_status.split("_")
-			     if(obj.name_status== tmp_var[0]+"_status"){
+			     tmp_var=obj.name_status.split("_");
+			     if(obj.name_status== (tmp_var[0]+"_status")){
+
 				    if(obj.status_operation=="successed"){
 				    	document.getElementById(tmp_var[0]+'_button').value = element_not.close_uart_str;
 					}
 					if(obj.status_rdy==1){
-						document.getElementById(tmp_var[0]+'_baud_rate').value = obj.baudrate;
-						document.getElementById(tmp_var[0]+'_databit').value = obj.databit;
-						document.getElementById(tmp_var[0]+'_checkbit').value = obj.captbit;
-						document.getElementById(tmp_var[0]+'_stopbit').value = obj.stopbit;
+						var all_options;
+						all_options = document.getElementById(tmp_var[0]+"_baud_rate").options;
+						all_options[obj.baudrate_1-1].selected = true;
+						all_options = document.getElementById(tmp_var[0]+"_databit").options;
+						all_options[obj.databit_1-1].selected = true;
+						all_options = document.getElementById(tmp_var[0]+"_checkbit").options;
+						all_options[obj.stopbit_1-1].selected = true;
+						all_options = document.getElementById(tmp_var[0]+"_stopbit").options;
+						all_options[obj.stopbit_1-1].selected = true;
+
 					}
 					return;
 				 }
 
-//				if(obj.name_status=="rs232_status"){
-//				    if(obj.status_operation=="successed"){
-//				    	document.getElementById('rs232_button').value = element_not.close_uart_str;
-//					}
-//					if(obj.status_rdy==1){
-//						document.getElementById('rs232_baud_rate').value = obj.baudrate;
-//						document.getElementById('rs485_databit').value = obj.databit;
-//						document.getElementById('rs485_checkbit').value = obj.captbit;
-//						document.getElementById('rs485_stopbit').value = obj.stopbit;
-//					}
-//                }else if(obj.name_status=="rs485_status"){
-//					if(obj.status_operation=="successed"){
-//				    	document.getElementById('rs485_button').value = element_not.close_uart_str;
-//					}
-//					if(obj.status_rdy==1){
-//						document.getElementById('rs485_baud_rate').value = obj.baudrate;
-//						document.getElementById('rs485_databit').value = obj.databit;
-//						document.getElementById('rs485_checkbit').value = obj.captbit;
-//						document.getElementById('rs485_stopbit').value = obj.stopbit;
-//					}
-//				}
 			}
 	}
 
