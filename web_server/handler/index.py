@@ -164,7 +164,7 @@ class Parse_command():
         if uart_control == 0:  # close
             # uart_name = python_object["name"]
             dbus_call_t.serial_close(GL.fd_tty232)
-            GL.fd_tty232 = 0
+            GL.fd_tty232 = -1
         elif uart_control == 1:  # open
             uart_name = python_object["name"]
             self.status_data.name_status = "rs232_status"
@@ -227,7 +227,7 @@ class Parse_command():
         if uart_control == 0:  # close
             # uart_name = python_object["name"]
             dbus_call_t.serial_close(GL.fd_tty485)
-            GL.fd_tty485 = 0
+            GL.fd_tty485 = -1
         elif uart_control == 1:  # open
             uart_name = python_object["name"]
 ## 旧的
@@ -298,7 +298,7 @@ class Parse_command():
         baudrate = python_object["baud_rate"]
         can_loop = python_object["can_loop"]
         if can_control == 0:    # close
-            dbus_call_t.can_set_parameter(can_name, baudrate, 0, can_loop)
+            # dbus_call_t.can_set_parameter(can_name, baudrate, 0, can_loop)
             dbus_call_t.can_close(can_name, GL.fd_can)
             GL.fd_can = 0
         elif can_control == 1:  # open
