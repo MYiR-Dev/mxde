@@ -76,7 +76,7 @@ void closeSerialPort_method_call(DBusMessage * msg, DBusConnection * conn)
     dbus_message_iter_get_basic (&arg, &fd);
 
 
-    delete_tty_read_thread();
+    delete_tty_read_thread(fd);
     tty_close(fd);
 
 
@@ -265,7 +265,7 @@ void openCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
 
     dbus_server_conn = conn;
 
-    create_can_read_thread();
+    create_can_read_thread(can_fd);
 
     reply = dbus_message_new_method_return(msg);
     dbus_message_iter_init_append(reply,&arg);
@@ -295,7 +295,7 @@ void closeCanPort_method_call(DBusMessage * msg, DBusConnection * conn)
     dbus_message_iter_next(&arg);
     dbus_message_iter_get_basic (&arg, &can_fd);
 
-    delete_can_read_thread();
+    delete_can_read_thread(can_fd);
     dbg_printf("close:%s,%d\n",can_name,can_fd);
     close_can_port(can_name,can_fd);
 
@@ -751,6 +751,7 @@ int main( int argc , char ** argv){
     board_cfg_init();
 	led_init();
     tty_init();
+    can_data_init();
     listen_dbus(); 
     return 0;
 }

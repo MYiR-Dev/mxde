@@ -253,6 +253,8 @@ void SystemContentWidget::initConnection()
 //    connect(systemTimer, SIGNAL(timeout()), this, SLOT(systemTimeUpdate()));
     connect(m_RecvTextEdit1, SIGNAL(textChanged()), this, SLOT(autoScroll()));
     connect(mCanBaudRateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
+    connect(mCanPortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
+    connect(mCanLoopComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
     connect(m_SendPushButton,SIGNAL(clicked()),this, SLOT(on_sendPushButton_clicked()));
     connect(m_ClearPushButton,SIGNAL(clicked()),this, SLOT(on_clearPushButton_clicked()));
     connect(mCanOpenButton, SIGNAL(clicked()), this, SLOT(on_openPushButton_clicked()));
@@ -452,15 +454,19 @@ void SystemContentWidget::systemTimeUpdate()
 
 void SystemContentWidget::onCanRecvData(int can_fd, int can_id, int can_dlc, const QString &data)
 {
-    qDebug() << "onCanRecvData ... ";
-    recvNum += data.length();
 
-    QByteArray tmp= data.toLatin1();
-    char * t= tmp.data();
-    //struct can_frame  *can_read_frame= (struct *)&t;
+    if(m_can_fd == can_fd)
+    {
+        qDebug() << "onCanRecvData ... ";
+        recvNum += data.length();
 
-    //QString can_id;
-    m_RecvTextEdit1->insertPlainText("can_id: 0x"+QString::number(can_id, 16)+"\n");
-    m_RecvTextEdit1->insertPlainText("can_dlc: "+QString::number(can_dlc, 10)+"\n");
-    m_RecvTextEdit1->insertPlainText("can_data: "+data+"\n");
+        QByteArray tmp= data.toLatin1();
+        char * t= tmp.data();
+        //struct can_frame  *can_read_frame= (struct *)&t;
+
+        //QString can_id;
+        m_RecvTextEdit1->insertPlainText("can_id: 0x"+QString::number(can_id, 16)+"\n");
+        m_RecvTextEdit1->insertPlainText("can_dlc: "+QString::number(can_dlc, 10)+"\n");
+        m_RecvTextEdit1->insertPlainText("can_data: "+data+"\n");
+    }
 }

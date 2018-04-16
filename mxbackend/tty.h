@@ -61,6 +61,7 @@ struct g_opened_tty{
     int stop;
 
     int open_cnt;
+    pthread_t pthread_id;
 };
 DBusConnection * tty_send_conn;
 /******************************************************************************
@@ -99,7 +100,7 @@ int 			tty_mode(const int fd,  int mode);
 void get_serial_list(char * result);
 void get_rs485_list(char *result);
 void parse_tty_param(char *tty_param);
-void delete_tty_read_thread(void);
+void delete_tty_read_thread(int fd);
 
-void create_can_read_thread(void);
+void create_can_read_thread(int fd);
 #endif	 // __TTY_H__	

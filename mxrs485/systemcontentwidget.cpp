@@ -262,6 +262,7 @@ void SystemContentWidget::initConnection()
     connect(mSerialCheckBitComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
     connect(mSerialDataBitComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
     connect(mSerialStopBitComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
+    connect(mSerialPortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(reLoadSerialPort()));
     connect(mSerialOpenButton, SIGNAL(clicked()), this, SLOT(on_openPushButton_clicked()));
     connect(m_SendPushButton,SIGNAL(clicked()),this, SLOT(on_sendPushButton_clicked()));
     connect(m_ClearPushButton,SIGNAL(clicked()),this, SLOT(on_clearPushButton_clicked()));
@@ -495,28 +496,30 @@ void SystemContentWidget::systemTimeUpdate()
 
 void SystemContentWidget::onSerialRecvData(int uart_fd, const QString &data, int size)
 {
-
-    recvNum += data.length();
-    if(0)
+    if(m_serial_fd == uart_fd )
     {
-        bool ok = true;
-        QString result = QString::number(data.toInt(&ok, 10),16);
-        if(ok)
+        recvNum += data.length();
+        if(0)
         {
-            m_RecvTextEdit1->insertPlainText(result.toUtf8());
+            bool ok = true;
+            QString result = QString::number(data.toInt(&ok, 10),16);
+            if(ok)
+            {
+                m_RecvTextEdit1->insertPlainText(result.toUtf8());
+            }
+            else
+            {
+                result = "";
+                for(int i = 0; i < data.length(); ++i)
+                {
+                    result += QString::number(data[i].toLatin1());
+                }
+                m_RecvTextEdit1->insertPlainText(result.toUtf8());
+            }
         }
         else
         {
-            result = "";
-            for(int i = 0; i < data.length(); ++i)
-            {
-                result += QString::number(data[i].toLatin1());
-            }
-            m_RecvTextEdit1->insertPlainText(result.toUtf8());
+            m_RecvTextEdit1->insertPlainText(data.toUtf8());
         }
-    }
-    else
-    {
-        m_RecvTextEdit1->insertPlainText(data.toUtf8());
     }
 }

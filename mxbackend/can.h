@@ -47,6 +47,7 @@ struct opened_can_t{
     int bitrate;
     char *loop;
     int open_cnt;
+    pthread_t pthread_id;
 
 };
 
@@ -96,5 +97,5 @@ void get_can_list(char * result);
 
 void can_data_write(int fd, char *data);
 void close_can_port(char *can_name,int can_fd);
-void delete_can_read_thread();
+void delete_can_read_thread(int fd);
 #endif		
