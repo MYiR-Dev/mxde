@@ -159,6 +159,30 @@ class Parse_command():
         elif tmp == "2":
             return 2
 
+    def can_loop_get(self,tmp1):
+        tmp=str(tmp1)
+        if tmp=="OFF":
+            return 1
+        elif tmp=="ON":
+            return 2
+
+    def can_baudrate_get(self, tmp1):
+        tmp=str(tmp1)
+        if tmp=="2000":
+            return 1
+        elif tmp=="5000":
+            return 2
+        elif tmp=="125000":
+            return 3
+        elif tmp=="250000":
+            return 4
+        elif tmp=="500000":
+            return 5
+        elif tmp=="800000":
+            return 6
+        elif tmp=="1000000":
+            return 7
+
     def serial_rs232_handler(self,python_object,dbus_call_t):
         uart_control = python_object["control"]
         if uart_control == 0:  # close
@@ -291,15 +315,16 @@ class Parse_command():
     def can_handler(self,python_object,dbus_call_t):
         can_name = python_object["name"]
         GL.fd_can_name =can_name
-        can_id = python_object["can_id"]
+        # can_id = python_object["can_id"]
         can_control = python_object["control"]
-        baudrate = python_object["baud_rate"]
-        can_loop = python_object["can_loop"]
+
         if can_control == 0:    # close
             # dbus_call_t.can_set_parameter(can_name, baudrate, 0, can_loop)
             dbus_call_t.can_close(can_name, GL.fd_can)
             GL.fd_can = 0
         elif can_control == 1:  # open
+
+
 
     ##  旧版本
             # dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
@@ -314,6 +339,8 @@ class Parse_command():
             # else:
             #     self.status_data.status_operation = "faild"
 
+            can_loop = python_object["can_loop"]
+            baudrate = python_object["baud_rate"]
             self.status_data.name_status = "can_statuss"
             tmp_value,tmp_param=dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
             # temp_param = tmp_param.split(" ")
@@ -326,10 +353,10 @@ class Parse_command():
 
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
-                self.status_data.baudrate = baudrate
-                self.status_data.can_loop = can_loop
+                self.status_data.baudrate_1 = self.can_baudrate_get(baudrate)
+                self.status_data.can_loop_1 = self.can_loop_get(can_loop)
                 # self.status_data.fd_can = can_loop
-                self.status_data.name_can = can_param[0]
+                self.status_data.name_can_1 = can_param[0]
             else:
                 self.status_data.status_rdy = 0
                 GL.fd_can = dbus_call_t.can_open(can_name)
@@ -343,6 +370,7 @@ class Parse_command():
             send_message_to_html(self.status_json, WebSocketHandler_myir)
 
         elif can_control == 2:  # set
+            can_loop = python_object["can_loop"]
             baudrate = python_object["baud_rate"]
             # sendbuff_len = python_object["can_len_sendbuff"]
             dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
