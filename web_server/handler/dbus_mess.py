@@ -214,6 +214,7 @@ class dbus_uart(BaseMessage_DBus):
 
             configure_data = MyClass_json()
             from handler.index import GL
+
             if GL.fd_tty232 == temp_fd:
                 configure_data.name_cmd = "rs232_recv_data"
             elif GL.fd_tty485 == temp_fd:

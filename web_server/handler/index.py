@@ -198,7 +198,7 @@ class Parse_command():
             temp_param = tmp_param.split(" ")
 
             if tmp_value == 0:
-                GL.fd_tty232 = temp_param[1]
+                GL.fd_tty232 = int(temp_param[1])
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
                 self.status_data.baudrate_1 = self.baudrate_get(temp_param[2])
@@ -272,7 +272,7 @@ class Parse_command():
             tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
             temp_param = tmp_param.split(" ")
             if tmp_value == 0:    ##
-                GL.fd_tty485 = temp_param[1]
+                GL.fd_tty485 = int(temp_param[1])
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
                 # self.status_data.baudrate = baudrate
