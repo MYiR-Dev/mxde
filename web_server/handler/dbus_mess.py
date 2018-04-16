@@ -314,6 +314,7 @@ class dbus_can(BaseMessage_DBus):
         char *device_name, int fd, int bitrate, char  *loop
         '''
         temp_ret,temp_param= BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates, temp_baud_status, temp_loop)
+        print "HUFAN--------",temp_ret,"---",temp_param
         return temp_ret, temp_param
 
     def can_send_data(self,fd,data,num):

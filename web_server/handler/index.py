@@ -248,8 +248,7 @@ class Parse_command():
             tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
             temp_param = tmp_param.split(" ")
             if tmp_value == 0:    ##
-                GL.fd_tty485 = tmp_param[1]
-
+                GL.fd_tty485 = temp_param[1]
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
                 # self.status_data.baudrate = baudrate
@@ -260,7 +259,6 @@ class Parse_command():
                 self.status_data.databit_1 = self.databit_get(temp_param[3])
                 self.status_data.captbit_1 = self.check_get(temp_param[6])
                 self.status_data.stopbit_1 = self.stop_get(temp_param[7])
-
             else:
                 if tmp_value > 0:
                     GL.fd_tty485 = tmp_value
@@ -321,7 +319,7 @@ class Parse_command():
             # temp_param = tmp_param.split(" ")
             if tmp_value==100:   ##  已经是打开状态
                 # GL.fd_can = dbus_call_t.can_open(can_name)
-                can_param = tmp_param.split()
+                can_param = tmp_param.split(" ")
                 GL.fd_can = can_param[1]
                 baudrate = can_param[2]
                 can_loop = can_param[3]
@@ -403,7 +401,6 @@ class Parse_command():
         # sleep(0.5)
         eth_op._eth_handler_to_sent()
 
-
     def parse_c(self,message):
         python_object = json.loads(message)
         cmd = python_object["cmd"]
@@ -419,7 +416,6 @@ class Parse_command():
             self.eth_handler(python_object)
         elif cmd == "eth_cmd_upate":
             self.update_eth_info()
-
 
 def read_configure():
     path_file='/usr/share/myir/board_cfg.json'
@@ -506,6 +502,7 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         # print ('websocket closed')
         if  GL.fd_tty485>0:
             self.mess_t.uart_dbus_call.serial_close(GL.fd_tty485)
+
         if  GL.fd_tty232>0:
             self.mess_t.uart_dbus_call.serial_close(GL.fd_tty232)
         if  GL.fd_can>0:
