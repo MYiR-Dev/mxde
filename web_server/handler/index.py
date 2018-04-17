@@ -271,7 +271,7 @@ class Parse_command():
             #GL.fd_tty485 = dbus_call_t.serial_open(uart_name)
             tmp_value,tmp_param = dbus_call_t.serial_open(uart_name)
             temp_param = tmp_param.split(" ")
-            if tmp_value == 0:    ##
+            if tmp_value== 0:    ##
                 GL.fd_tty485 = int(temp_param[1])
                 self.status_data.status_rdy = 1
                 self.status_data.status_operation = "successed"
@@ -324,7 +324,9 @@ class Parse_command():
             GL.fd_can = 0
         elif can_control == 1:  # open
 
-
+         #   if GL.fd_can>0:
+         #       dbus_call_t.can_close(can_name, GL.fd_can)
+         #       GL.fd_can = 0
 
     ##  旧版本
             # dbus_call_t.can_set_parameter(can_name, baudrate, 1, can_loop)
@@ -347,7 +349,7 @@ class Parse_command():
             if tmp_value==100:   ##  已经是打开状态
                 # GL.fd_can = dbus_call_t.can_open(can_name)
                 can_param = tmp_param.split(" ")
-                GL.fd_can = can_param[1]
+                GL.fd_can = int(can_param[1])
                 baudrate = can_param[2]
                 can_loop = can_param[3]
 
@@ -356,7 +358,7 @@ class Parse_command():
                 self.status_data.baudrate_1 = self.can_baudrate_get(baudrate)
                 self.status_data.can_loop_1 = self.can_loop_get(can_loop)
                 # self.status_data.fd_can = can_loop
-                self.status_data.name_can_1 = can_param[0]
+                self.status_data.name_can_1 = str(can_param[0])
             else:
                 self.status_data.status_rdy = 0
                 GL.fd_can = dbus_call_t.can_open(can_name)

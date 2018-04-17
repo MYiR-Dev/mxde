@@ -45,7 +45,6 @@ def send_message_to_html(message,item_list):
         except:
             logging.error('Error sending message', exc_info=True)
 
-
 class mainloop_class():
 
     def __init__(self):
@@ -240,7 +239,9 @@ class dbus_uart(BaseMessage_DBus):
         # if serial_fd==0:
         #     serial_param = temp_param.split()
         #     return serial_fd,serial_param ## 串口的状态是已经打开的
-        return serial_fd,temp_param
+
+        temp_ret=int(serial_fd)
+        return temp_ret,temp_param
 
     def serial_close(self,tty_fd):
         temp = dbus.Int16(tty_fd)
@@ -248,11 +249,11 @@ class dbus_uart(BaseMessage_DBus):
         # return serial_fd
 
     def serial_send_data(self,fd,data,num):
-        # temp_fd=dbus.Int16(fd)
-        # temp_data_buf = dbus.String(data)
+        temp_fd=dbus.Int16(fd)
+        temp_data_buf = dbus.String(data)
         # temp_num=dbus.Int16(num)
         # BaseMessage_DBus.iface.SerialWrite(temp_fd,temp_data_buf,temp_num)
-        str_operate(fd,data,BaseMessage_DBus.iface.SerialWrite)
+        str_operate(temp_fd,temp_data_buf,BaseMessage_DBus.iface.SerialWrite)
 
     def serial_set_parameter(self,fd,bitrate,datasize,mode,flow,par,stop):
         temp_fd =   dbus.String(fd)
@@ -282,7 +283,7 @@ class dbus_can(BaseMessage_DBus):
         from handler.index import GL
         configure_data.name_cmd = "can_recv_data"
         configure_data.data_buff = can_data
-        configure_data.data_id = can_id
+        configure_data.data_id = int(can_id)
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
@@ -290,7 +291,8 @@ class dbus_can(BaseMessage_DBus):
     def can_open(self,can_name):
         temp = dbus.String(can_name)
         can_fd=BaseMessage_DBus.iface.openCanPort(temp)
-        return can_fd
+        tmp = int(can_fd)
+        return tmp
 
     def can_close(self,can_name,fd):
         temp = dbus.String(can_name)
@@ -314,15 +316,13 @@ class dbus_can(BaseMessage_DBus):
         <arg name="can_configure" type="s" direction="out"/> 
         char *device_name, int fd, int bitrate, char  *loop
         '''
-        temp_ret,temp_param= BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates, temp_baud_status, temp_loop)
+        tmp_ret,temp_param= BaseMessage_DBus.iface.setCanPort(temp_name, temp_baud_rates, temp_baud_status, temp_loop)
+        temp_ret=int(temp_ret)
         return temp_ret, temp_param
 
     def can_send_data(self,fd,data,num):
-        # temp_fd = dbus.Int16(fd)
-        # temp_data = dbus.String(data)
+        temp_fd = dbus.Int16(fd)
+        temp_data = dbus.String(data)
         # temp_num = dbus.Int16(num)
         # BaseMessage_DBus.iface.CanWrite(temp_fd,temp_data,temp_num)
-        str_operate(fd, data, BaseMessage_DBus.iface.CanWrite)
-
-
-
+        str_operate(temp_fd, temp_data, BaseMessage_DBus.iface.CanWrite)
