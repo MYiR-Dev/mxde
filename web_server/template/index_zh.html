@@ -33,14 +33,6 @@
 		<div id="right">
 			<section class="tab" id="led">
 				<h2>LED控制</h2>
-				<!--<div class="navcccc">-->
-					<!--<span data="0">LED1</span>-->
-					<!--<span data="1">LED2</span>-->
-					<!--<span data="2">LED3</span>-->
-					<!--<span data="3">LED4</span>-->
-					<!--<span data="4">LED4</span>-->
-					<!--<span data="5">LED4</span>-->
-				<!--</div>-->
 				<div class="one_item">
 					<input class="text" id="led1"  value="cpu" type="text" readonly />
 					<input class="button menu" str_op="led_open" str_num="1" type="button"  value="LED_ON"></input>
@@ -97,8 +89,7 @@
 						<option value="9600">9600
 						<option value="19200">19200
 						<option value="38400">38400
-						<option value="56000">56000
-						<option value="576000">576000
+						<option value="57600">57600
 						<option value="115200">115200
 					</select>&nbsp;
 					&nbsp;数据位
@@ -161,8 +152,7 @@
 						<option value="9600">9600
 						<option value="19200">19200
 						<option value="38400">38400
-						<option value="56000">56000
-						<option value="576000">576000
+						<option value="57600">57600
 						<option value="115200">115200
 					</select>
 					&nbsp;数据位
@@ -214,8 +204,8 @@
 				<td>
 					端口
 					<select id="can_name" name="name" str_op="can_change" onchange="change_parameter($(this).attr('str_op'));">
-						<option value="can0" selected>can0
-						<option value="can1">can1
+						<!--<option value="/dev/ttymxc1" selected>/dev/ttymxc1-->
+						<!--<option value="/dev/ttymxc3">/dev/ttymxc3-->
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;波特率
 					<select id="can_baudrate" name="name" str_op="can_change" onchange="change_parameter($(this).attr('str_op'));">
@@ -429,10 +419,12 @@
 <script src="statics/css/jquery.js" type="text/javascript"></script>
 <script type="text/javascript">
 
- var portsize = 3;//定义网口数量
- var ledsize = 1;//定义led数量
+var portsize = 3;//定义网口数量
+var ledsize = 1;//定义led数量
+var ledsize_static = 1;//
 
- var language="zh";
+var language="zh";
+var web_net;
 
 var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","close_can_str":"0","net_set_str":"0","net_dhcp_str":"0","test_str":"0","test111_str":"0"};
 
@@ -450,8 +442,8 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	       element_not.close_uart_str="close";
 	       element_not.open_can_str="open";
 	       element_not.close_can_str="close";
-		   element_not.net_set_str="set ip";
-		   element_not.net_dhcp_str="dhcpc";
+		   element_not.net_set_str="Set IP";
+		   element_not.net_dhcp_str="DHCP";
 	       element_not.test_str="testing";
 	   }
    }
@@ -470,8 +462,16 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 		var obj = $.parseJSON(data);
 
 		if(obj.name_cmd=="configure_cmd"){
-			add_select_option("rs232_port_name",obj.rs232_port);
-			add_select_option("rs485_port_name",obj.rs485_port);
+			for(var i=0;i<obj.list_232_port.length;i++){
+				 add_select_option("rs232_port_name",'/dev/'+obj.list_232_port[i]);
+			}
+			for(var i=0;i<obj.list_485_port.length;i++){
+				 add_select_option("rs485_port_name",'/dev/'+obj.list_485_port[i]);
+			}
+			for(var i=0;i<obj.list_can_port.length;i++){
+				 add_select_option("can_name",obj.list_can_port[i]);
+			}
+
 		}else if(obj.name_cmd=="rs232_recv_data"){
 			var temp_232=document.getElementById('rs232_recv_data').value;
 			document.getElementById('rs232_recv_data').value= temp_232+obj.data_buff;
@@ -480,7 +480,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			document.getElementById('rs485_recv_data').value= temp_485+obj.data_buff;
 		}else if(obj.name_cmd=="can_recv_data"){
 			var temp_can=document.getElementById('can_recv_data').value+"\n";
-			document.getElementById('can_recv_data').value= temp_can+"can id :"+obj.data_id+"can data:"+obj.data_buff;
+			document.getElementById('can_recv_data').value= temp_can+"can id :"+obj.data_id+"  can data:"+obj.data_buff;
 		}else if(obj.name_cmd=="eth_data"){
 			portsize =  obj.eth_number;
 //			net_show_update(portsize);
@@ -488,7 +488,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 
 				var str_net_combination=" ";
                 for(var i=0;i<obj.eth_number;i++){
-
 //					var temp_eth_name="eth"+i;
 //					if(obj.list_data[i*5]==temp_eth_name){
 					    var tmp_vv = obj.list_data[i*5+0].substring(3);
@@ -534,10 +533,8 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 							 }
 							 document.getElementById('img'+ i).src=led_statu;
 					   }
-
 					}
 				 }
-
 				 led_update(ledsize_static);
 
 		}else if(obj.name_cmd=="status_data"){
@@ -554,9 +551,9 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 						all_options = document.getElementById("can_loop").options;
 						all_options[obj.can_loop_1-1].selected = true;
 						all_options = document.getElementById("can_baudrate").options;
-						all_options[obj.can_loop_1-1].selected = true;
-						all_options = document.getElementById("can_name").options;
-						all_options[obj.can_loop_1-1].selected = true;
+						all_options[obj.baudrate_1-1].selected = true;
+//						all_options = document.getElementById("can_name").options;
+//						all_options[obj.name_can-1].selected = true;
 					}
 					return;
 				}
@@ -598,7 +595,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				data.cmd="uart_cmd";
 				data.name=document.getElementById("rs232_port_name").value;
 				document.getElementById('rs232_button').value = element_not.open_uart_str;
-
 				break;
 			case 'rs485_change': 
 				data.cmd="uart485_cmd";
@@ -610,7 +606,6 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				data.name=document.getElementById("can_name").value;
 				document.getElementById('can_button').value = element_not.open_can_str;
 				break;
-			
 		}
 		var str = JSON.stringify(data);
 		ws.send(str);
@@ -857,19 +852,42 @@ $(document).ready(function(){
 //			var led_name_str= document.getElementById("led5").value;
 //			led_set_sendMsg(led_name_str,$(this).attr("str_op"));
 //		}
+
+    function firm() {
+        var info;
+        if (language == "zh") {
+            info = "设置IP后，web将断开连接，无法使用，是否设置?";
+        }else{
+        	info = "After setting the IP, the web will be disconnected and cannot be used. Is it set?";
+    	}
+        if (confirm(info)) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 		// set ip
 		if($(this).attr("value") == element_not.net_set_str){
 			var data = new Object;
-			data.cmd="eth_cmd";
-			data.control = 1;
-			data.name = "eth" + $(this).attr("str_num");
-			data.dest_addr=document.getElementById("net_ip"+$(this).attr("str_num")).value;
-			data.dest_netmask=document.getElementById("net_netmask"+$(this).attr("str_num")).value;
-			data.dest_gateway=document.getElementById("net_gateway"+$(this).attr("str_num")).value;
+            var ret=0;
+			if(web_net== ("eth"+$(this).attr("str_num") ) )
+               ret=firm();
+			else
+			    ret=1;
 
-			var str = JSON.stringify(data);
-			ws.send(str);
+			if(ret){
+				data.cmd="eth_cmd";
+				data.control = 1;
+				data.name = "eth" + $(this).attr("str_num");
+				data.dest_addr=document.getElementById("net_ip"+$(this).attr("str_num")).value;
+				data.dest_netmask=document.getElementById("net_netmask"+$(this).attr("str_num")).value;
+				data.dest_gateway=document.getElementById("net_gateway"+$(this).attr("str_num")).value;
+				var str = JSON.stringify(data);
+				ws.send(str);
+			}
 		}
+		
 		// udhcpc
 		if($(this).attr("value") == element_not.net_dhcp_str){
 			var data = new Object;
@@ -903,7 +921,7 @@ $(document).ready(function(){
 		myForm.action = "/myir_z";
 		var opt = document.createElement("input");
 		opt.name="language";
-		opt.value="en";
+		opt.value=language;
 		myForm.appendChild(opt);
 		document.body.appendChild(myForm);
 		myForm.submit();

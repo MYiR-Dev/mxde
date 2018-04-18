@@ -86,18 +86,6 @@ class Parse_command():
 
 
     def baudrate_get(self,tmp1):
-        # return {
-        #     "300": 1,
-        #     "600": 2,
-        #     "1200": 3,
-        #     "2400": 4,
-        #     "4800": 5,
-        #     "9600": 6,
-        #     "19200": 7,
-        #     "38400": 8,
-        #     "57600": 9,
-        #     "115200": 10,
-        # }.get(var,'error')
         tmp=str(tmp1)
         if tmp=="300":
             return 1
@@ -121,11 +109,6 @@ class Parse_command():
             return 10
 
     def databit_get(self,tmp1):
-        # return {
-        #     "8": 1,
-        #     "7": 2,
-        #     "6": 3,
-        # }.get(var,'1')
         tmp = str(tmp1)
         if tmp == "8":
             return 1
@@ -135,11 +118,6 @@ class Parse_command():
             return 3
 
     def check_get(self,tmp1):
-        # return {
-        #     "NONE": 1,
-        #     "EVEN": 2,
-        #     "ODD": 3,
-        # }.get(var,'1')
         tmp = str(tmp1)
         if tmp == "NONE":
             return 1
@@ -149,10 +127,6 @@ class Parse_command():
             return 3
 
     def stop_get(self,tmp1):
-        # return {
-        #     "1": 1,
-        #     "2": 2,
-        # }.get(var,'1')
         tmp = str(tmp1)
         if tmp == "1":
             return 1
@@ -168,9 +142,9 @@ class Parse_command():
 
     def can_baudrate_get(self, tmp1):
         tmp=str(tmp1)
-        if tmp=="2000":
+        if tmp=="20000":
             return 1
-        elif tmp=="5000":
+        elif tmp=="50000":
             return 2
         elif tmp=="125000":
             return 3
@@ -321,7 +295,7 @@ class Parse_command():
         if can_control == 0:    # close
             # dbus_call_t.can_set_parameter(can_name, baudrate, 0, can_loop)
             dbus_call_t.can_close(can_name, GL.fd_can)
-            GL.fd_can = 0
+            GL.fd_can = -1
         elif can_control == 1:  # open
 
          #   if GL.fd_can>0:
@@ -460,38 +434,80 @@ def read_configure():
         rs232_port="/dev/"+f_read["board_info"]['rs232'][0]
         rs485_port="/dev/"+f_read["board_info"]['rs485'][0]
         can_port=f_read["board_info"]['can'][0]
+        # can_port1=f_read["board_info"]['can'][1]
+        print "hun--"
         # eth0_port=f_read['board_info']['eth0_port']
 
         # GL.dbus_name=f_read["dbus_info"][0]
         # GL.dbus_path=f_read["dbus_info"][1]
         # GL.dbus_interface=f_read["dbus_info"][2]
-
     except:
         print ("read board_cfg.json error")
         return 0
     return rs232_port,rs485_port,can_port
 
-class read_configure_file():
-
-    def __init__(self):
-        pass
-
-    def read_configure(self):
-        path_file = '/usr/share/myir/board_cfg.json'
+def read_configure_tt():
+    list_232_port = []
+    list_485_port = []
+    list_can_port = []
+    path_file='/usr/share/myir/board_cfg.json'
+    try:
         file=open(path_file, 'r')
         f_read = json.load(file)
+    except:
+        print("Did not find the configuration file '/usr/share/myir/board_cfg.json' ")
+    finally:
+        pass
+    try:
+        rs232_port = f_read["board_info"]['rs232']
+        rs485_port = f_read["board_info"]['rs485']
+        can_port = f_read["board_info"]['can']
+        count_rs232 = len(rs232_port)
+        count_rs485 = len(rs485_port)
+        count_can = len(can_port)
+        ##  data
+        for i in range(count_rs232):
+            list_232_port.append(rs232_port[i])  ## 232
+        for i in range(count_rs485):
+            list_485_port.append(rs485_port[i])  ## 485
+        for i in range(count_can):
+            list_can_port.append(can_port[i])    ## can
+    except:
+        print ("read board_cfg.json error")
+        return 0
 
-        try:
-            rs232_port = f_read["board_info"]['rs232'][0]
-            rs485_port = f_read["board_info"]['rs485'][0]
-            can_port = f_read["board_info"]['can'][0]
-        except:
-            print ("read board_cfg.json error")
+    return list_232_port,list_485_port,list_can_port
 
-        return rs232_port,rs485_port,can_port
+# class read_configure_file():
+#
+#     def __init__(self):
+#         pass
+#
+#     def read_configure(self):
+#         path_file = '/usr/share/myir/board_cfg.json'
+#         file=open(path_file, 'r')
+#         f_read = json.load(file)
+#
+#         try:
+#             rs232_port = f_read["board_info"]['rs232'][0]
+#             rs485_port = f_read["board_info"]['rs485'][0]
+#             can_port = f_read["board_info"]['can'][0]
+#         except:
+#             print ("read board_cfg.json error")
+#
+#         return rs232_port,rs485_port,can_port
 
 def make_string(str):
     return dbus.String(str, variant_level=1)
+
+
+class port_json:
+    #初始化
+    def __init__(self):
+        self.name_cmd=" "
+        self.list_232_port=[]
+        self.list_485_port=[]
+        self.list_can_port=[]
 
 class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
     socket_handlers = set()
@@ -505,21 +521,16 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         WebSocketHandler_myir.socket_handlers.add(self)
         eth_operate = class_eth()
         ## init
-        rs232_port, rs485_port, can_port=read_configure()
+        # rs232_port, rs485_port, can_port=read_configure()
         configure_data = MyClass_json()
         configure_data.name_cmd="configure_cmd"
-        configure_data.rs232_port=rs232_port
-        configure_data.rs485_port=rs485_port
-        configure_data.can_port=can_port
+        configure_data.list_232_port,configure_data.list_485_port,configure_data.list_can_port = read_configure_tt()
+
+        configure_data.web_net_using=str(GL.net_name)
         # configure_data.eth0_port=eth0_port
         configure_data_json = configure_data.__dict__
         json_data = json.dumps(configure_data_json)
         send_message_to_html(json_data, WebSocketHandler_myir)
-
-        # config = {'Method': make_string('manual'),
-        #           'Address': make_string('192.168.1.108'),
-        #           'Netmask': make_string('255.255.255.1')}
-
         eth_operate._eth_handler_to_sent()
         # sleep(0.5)
         # eth_operate._eth_handler_to_sent()
@@ -532,11 +543,13 @@ class WebSocketHandler_myir(tornado.websocket.WebSocketHandler):
         # print ('websocket closed')
         if  GL.fd_tty485>0:
             self.mess_t.uart_dbus_call.serial_close(GL.fd_tty485)
-
+            GL.fd_tty485=-1
         if  GL.fd_tty232>0:
             self.mess_t.uart_dbus_call.serial_close(GL.fd_tty232)
+            GL.fd_tty232=-1
         if  GL.fd_can>0:
             self.mess_t.can_dbus_call.can_close(GL.fd_can_name,GL.fd_can)
+            GL.fd_can=-1
         WebSocketHandler_myir.socket_handlers.remove(self)
 
 class class_eth():
@@ -580,7 +593,8 @@ class class_eth():
 class login(tornado.web.RequestHandler):
     def get(self):
         # lst = ["myirtech web demo"]
-        # self.render("index.html")
+        # self.render("inde
+        # x.html")
         # ip_str = get_ip_address("eth1")
         # self.render("index.html", info_ip=ip_str, info_port_eth=options.port, info_event="myir")
         pass
