@@ -472,6 +472,8 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 				 add_select_option("can_name",obj.list_can_port[i]);
 			}
 
+			web_net=obj.web_net_using;
+
 		}else if(obj.name_cmd=="rs232_recv_data"){
 			var temp_232=document.getElementById('rs232_recv_data').value;
 			document.getElementById('rs232_recv_data').value= temp_232+obj.data_buff;
@@ -921,7 +923,7 @@ $(document).ready(function(){
 		myForm.action = "/myir_z";
 		var opt = document.createElement("input");
 		opt.name="language";
-		opt.value=language;
+		opt.value="en";
 		myForm.appendChild(opt);
 		document.body.appendChild(myForm);
 		myForm.submit();
