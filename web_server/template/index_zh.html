@@ -858,9 +858,9 @@ $(document).ready(function(){
     function firm() {
         var info;
         if (language == "zh") {
-            info = "设置IP后，web将断开连接，无法使用，是否设置?";
+            info = "设置IP后，会重启开发板，是否执行?";
         }else{
-        	info = "After setting the IP, the web will be disconnected and cannot be used. Is it set?";
+        	info = "After the IP is set, the development board will be restarted. Is it executed?";
     	}
         if (confirm(info)) {
             return 1;
@@ -873,6 +873,39 @@ $(document).ready(function(){
 		if($(this).attr("value") == element_not.net_set_str){
 			var data = new Object;
             var ret=0;
+            var ret_va=0,tmp;
+
+			switch (ret_va){
+				case 0:
+				    tmp= document.getElementById("net_ip"+$(this).attr("str_num")).value;
+				    if(tmp == "" || tmp == null || tmp == undefined){
+						ret_va=3;
+					}else{  ret_va=1;
+				    }
+				case 1:
+					tmp= document.getElementById("net_netmask"+$(this).attr("str_num")).value;
+				    if(tmp == "" || tmp == null || tmp == undefined){
+						ret_va=3;
+					}else{  ret_va=2;
+				    }
+				case 2:
+				    tmp= document.getElementById("net_gateway"+$(this).attr("str_num")).value;
+				    if(tmp == "" || tmp == null || tmp == undefined){
+						ret_va=3;
+					}else{  ret_va=4;
+				    }
+				case 3:
+					if(ret_va==4) break;
+				    if(language=="en")
+					{  alert("There are parameters not filled out !");  }
+				    else
+					{  alert(" 有参数没有填写 ！");  }
+				    break;
+			}
+			if(ret_va==3){
+			     return;
+			}
+
 			if(web_net== ("eth"+$(this).attr("str_num") ) )
                ret=firm();
 			else

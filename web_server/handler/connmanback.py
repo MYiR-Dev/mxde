@@ -5,8 +5,7 @@ from __future__ import unicode_literals
 
 import functools
 import logging
-import ctypes
-from ctypes import *
+
 import readline  # noqa
 import os
 import sys
@@ -18,8 +17,11 @@ from gi.repository import GLib
 import signal
 # from collections import namedtuple
 import time
+import pyconnman
+
 import os
 import datetime
+
 import socket
 import fcntl
 import struct
@@ -29,8 +31,11 @@ from time import ctime,sleep
 # import simplejson as json
 import json
 import traceback
+
 # import pylibmc
-import pyconnman
+import ctypes
+from ctypes import *
+
 
 DBUS_DOMAIN = "net.connman"
 
@@ -42,46 +47,48 @@ def convert_dbus(obj):
 def make_string(str):
     return dbus.String(str, variant_level=1)
 
+APP_NAME  = 'connman'
+SHORT_DEV = True
+SHOW_ADDR = True
+
+
+PROTO_LST = ['IPv4', 'IPv6']
+STATE_IGN = ['ready', 'idle']
+STATE_MAP = {'disconnect': 'disconnected',
+             'association': 'associating ...',
+             'configuration': 'configuring ...'}
+
+
 class ConnmanClient:
+
     path = "/net/connman/service/"
+
     _exposed_properties = tuple()
+
     # Setting up bus
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
     def __init__(self, autoconnect_timeout):
         self.__bus = dbus.SystemBus()
         # self.bus = dbus.SessionBus()
         self.manager = dbus.Interface(self.__bus.get_object("net.connman", "/"),
                 "net.connman.Manager")
+
         # self.technology = dbus.Interface(self.bus.get_object("net.connman",
         #         "/"), "net.connman.Service")
+
         self.dbus = dbus.Interface(self.__bus.get_object(DBUS_DOMAIN, '/'),
                         'net.connman.Service')
+
         self.manager_py = pyconnman.ConnManager()
 
-        try:
-            # manager = pyconnman.ConnManager()
-            self.manager_py.add_signal_receiver(self.dump_signal,
-                                        pyconnman.ConnManager.SIGNAL_TECHNOLOGY_ADDED,
-                                        None)
-            self.manager_py.add_signal_receiver(self.dump_signal,
-                                        pyconnman.ConnManager.SIGNAL_TECHNOLOGY_REMOVED,  # noqa
-                                        None)
-            self.manager_py.add_signal_receiver(self.dump_signal,
-                                        pyconnman.ConnManager.SIGNAL_SERVICES_CHANGED,
-                                        None)
-            self.manager_py.add_signal_receiver(self.dump_signal,
-                                        pyconnman.ConnManager.SIGNAL_PROPERTY_CHANGED,
-                                        None)
-        except dbus.exceptions.DBusException:
-            print 'Unable to complete:', sys.exc_info()
-
-    def dump_signal(self,signal, *args):
-        # print '\n========================================================='
-        # print '>>>>>', signal, '<<<<<'
-        # print args
-        # print '========================================================='
-        from handler.index import GL
-        GL.net_change=1
+        for prop in self._exposed_properties:
+            def mysetter(name, this, value):
+                this.dbus.SetProperty(name, value)
+            def mygetter(name, this):
+                return this.properties.get(name)
+            myprop = property(fget=functools.partial(mygetter, prop), fset=functools.partial(mysetter, prop))
+            setattr(self.__class__, prop.lower(), myprop)
 
     def get_services_info(self):
         list_services_info = []
@@ -158,6 +165,51 @@ class ConnmanClient:
         except dbus.exceptions.DBusException:
             print 'Unable to complete:', sys.exc_info()
 
+    def set_ipaddress(self, tech_path,address, netmask, gateway):
+
+        # tech = dbus.Interface(self.bus.get_object('net.connman', '/'), 'net.connman.Service')
+        # properties = tech.GetProperties()
+
+        # shorten device names
+        # srv_name = tech_path[tech_path.rfind("/") + 1:]
+        # if SHORT_DEV:
+        #     srv_name = srv_name[0:srv_name.find("_")]
+
+        srv_obj = dbus.Interface(self.__bus.get_object('net.connman', '/'), 'net.connman.Service')
+        # srv_prop = None
+        # try:
+
+        srv_prop = srv_obj.GetProperties()
+
+        #     if 'Name' in srv_prop:
+        #         srv_name += "/" + srv_prop['Name']
+        #     if SHOW_ADDR and value == 'online':
+        #         addrs = []
+        #         for proto in PROTO_LST:
+        #             if proto in srv_prop and 'Address' in srv_prop[proto]:
+        #                 addrs.append(str(srv_prop[proto]['Address']))
+        #         if addrs:
+        #             state += " [" + ", ".join(addrs) + "]"
+        # except dbus.DBusException:
+        #     pass
+
+        # ip4config = "IPv4.Configuration"
+        #
+        # # tech = pyconnman.ConnTechnology(tech_path)
+        #
+        # tech = pyconnman.ConnService(tech_path)
+        # service.set_property(name, value)
+        #
+        # ip_address = {'Method': 'manual', 'Address': address, 'Netmask': netmask}
+        # if gateway:
+        #     ip_address['Gateway'] = gateway
+        #     self.dbus.SetProperty(ip4config, ip_address)
+
+            # tech.set_property(make_string(ip4config), make_string(ip_address))
+        # if nameservers:
+        #     self.dbus.SetProperty(self.dnsconfig, nameservers)
+        # tech.set_property(name, value)
+
     def set_ipv4(self,Netmask,Gateway,Method,Address,net_name):
         cnt, list_services_info=self.get_services_info()
 
@@ -165,5 +217,7 @@ class ConnmanClient:
             if(list_services_info[i*8+3]==net_name):
                 service_py = pyconnman.ConnService(list_services_info[i*8+0])
                 name="IPv4.Configuration"
-                value22 = {dbus.String(u'Netmask'): dbus.String(Netmask,variant_level=1),dbus.String(u'Gateway'): dbus.String(Gateway,variant_level=1),dbus.String(u'Method'): dbus.String(Method,variant_level=1),dbus.String(u'Address'): dbus.String(Address,variant_level=1)}
+                # value22 = {dbus.String(u'Netmask'): dbus.String(Netmask,variant_level=1),dbus.String(u'Gateway'): dbus.String(Gateway,variant_level=1),dbus.String(u'Method'): dbus.String(u'manual',variant_level=1),dbus.String(u'Address'): dbus.String(Address,variant_level=1)}
+                # service_py.set_property(name, value22)
+                value22={dbus.String(u'Netmask'):dbus.String(Netmask,variant_level=1),dbus.String(u'Gateway'):dbus.String(Gateway,variant_level=1),dbus.String(u'Method'):dbus.String(u'manual',variant_level=1),dbus.String(u'Address'):dbus.String(Address,variant_level=1)}
                 service_py.set_property(name, value22)
