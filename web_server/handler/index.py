@@ -394,13 +394,13 @@ class Parse_command():
             if(str(eth_name)==str(GL.net_name)):
                 time.sleep(1)
                 os.system(" reboot ")
-
             # read and sent to html
             # eth_op._eth_handler_to_sent()
-
         elif eth_control==2:   ## 自动获取ip  
-            str_config = "udhcpc -i " + eth_name
-            os.system(str_config)
+            # str_config = "udhcpc -i " + eth_name
+            # os.system(str_config)
+            eth_op.myConn.set_ipv4_dhcp("dhcp",eth_name)
+            time.sleep(1)
             eth_op._eth_handler_to_sent()
         elif eth_control==3:   ##  ping 测试
             ping_ip=python_object["ping_addr"]

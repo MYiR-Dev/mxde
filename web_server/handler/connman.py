@@ -86,7 +86,11 @@ class ConnmanClient:
     def get_services_info(self):
         list_services_info = []
         servers_cnt=0
-        for path, properties in self.manager.GetServices():
+        tempv=" "
+
+        # services = self.manager_py.get_services()
+        for path, properties in self.manager_py.get_services():
+
             serviceId = path[path.rfind("/") + 1:]
             servers_cnt = servers_cnt + 1    # 个数
 
@@ -98,7 +102,23 @@ class ConnmanClient:
             list_services_info.append(properties.get("Ethernet").get('Address'))   ##  MAC
             list_services_info.append(properties.get("IPv4").get('Address'))       ## ipv4 ip
             list_services_info.append(properties.get("IPv4").get('Netmask'))       ## ipv4  子掩码
-            list_services_info.append(properties.get("IPv4").get('Gateway'))       ## ipv4  网关
+            tempv = properties.get("IPv4").get('Gateway')
+            if tempv==None:
+                tempv = properties.get("IPv4.Configuration").get('Gateway')
+            list_services_info.append(tempv)       ## ipv4  网关
+
+
+        # for path, properties in self.manager.GetServices():
+        #     serviceId = path[path.rfind("/") + 1:]
+        #     servers_cnt = servers_cnt + 1    # 个数
+        #     list_services_info.append(path)
+        #     list_services_info.append(serviceId)
+        #     list_services_info.append(properties["State"])
+        #     list_services_info.append(properties.get("Ethernet").get('Interface')) ## net name
+        #     list_services_info.append(properties.get("Ethernet").get('Address'))   ##  MAC
+        #     list_services_info.append(properties.get("IPv4.Configuration").get('Address'))       ## ipv4 ip
+        #     list_services_info.append(properties.get("IPv4.Configuration").get('Netmask'))       ## ipv4  子掩码
+        #     list_services_info.append(properties.get("IPv4.Configuration").get('Gateway'))       ## ipv4  网关
 
         return servers_cnt,list_services_info
 
@@ -166,4 +186,12 @@ class ConnmanClient:
                 service_py = pyconnman.ConnService(list_services_info[i*8+0])
                 name="IPv4.Configuration"
                 value22 = {dbus.String(u'Netmask'): dbus.String(Netmask,variant_level=1),dbus.String(u'Gateway'): dbus.String(Gateway,variant_level=1),dbus.String(u'Method'): dbus.String(Method,variant_level=1),dbus.String(u'Address'): dbus.String(Address,variant_level=1)}
+                service_py.set_property(name, value22)
+    def set_ipv4_dhcp(self,Method,net_name):
+        cnt, list_services_info=self.get_services_info()
+        for i in range(cnt):
+            if(list_services_info[i*8+3]==net_name):
+                service_py = pyconnman.ConnService(list_services_info[i*8+0])
+                name="IPv4.Configuration"
+                value22 = {dbus.String(u'Method'):dbus.String(Method,variant_level=1)}
                 service_py.set_property(name, value22)

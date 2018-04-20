@@ -425,6 +425,7 @@ var ledsize_static = 1;//
 
 var language="en";
 var web_net;
+var net_show_current=0;
 
 var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","close_can_str":"0","net_set_str":"0","net_dhcp_str":"0","test_str":"0","test111_str":"0"};
 
@@ -612,6 +613,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 	}
 	function net_sendMsg(arg){
 		var data = new Object;
+		net_show_current=arg;
 		data.cmd="eth_cmd";
 		data.control = 3;
 		data.name = "eth" + arg;
@@ -686,7 +688,7 @@ var element_not = {"open_uart_str":"0","close_uart_str":"0","open_can_str":"0","
 			$(".nav_item").hide();
 			$(".nav_item:eq("+index+")").show();
 	    });
-		$(".nav span:eq(0)").click();
+		$(".nav span:eq("+net_show_current+")").click();
     }
 
 //uart  232
