@@ -876,7 +876,7 @@ $(document).ready(function(){
 			var data = new Object;
             var ret=0;
             var ret_va=0,tmp;
-
+			net_show_current=$(this).attr("str_num");
 			switch (ret_va){
 				case 0:
 				    tmp= document.getElementById("net_ip"+$(this).attr("str_num")).value;
@@ -928,6 +928,7 @@ $(document).ready(function(){
 		// udhcpc
 		if($(this).attr("value") == element_not.net_dhcp_str){
 			var data = new Object;
+			net_show_current=$(this).attr("str_num");
 			data.cmd="eth_cmd";
 			data.control = 2;
 			data.name = "eth" + $(this).attr("str_num");

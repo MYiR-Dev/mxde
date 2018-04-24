@@ -7,8 +7,7 @@
                         "ttymxc3"
                 ],
                 "can": [
-                        "can0",
-                        "can1"
+                        "can0"
                 ],
                 "led": {
                         "myc:blue":"cpu0 - D30  - Core Board"
