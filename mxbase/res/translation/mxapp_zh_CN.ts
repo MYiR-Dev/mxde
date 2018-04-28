@@ -289,6 +289,10 @@
         <source>Info</source>
         <translation>信息</translation>
     </message>
+    <message>
+        <source>Modifying the IP will cause the MEasy HMI Web Server to be unusable. Do you need to reboot?</source>
+        <translation>修改IP会导致MEasy HMI Web端无法使用，是否需要重启开发板？</translation>
+    </message>
 
 </context>
 <context>

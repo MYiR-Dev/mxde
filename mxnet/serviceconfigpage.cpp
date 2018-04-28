@@ -21,6 +21,7 @@
 #include <QtCore/QList>
 #include <QtCore/QMap>
 #include <QtCore/QString>
+#include <QMessageBox>
 ServiceConfigPage::ServiceConfigPage(arrayElement ael, QWidget *parent) : QWidget(parent)
 {
 
@@ -283,6 +284,20 @@ void ServiceConfigPage::updateConfiguration()
 
     // cleanup
     iface_serv->deleteLater();
+
+    switch(QMessageBox::warning(this,"Warning",tr("Modifying the IP will cause the MEasy HMI Web Server to be unusable. Do you need to reboot?"),
+        QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Cancel))
+    {
+    case QMessageBox::Ok:
+        QProcess::execute("reboot");
+        break;
+    case QMessageBox::Cancel:
+        qDebug("Nothing to do!");
+        break;
+    default:
+        break;
+    }
+    return;
 
 }
 void ServiceConfigPage::showServiceDetails()
