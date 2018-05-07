@@ -21,22 +21,28 @@
 			<span class="menus menu2">&nbsp;</span>
 			<span class="menus menu3">&nbsp;</span>
 			<span class="menus menu4">&nbsp;</span>
-			<span class="menus menu5">&nbsp;</span>
+			<span class="menus menu5" id="ETH_UPDATE">&nbsp;</span>
 		</div>
 		<div id="right">
 			<section class="tab">
 				<h2>LED控制</h2>
+
+				<!--<div class="red menu  menu">&nbsp;</div>-->
+				<!--<label class="second menu"  style="font-size: 30px;" for="male">Male</label>-->
+				<!--<div class="   second menu  menu">&nbsp;</div>-->
+
 				<div class="one_item">
 					<select id="led_select_0" name="name">
-						<!--<option id="led_name_t" value=" " selected>-->
-						<!--<option value="测试选项">测试选项-->
-					</select>
+						<option id="led_name_t" value=" " selected>
+						<!--&lt;!&ndash;<option value="测试选项">测试选项&ndash;&gt;-->
+					<!--</select>-->
+					<!---->
 					<input class="button menu" str_op="led_open_1" onclick="led_sendMsg($(this).attr('str_op'))" type="button" value="LED_OPEN"></input>
 					<input class="button second menu" str_op="led_close_1" onclick="led_sendMsg($(this).attr('str_op'))" type="button" value="LED_CLOSE"></input>
 				</div>
 				<div class="one_item">
 					<select id="led_select_1"  name="name">
-						<!--<option id="led_name2" value=" " selected>-->
+						<option id="led_name2" value=" " selected>
 						<!--<option value="测试选项">测试选项-->
 					</select>
 					<input class="button menu" str_op="led_open_2" onclick="led_sendMsg($(this).attr('str_op'))" type="button" value="LED_OPEN"></input>
@@ -57,12 +63,12 @@
 				<tr>
 					<td>
 					端口
-					<select id="rs232_port_name" name="name">
+					<select id="rs232_port_name" name="name" str_op="RS232_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<!--<option id="RS232_NAME" value="/dev/ttymxc8" selected>/dev/ttymxc8-->
 						<!--<option value="/dev/ttymxc3">/dev/ttymxc0-->
 					</select>
 					&nbsp;波特率
-					<select id="rs232_baud_rate" name="name">
+					<select id="rs232_baud_rate" name="name" str_op="RS232_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="9600" selected>9600
 						<option value="19200">19200
 						<option value="38400">38400
@@ -71,19 +77,19 @@
 						<option value="115200">115200
 					</select>
 					&nbsp;数据位
-					<select id="rs232_databit" name="name">
+					<select id="rs232_databit" name="name" str_op="RS232_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="8" selected>8
 						<option value="7">7
 						<option value="6">6
 					</select>
 					&nbsp;校验位
-					<select id="rs232_checkbit" name="name">
+					<select id="rs232_checkbit" name="name" str_op="RS232_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="NONE" selected>NONE
 						<option value="E">E
 						<option value="O">O
 					</select>
 					&nbsp;停止位
-					<select id="rs232_stopbit" name="name">
+					<select id="rs232_stopbit" name="name" str_op="RS232_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="1" selected>1
 						<option value="2">2
 					</select>
@@ -91,23 +97,23 @@
 				</tr>
 				<tr>
 					<td>
-					<input class="button mright50 menu" id="rs232_open"  str_op="open"  onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="打开串口"></input>
-					<input class="button mright50 menu" id="rs232_close" str_op="close" onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="关闭串口"></input>
-					<input class="button mright50 menu" id="rs232_set"   str_op="set"   onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="设置串口"></input>
+					<input class="button mright50 menu" id="rs232_button"  str_op="open"  onclick="uart_sendMsg($(this).attr('str_op'),value)" type="button" value="打开串口"></input>
+					<!--<input class="button mright50 menu" id="rs232_close" str_op="close" onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="关闭串口"></input>-->
+					<!--<input class="button mright50 menu" id="rs232_set"   str_op="set"   onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="设置串口"></input>-->
 					</td>
 				</tr>
 				<tr>
 					<td>
 					发送内容：
 					<textarea id="rs232_buf_data" name="" rows="5" cols="100"></textarea>
-					<input class="button on fr" str_op="send" onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="发送"></input>
+					<input class="button on fr" str_op="send" onclick="uart_sendMsg($(this).attr('str_op'),value)" type="button" value="发送"></input>
 					</td>
 				</tr>
 				<tr>
 					<td>
 					接收内容：
 					<textarea id="rs232_recv_data" name="" rows="5" cols="100"></textarea>
-					<input class="button orange fr"  str_op="clear" onclick="uart_sendMsg($(this).attr('str_op'))" type="button" value="清空"></input>
+					<input class="button orange fr"  str_op="clear" onclick="uart_sendMsg($(this).attr('str_op'),value)" type="button" value="清空"></input>
 					</td>
 				</tr>
 				</table>
@@ -123,7 +129,7 @@
 						<!--<option value="/dev/ttymxc3">/dev/ttymxc3-->
 					</select>
 					&nbsp;波特率
-					<select id="rs485_baud_rate" name="name">
+					<select id="rs485_baud_rate" name="name" id="RS485_CHANGE" str_op="RS232_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="9600" selected>9600
 						<option value="19200">19200
 						<option value="38400">38400
@@ -132,19 +138,19 @@
 						<option value="115200">115200
 					</select>
 					&nbsp;数据位
-					<select id="rs485_databit" name="name">
+					<select id="rs485_databit" name="name" str_op="RS485_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="8" selected>8
 						<option value="7">7
 						<option value="6">6
 					</select>
 					&nbsp;检验位
-					<select id="rs485_checkbit" name="name">
+					<select id="rs485_checkbit" name="name" str_op="RS485_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="NONE" selected>NONE
 						<option value="E">E
 						<option value="O">O
 					</select>
 					&nbsp;停止位
-					<select  id="rs485_stopbit" name="name">
+					<select  id="rs485_stopbit" name="name" str_op="RS485_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="1" selected>1
 						<option value="2">2
 					</select>
@@ -152,23 +158,23 @@
 				</tr>
 				<tr>
 					<td>
-					<input class="button mright50 menu" str_op="open"  onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="打开串口"></input>
-					<input class="button mright50 menu" str_op="close"  onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="关闭串口"></input>
-					<input class="button mright50 menu" str_op="set"  onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="设置串口"></input>
+					<input class="button mright50 menu" id="rs485_button" str_op="open"  onclick="uart485_sendMsg($(this).attr('str_op'),value)" type="button" value="打开串口"></input>
+					<!--<input class="button mright50 menu" str_op="close"  onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="关闭串口"></input>-->
+					<!--<input class="button mright50 menu" str_op="set"  onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="设置串口"></input>-->
 					</td>
 				</tr>
 				<tr>
 					<td>
 					发送内容：
 					<textarea id="rs485_buf_data" name="" rows="5" cols="100"></textarea>
-					<input class="button on fr" str_op="send"  onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="发送"></input>
+					<input class="button on fr" str_op="send"  onclick="uart485_sendMsg($(this).attr('str_op'),value)" type="button" value="发送"></input>
 					</td>
 				</tr>
 				<tr>
 					<td>
 					接收内容：
 					<textarea id="rs485_recv_data" name="" rows="5" cols="100"></textarea>
-					<input class="button orange fr" str_op="clear" onclick="uart485_sendMsg($(this).attr('str_op'))" type="button" value="清空"></input>
+					<input class="button orange fr" str_op="clear" onclick="uart485_sendMsg($(this).attr('str_op'),value)" type="button" value="清空"></input>
 					</td>
 				</tr>
 				</table>
@@ -179,12 +185,12 @@
 				<tr>
 					<td>
 					端口
-					<select id="can_name" name="name">
+					<select id="can_name" name="name" str_op="CAN_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="can0" selected>can0
 						<option value="can1">can1
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;波特率
-					<select id="can_baudrate" name="name">
+					<select id="can_baudrate" name="name" str_op="CAN_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="20" selected>20 KBPS
 						<option value="50">50 KBPS
 						<option value="125">125 KBPS
@@ -194,7 +200,7 @@
 						<option value="1000">1000 KBPS
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;回环
-					<select id="can_loop" name="name">
+					<select id="can_loop" name="name" str_op="CAN_CHANGE" onchange="change_PARAMETER($(this).attr('str_op'));">
 						<option value="OFF" selected>OFF
 						<option value="ON">ON
 					</select>
@@ -202,8 +208,8 @@
 				</tr>
 				<tr>
 					<td>
-					<input class="button mright50 menu" str_op="open"  onclick="can_sendMsg($(this).attr('str_op'))" type="button" value="打开CAN"></input>
-					<input class="button mright50 menu" str_op="close"  onclick="can_sendMsg($(this).attr('str_op'))" type="button" value="关闭CAN"></input>
+					<input class="button mright50 menu" id="can_button" str_op="open"  onclick="can_sendMsg($(this).attr('str_op'),value)" type="button" value="打开CAN"></input>
+					<!--<input class="button mright50 menu" str_op="close"  onclick="can_sendMsg($(this).attr('str_op'))" type="button" value="关闭CAN"></input>-->
 					<!--<input class="button mright50 menu" str_op="set"  onclick="can_sendMsg($(this).attr('str_op'))" type="button" value="设置CAN"></input>-->
 					</td>
 				</tr>
@@ -242,74 +248,73 @@
 					<span data="0">网口1</span>
 					<span data="1">网口2</span>
 				</div>
-				<div class="nav_item">
+				<div id="eth0_id" class="nav_item">
 					<table>
 					<tr>
 						<td>
 						IP地址
-						<input type="text" name="name"></input>
+						<input id="ip_eth0" type="text" name="name"></input>
 						&nbsp;&nbsp;&nbsp;&nbsp;子网掩码
-						<input type="text" name="name"></input>
+						<input id="netmask_eth0" type="text" name="name"></input>
 						&nbsp;&nbsp;&nbsp;&nbsp;默认网关
-						<input type="text" name="name"></input>
+						<input id="gateway_eth0" type="text" name="name"></input>
 						</td>
 					</tr>
 					<tr>
 						<td>
-						<input class="button mright50 menu" type="button" value="使用网卡"></input>
-						<input class="button mright50 menu" type="button" value="关闭网卡"></input>
-						<input class="button mright50 menu" type="button" value="设置网卡"></input>
-						<input class="button mright50 menu" type="button" value="自动获取IP"></input>
+						<!--<input class="button mright50 menu" type="button" value="使用网卡"></input>-->
+						<!--<input class="button mright50 menu" type="button" value="关闭网卡"></input>-->
+						<input  class="button mright50 menu" str_op="eth0_set_ing"  onclick="eth_sendMsg($(this).attr('str_op'))" type="button" value="设置网卡"></input>
+						<input  class="button mright50 menu"  str_op="eth0_udhcpc_ing" onclick="eth_sendMsg($(this).attr('str_op'))" type="button" value="自动获取IP"></input>
 						</td>
 					</tr>
 					<tr>
 						<td>
 						网址：
-						<input class="site" type="text" name="name" ></input>
+						<input id="dest_ip0" class="site" type="text" name="name" ></input>
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 						测试log：
-						<textarea name="" rows="5" cols="100"></textarea>
-						<input class="button on fr" type="button" value="测试"></input>
+						<textarea id="eth0_ping_data" name="" rows="5" cols="100"></textarea>
+						<input  class="button on fr" str_op="eth0_test"  onclick="eth_sendMsg($(this).attr('str_op'))" type="button" value="测试"></input>
 						</td>
 					</tr>
 					</table>
 				</div>
-				<div class="nav_item" style="display:none;">
+				<div id="eth1_id" class="nav_item" style="display:none;">
 					<table>
 					<tr>
 						<td>
 						IP地址
-						<input type="text" name="name"></input>
+						<input id="ip_eth1" type="text" name="name"></input>
 						&nbsp;&nbsp;&nbsp;&nbsp;子网掩码
-						<input type="text" name="name"></input>
+						<input id="netmask_eth1" type="text" name="name"></input>
 						&nbsp;&nbsp;&nbsp;&nbsp;默认网关
-						<input type="text" name="name"></input>
+						<input id="gateway_eth1" type="text" name="name"></input>
 						</td>
 					</tr>
 					<tr>
 						<td>
-						<input class="button mright50 menu" type="button" value="使用网卡"></input>
-						<input class="button mright50 menu" type="button" value="关闭网卡"></input>
-						<input class="button mright50 menu" type="button" value="设置网卡"></input>
-						<input class="button mright50 menu" type="button" value="自动获取IP"></input>
+						<!--<input class="button mright50 menu" type="button" value="使用网卡"></input>-->
+						<!--<input class="button mright50 menu" type="button" value="关闭网卡"></input>-->
+						<input  class="button mright50 menu" str_op="eth1_set_ing"  onclick="eth_sendMsg($(this).attr('str_op'))" type="button" value="设置网卡"></input>
+						<input  class="button mright50 menu" str_op="eth1_udhcpc_ing"  onclick="eth_sendMsg($(this).attr('str_op'))"  type="button" value="自动获取IP"></input>
 						</td>
 					</tr>
 					<tr>
 						<td>
 						网址：
-						<input class="site" type="text" name="name" ></input>
-
+						<input id="dest_ip1" class="site" type="text" name="name" ></input>
 						</td>
 					</tr>
 					<tr>
 						<td>
 						测试log：
-						<textarea name="" rows="5" cols="100"></textarea>
-						<input class="button on fr" type="button" value="测试"></input>
+						<textarea id="eth1_ping_data"name="" rows="5" cols="100"></textarea>
+						<input  str_op="eth1_test"  onclick="eth_sendMsg($(this).attr('str_op'))" class="button on fr" type="button" value="测试"></input>
 						</td>
 					</tr>
 					</table>
@@ -342,18 +347,20 @@ $(document).ready(function(){
 				$(this).hide();
 			}
 		});
-
 	});
 	$(".menu1").click();
 	$(".menu").click(function(){
 		$(this).parent().children(".menu").removeClass("on");
 		$(this).addClass("on");
-		// 此处添加有bug
-//		 alert("hufan1 ");
-//		$("#rs232_open").click(function(arg){
-//			alert("hufan1 "+arg);
-//		});
 
+		// 此处添加有bug
+		$("#ETH_UPDATE").click(function(arg){
+			var data = new Object;
+			data.cmd="eth_cmd_upate";
+			data.upate_cmd="eth_cmd_upate";
+			var str = JSON.stringify(data);
+			ws.send(str);
+		});
 	});
 	$(".nav span").click(function(){
 		var index = $(this).attr('data');
@@ -372,16 +379,10 @@ $(document).ready(function(){
 <script type="text/javascript">
 		var ws = new WebSocket("ws://{{info_ip}}:{{info_port_eth}}/{{info_event}}"); // 新建一个ws连接
         ws.onopen = function() {
-//           ws.send("Hello, world_hufan");  // 向建立的连接发送消息
-//			$("#rs232_port_name").append("<option value=hufan>"hufan111</option>
 			ledlist_sendMsg();
         };
-        ws.onmessage = function (e) {  // 收到服务器发送的消息后执行的回调
-//            alert(e.data);  // 接收的消息内容在事件参数evt的data属性中0
-//            $("#rs232_recv_data").append("<p>" + e.data + "</p>");
-
+        ws.onmessage = function(e){
             var data = e.data;
-//            alert(data);  //John
             var obj = $.parseJSON(data);
 			if(obj.name_cmd=="rs232_recv_data"){
 			    var temp_232=document.getElementById('rs232_recv_data').value;
@@ -404,13 +405,60 @@ $(document).ready(function(){
 					 led_value=Median_str[1];
 					 add_select_option(led_seclect_t[i],led_name);
 				}
-
 			}else if(obj.name_cmd=="configure_cmd"){
 				add_select_option("rs232_port_name",obj.rs232_port);
 				add_select_option("rs485_port_name",obj.rs485_port);
-			}else ;
+			}else if(obj.name_cmd=="eth_data"){
+			    if(obj.control=="data_buff"){
+                    for(var i=0;i<obj.eth_number;i++){
+						if(obj.list_data[i*5]=="eth0"){
+							document.getElementById('ip_eth0').value = obj.list_data[i*5+2];
+							document.getElementById('netmask_eth0').value = obj.list_data[3+i*5];
+							document.getElementById('gateway_eth0').value = obj.list_data[4+i*5];
+						}
+						if(obj.list_data[i*5]=="eth1"){
+							document.getElementById('ip_eth1').value = obj.list_data[2+i*5];
+							document.getElementById('netmask_eth1').value = obj.list_data[3+i*5];
+							document.getElementById('gateway_eth1').value = obj.list_data[4+i*5];
+						}
+						if(obj.list_data[i*5]=="eth2"){
+							document.getElementById('ip_eth0').value = obj.list_data[2+i*5];
+							document.getElementById('netmask_eth0').value = obj.list_data[3+i*5];
+							document.getElementById('gateway_eth0').value = obj.list_data[4+i*5];
+						}
+					}
+				}else if(obj.control=="ping")
+				{   var log_ping;
+					if(obj.eth_name=="eth0")
+					{
+					    log_ping=document.getElementById('eth0_ping_data').value;
+						document.getElementById('eth0_ping_data').value = log_ping+"\n"+obj.ping_data;
+					}
+					else if(obj.eth_name=="eth1"){
+					 	log_ping=document.getElementById('eth1_ping_data').value;
+					 	document.getElementById('eth1_ping_data').value = log_ping+"\n"+obj.ping_data;
+					}
 
-        };
+				}
+			}else if(obj.name_cmd=="status_data"){
+//				alert("status_data");
+				if(obj.name_status=="RS232_STATUS"){
+//				    alert("status_data");
+				    if(obj.status_operation=="successed"){
+				    	document.getElementById('rs232_button').value = "关闭串口";
+					}
+                }else if(obj.name_status=="RS485_STATUS"){
+					if(obj.status_operation=="successed"){
+				    	document.getElementById('rs485_button').value = "关闭串口";
+					}
+				}else if(obj.name_status=="CAN_STATUS"){
+					if(obj.status_operation=="successed"){
+				    	document.getElementById('can_button').value = "关闭CAN";
+					}
+				}
+			}
+
+        }
 
 //		动态添加下拉列表项
         function add_select_option (arg,arg1) {
@@ -473,22 +521,25 @@ $(document).ready(function(){
         }
 
 //uart  232
-         function uart_sendMsg(arg){
+         function uart_sendMsg(arg,arg2){
 			var data = new Object;
+//				alert(arg2);
 			data.cmd="uart_cmd";
-			if(arg=="open") {
-                data.control = 1;
-                data.name = document.getElementById("rs232_port_name").value;
-            }else if(arg=="close")
-			{    data.control = 0;
-			     data.name=document.getElementById("rs232_port_name").value;
-			}else if(arg=="set")
-			{   data.control = 2;
-				data.name=document.getElementById("rs232_port_name").value;
-				data.baud_rate=document.getElementById("rs232_baud_rate").value;
-				data.databit=document.getElementById("rs232_databit").value;
-				data.checkbit=document.getElementById("rs232_checkbit").value;
-				data.stopbit=document.getElementById("rs232_stopbit").value;
+			data.control = 11;
+			if(arg=="open"){
+			    if(arg2=="打开串口"){
+					data.control = 1;
+					data.name = document.getElementById("rs232_port_name").value;
+					// set parameter
+					data.baud_rate=document.getElementById("rs232_baud_rate").value;
+					data.databit=document.getElementById("rs232_databit").value;
+					data.checkbit=document.getElementById("rs232_checkbit").value;
+					data.stopbit=document.getElementById("rs232_stopbit").value;
+				}else if(arg2=="关闭串口"){
+					data.control = 0;
+			     	data.name=document.getElementById("rs232_port_name").value;
+			     	document.getElementById('rs232_button').value = "打开串口";
+				}
 			}else if(arg=="send"){
 			    data.control = 3;
 				data.buf_data=document.getElementById("rs232_buf_data").value;
@@ -501,22 +552,24 @@ $(document).ready(function(){
 			ws.send(str);
         }
 // rs485
-         function uart485_sendMsg(arg){
+         function uart485_sendMsg(arg,arg2){
 			var data = new Object;
 			data.cmd="uart485_cmd";
-			if(arg=="open") {
-                data.control = 1;
-                data.name = document.getElementById("rs485_port_name").value;
-            }else if(arg=="close")
-			{    data.control =0;
-			     data.name=document.getElementById("rs485_port_name").value;
-			}else if(arg=="set")
-			{   data.control = 2;
-				data.name=document.getElementById("rs485_port_name").value;
-				data.baud_rate=document.getElementById("rs485_baud_rate").value;
-				data.databit=document.getElementById("rs485_databit").value;
-				data.checkbit=document.getElementById("rs485_checkbit").value;
-				data.stopbit=document.getElementById("rs485_stopbit").value;
+			data.control = 11;
+			 if(arg=="open"){
+			    if(arg2=="打开串口"){
+					data.control = 1;
+					data.name = document.getElementById("rs485_port_name").value;
+					// set parameter
+					data.baud_rate=document.getElementById("rs485_baud_rate").value;
+					data.databit=document.getElementById("rs485_databit").value;
+					data.checkbit=document.getElementById("rs485_checkbit").value;
+					data.stopbit=document.getElementById("rs485_stopbit").value;
+				}else if(arg2=="关闭串口"){
+	  				data.control =0;
+			     	data.name=document.getElementById("rs485_port_name").value;
+			     	document.getElementById('rs485_button').value = "打开串口";
+				}
 			}else if(arg=="send"){
 			    data.control = 3;
 				data.buf_data=document.getElementById("rs485_buf_data").value;
@@ -529,37 +582,87 @@ $(document).ready(function(){
 			ws.send(str);
         }
 // can
-         function can_sendMsg(arg){
+         function can_sendMsg(arg,arg2){
 			var data = new Object;
 			data.cmd="can_cmd";
+			data.control = 11;
+			data.name = document.getElementById("can_name").value;
 			data.can_id = document.getElementById("can_id").value;
 			data.can_loop = document.getElementById("can_loop").value;
 			data.baud_rate=document.getElementById("can_baudrate").value;
+
 			if(arg=="open") {
-                data.control = 1;
-                data.name = document.getElementById("can_name").value;
-//				data.can_len_sendbuff=document.getElementById("can_len_sendbuff").value;
-            }else if(arg=="close")
+				if (arg2 == "打开CAN") {
+					data.control = 1;
+					data.name = document.getElementById("can_name").value;
+					data.baud_rate=document.getElementById("can_baudrate").value;
+				}else if(arg2 == "关闭CAN"){
+					data.control =0;
+				 	data.name=document.getElementById("can_name").value;
+					document.getElementById('can_button').value = "打开CAN";
+				}
+			}else if(arg=="close")
 			{    data.control =0;
-			     data.name=document.getElementById("can_name").value;
+				 data.name=document.getElementById("can_name").value;
 			}else if(arg=="set")
 			{   data.control = 2;
 				data.name=document.getElementById("can_name").value;
 				data.baud_rate=document.getElementById("can_baudrate").value;
-//				data.can_len_sendbuff=document.getElementById("can_len_sendbuff").value;
+			//				data.can_len_sendbuff=document.getElementById("can_len_sendbuff").value;
 			}else if(arg=="send"){
-			    data.control = 3;
-			    data.name=document.getElementById("can_name").value;
+				data.control = 3;
+				data.can_id = document.getElementById("can_id").value;
+				data.name=document.getElementById("can_name").value;
 				data.buf_data=document.getElementById("can_buf_data").value;
 			}else if(arg=="clear")
 			{
-			 	document.getElementById("can_recv_data").value=" ";
-			 	return;
+				document.getElementById("can_recv_data").value=" ";
+				return;
 			}else ;
 
 			var str = JSON.stringify(data);
 			ws.send(str);
         }
+// eth
+         function eth_sendMsg(arg){
+			var data = new Object;
+			data.cmd="eth_cmd";
+			if(arg=="eth0_set_ing"){
+			    data.control = 1;
+			    data.name = "eth0";
+				data.dest_addr=document.getElementById("ip_eth0").value;
+				data.dest_netmask=document.getElementById("netmask_eth0").value;
+				data.dest_gateway=document.getElementById("gateway_eth0").value;
+			}else if(arg=="eth1_set_ing"){
+			    data.control = 1;
+			    data.name = "eth1";
+			    data.dest_addr=document.getElementById("ip_eth1").value;
+			    data.dest_netmask=document.getElementById("netmask_eth1").value;
+			    data.dest_gateway=document.getElementById("gateway_eth1").value;
+			}else if(arg=="eth0_udhcpc_ing"){
+			    data.control = 2;
+			    data.name = "eth0";
+			}else if(arg=="eth1_udhcpc_ing"){
+			    data.control = 2;
+			    data.name = "eth1";
+			}else if(arg=="eth0_test"){    // ping  testing
+			    data.control = 3;
+			    data.name = "eth0";
+				data.ping_addr=document.getElementById("dest_ip0").value;
+			}else if(arg=="eth1_test"){
+			    data.control = 3;
+			    data.name = "eth1";
+			    data.ping_addr=document.getElementById("dest_ip1").value;
+			}else ;
+
+			var str = JSON.stringify(data);
+			ws.send(str);
+        }
+
+		function change_PARAMETER(arg){
+ 			alert(arg);
+			;
+		}
 
     </script>
 </html>

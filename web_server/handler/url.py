@@ -20,7 +20,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 from handler.index import login
-from handler.index import login_check
+from handler.index import login_in
 # from handler.index import gui_switch
 # from handler.index import home_led
 # from handler.index import home_uart
@@ -32,6 +32,7 @@ from handler.index import login_check
 # from handler.index import WebSocketHandler_eth
 
 from handler.index import WebSocketHandler_myir
+from handler.index import language_change
 
 '''
 # from server import SleepHandler
@@ -52,7 +53,8 @@ class SleepHandler(tornado.web.RequestHandler):
 url=[
    # (r"/sleep",SleepHandler),
     (r'/login', login),
-    (r'/login_check', login_check),
-    (r'/ws_myir', WebSocketHandler_myir),
+    (r'/login_in', login_in),
+    (r'/myir', WebSocketHandler_myir),
+    (r'/myir_z', language_change),
 
 ]
