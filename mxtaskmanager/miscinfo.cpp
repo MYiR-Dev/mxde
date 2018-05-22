@@ -236,11 +236,11 @@ void Miscinfo::CheckSize(QString result, QString name)
         if (index == 1) {
             dev = s;
         } else if (index == 2) {
-            all = s.left(s.length() - 1);
+            all = s;
         } else if (index == 3) {
-            use = s.left(s.length() - 1);
+            use = s;
         } else if (index == 4) {
-            free = s.left(s.length() - 1);
+            free = s;
         } else if (index == 5) {
             storagePercent = s.left(s.length() - 1).toInt();
             break;
@@ -252,9 +252,9 @@ void Miscinfo::CheckSize(QString result, QString name)
     }
 
     m_storageProgressBar->setValue(storagePercent);
-    QString stroageUsedstr = QString(tr("Used: ")).append("%1MB").arg(use);
-    QString stroageFreestr= QString(tr("Free: ")).append("%1MB").arg(free);
-    QString stroageTotalstr= QString(tr("Total: ")).append("%1MB").arg(all);
+    QString stroageUsedstr = QString(tr("Used: ")).append("%1B").arg(use);
+    QString stroageFreestr= QString(tr("Free: ")).append("%1B").arg(free);
+    QString stroageTotalstr= QString(tr("Total: ")).append("%1B").arg(all);
     m_storageusedLable->setText(stroageUsedstr);
     m_storageleftLable->setText(stroageFreestr);
     m_storagetotalLable->setText(stroageTotalstr);
