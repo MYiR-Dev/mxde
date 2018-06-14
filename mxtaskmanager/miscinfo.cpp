@@ -202,7 +202,9 @@ void Miscinfo::ReadData()
             memoryPercent = 100 * memoryUse / memoryAll;
             break;
         }else if(s.startsWith("/dev/root")){
-            CheckSize(s, "本地存储");
+            CheckSize(s, "emmc");
+        }else if(s.startsWith("ubi0:rootfs")){
+            CheckSize(s, "nand");
         }else if(s.startsWith("/dev/mmcblk1p1")){
             CheckSize(s, "SD卡");
         }else if(s.startsWith("/dev/sda1")){
